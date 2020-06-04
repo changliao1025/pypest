@@ -50,6 +50,8 @@ def pest_prepare_maces_control_file(oPest_in):
 
     
     sWorkspace_pest_model = sWorkspace_calibration
+
+    sFilename_control = sWorkspace_pest_model + slash + oPest_in.sFilename_control
     
 
     if not os.path.exists(sWorkspace_pest_model):
@@ -101,7 +103,6 @@ def pest_prepare_maces_control_file(oPest_in):
    
     #we need define the input within the configuration file
 
-    sFilename_control = sWorkspace_pest_model + slash + sRegion + '_maces.pst'
     ofs = open(sFilename_control, 'w')
     ofs.write('pcf\n')
     ofs.write('* control data\n')
@@ -194,11 +195,11 @@ def pest_prepare_maces_control_file(oPest_in):
     ofs.write(sLine)
 
     #result
-    sFilename_instruction = oPest_in['sFilename_instruction']
+    sFilename_instruction = oPest_in.sFilename_instruction
 
-    sFilename_instruction = sWorkspace_pest_model + slash + sFilename_instruction
-    sFilename_result =  oPest_in['sFilename_result']
-    sLine = sFilename_instruction + ' '  + sFilename_result + '\n'
+   
+    sFilename_output =  oPest_in.sFilename_output
+    sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
 
     phimlim = 1.0
@@ -211,7 +212,7 @@ def pest_prepare_maces_control_file(oPest_in):
     iregadj = 0
 
 
-    if pest_mode  == 'estimation' :
+    if sPest_mode  == 'estimation' :
         pass
     else:
         ofs.write(' * regularisation\n')

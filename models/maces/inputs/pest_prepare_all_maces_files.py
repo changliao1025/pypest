@@ -17,7 +17,7 @@ def pest_prepare_all_maces_files(sFilename_pest_configuration):
     oPest = pest(aParameter)
     #call each step
     pest_prepare_maces_control_file(oPest)
-    #pest_prepare_maces_instruction_file()
+    pest_prepare_maces_instruction_file()
     #pest_prepare_maces_parameter_template_file()
     #pest_prepare_maces_run_bash_file()
 

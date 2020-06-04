@@ -24,7 +24,10 @@ class pest(object):
     sModel=''
     
     sWorkspace_pest=''
+    sFilename_control=''
     sFilename_instruction=''
+    sFilename_template=''
+    sFilename_output=''
 
     def __init__(self, aParameter):
         print('PEST model is being initialized')
@@ -50,7 +53,10 @@ class pest(object):
         self.sRegion               = aParameter[ 'sRegion']
         self.sModel               = aParameter[ 'sModel']
         self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
+        self.sFilename_control = aParameter['sFilename_control']
         self.sFilename_instruction = aParameter['sFilename_instruction']
+        self.sFilename_template = aParameter['sFilename_template']
+        self.sFilename_output = aParameter['sFilename_output']
         pass
 
     def read_pest_configuration(self, sInput):
