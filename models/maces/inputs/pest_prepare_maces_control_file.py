@@ -18,7 +18,7 @@ sys.path.append(sPath_library_python)
 
 
 from pest import pest
-
+from pest_read_configuration_file import pest_read_configuration_file
 def pest_prepare_maces_control_file(oPest_in):
     """
     #prepare the pest control file
@@ -36,7 +36,8 @@ def pest_prepare_maces_control_file(oPest_in):
     sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
     sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
     
-    pest_mode = oPest_in.pest_mode
+    sPest_mode = oPest_in.sPest_mode
+    
     sRegion = oPest_in.sRegion
     sModel = oPest_in.sModel
 
@@ -48,21 +49,21 @@ def pest_prepare_maces_control_file(oPest_in):
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
 
     
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
-    sWorkspace_simulation_copy = sWorkspace_simulation + slash + 'copy' 
+    sWorkspace_pest_model = sWorkspace_calibration
+    
 
-    if not os.path.exists(sWorkspace_simulation_copy):
-        print("The simulation folder is missing")
-        #return
+    if not os.path.exists(sWorkspace_pest_model):
+        os.mkdir(sWorkspace_pest_model)
     else:
         pass
     
     #number   
   
     npargp = oPest_in.npargp
+    npar = oPest_in.npar
     nprior = oPest_in.nprior
     nobsgp = oPest_in.nobsgp
-
+    nobs = oPest_in.nobs
     ntplfile = oPest_in.ntplfile
     ninsfile = oPest_in.ninsfile
 
@@ -104,7 +105,7 @@ def pest_prepare_maces_control_file(oPest_in):
     ofs = open(sFilename_control, 'w')
     ofs.write('pcf\n')
     ofs.write('* control data\n')
-    ofs.write('restart ' + pest_mode  + '\n' ) 
+    ofs.write('restart ' + sPest_mode  + '\n' ) 
     #third line
     sLine = "{:0d}".format(npar)  + ' ' \
      +  "{:0d}".format(nobs)  + ' ' \
@@ -114,7 +115,7 @@ def pest_prepare_maces_control_file(oPest_in):
     ofs.write(sLine) 
     #fourth line
     sLine = "{:0d}".format(ntplfile)  + ' ' \
-     +  "{:0d}".format(ninsfle)  +  ' '\
+     +  "{:0d}".format(ninsfile)  +  ' '\
      + ' double point ' \
      + '1 0 0 \n'
     ofs.write(sLine) 
@@ -237,16 +238,8 @@ def pest_prepare_maces_control_file(oPest_in):
 
 if __name__ == '__main__':
 
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-    maces_prepare_pest_control_file(sFilename_configuration_in, sModel)
+    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
+    print(aParameter)    
+    oPest = pest(aParameter)
+    pest_prepare_maces_control_file(oPest)

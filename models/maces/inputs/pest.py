@@ -3,7 +3,9 @@ from abc import ABCMeta, abstractmethod
 class pest(object):
     __metaclass__ = ABCMeta    
     aParameter={}
-    pest_mode=0
+    sPest_mode=''
+    npar =0
+    nobs=0
     npargp=0
     nprior=0
     nobsgp=0
@@ -22,17 +24,21 @@ class pest(object):
     sModel=''
     
     sWorkspace_pest=''
+    sFilename_instruction=''
 
     def __init__(self, aParameter):
         print('PEST model is being initialized')
         self.aParameter = aParameter
 
-        self.pest_mode             = aParameter[ 'pest_mode']
-        self.npargp             = aParameter[ 'npargp']
-        self.nprior             = aParameter[ 'nprior']
-        self.nobsgp             = aParameter[ 'nobsgp']
-        self.ntplfile             = aParameter[ 'ntplfile']
-        self.ninsfile             = aParameter[ 'ninsfile']
+        self.sPest_mode             = aParameter[ 'sPest_mode']
+
+        self.npargp             = int(aParameter[ 'npargp'])
+        self.npar             = int(aParameter[ 'npar'])
+        self.nobs             = int(aParameter[ 'nobs'])
+        self.nprior             = int(aParameter[ 'nprior'])
+        self.nobsgp             = int(aParameter[ 'nobsgp'])
+        self.ntplfile             = int(aParameter[ 'ntplfile'])
+        self.ninsfile             = int(aParameter[ 'ninsfile'])
 
         self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
         self.sWorkspace_home       = aParameter[ 'sWorkspace_home' ]
@@ -44,6 +50,7 @@ class pest(object):
         self.sRegion               = aParameter[ 'sRegion']
         self.sModel               = aParameter[ 'sModel']
         self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
+        self.sFilename_instruction = aParameter['sFilename_instruction']
         pass
 
     def read_pest_configuration(self, sInput):

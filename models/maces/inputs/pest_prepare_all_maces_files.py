@@ -25,5 +25,5 @@ def pest_prepare_all_maces_files(sFilename_pest_configuration):
     return
 
 if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/maces/calibration/pest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
     pest_prepare_all_maces_files(sFilename_pest_configuration)
