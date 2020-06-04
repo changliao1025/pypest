@@ -15,16 +15,12 @@ sys.path.append(sPath_library_python)
 
 from pest import pest
 from pest_read_configuration_file import pest_read_configuration_file
-
+from pest_prepare_maces_observation_file import pest_prepare_maces_observation_file
 
 def pest_prepare_maces_instruction_file(oPest_in):
     """
     prepare pest instruction file
     """
-    
-    
-    
-    
 
     
     #read obs
