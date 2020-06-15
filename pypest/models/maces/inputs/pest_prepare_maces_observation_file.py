@@ -22,17 +22,17 @@ def pest_prepare_maces_observation_file(oPest_in):
     df.columns = ['Time','Hmo','Hmax','hw','Turbidity']
     sed_obs_1BF = np.array(df['Turbidity'])[5334:5526]  # mg/l
     nt_obs = np.size(sed_obs_1BF)
+
+    #the orginal data is 15 minutes temporal resolution
     tt_obs = np.arange(nt_obs)/4
     nhour = int(nt_obs/4)
-    #resample
+    #reshape 
 
     sed_obs_1BF1= np.reshape(sed_obs_1BF, (nhour, 4))
-
-    
-
+    #get hourly dataset
     sed_obs_1BF2=np.nanmean(sed_obs_1BF1, axis=1)
-    #the temporal resolution 
-    return sed_obs_1BF
+    #the temporal resolution is now at hourly
+    return sed_obs_1BF2
 
 
 if __name__ == '__main__':

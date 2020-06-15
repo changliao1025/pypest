@@ -13,9 +13,13 @@ sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' +
 sys.path.append(sPath_library_python)
 
 
-from pest import pest
-from pest_read_configuration_file import pest_read_configuration_file
-from pest_prepare_maces_observation_file import pest_prepare_maces_observation_file
+#to be sure we will add the libary here similar to other library
+sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest_python)
+
+from pypest.models.maces.inputs.pest import pest
+from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
+from pypest.models.maces.inputs.pest_prepare_maces_observation_file import pest_prepare_maces_observation_file
 
 def pest_prepare_maces_instruction_file(oPest_in):
     """
