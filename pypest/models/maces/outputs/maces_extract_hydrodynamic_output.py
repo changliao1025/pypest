@@ -10,24 +10,16 @@ from eslib.toolbox.reader.text_reader_string import text_reader_string
 sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
 sys.path.append(sPath_pypest_python)
 from pypest.models.maces.inputs.pest import pest
-from pypest.models.maces.outputs.maces_extract_hydrodynamic_output import maces_extract_hydrodynamic_output
 
 
-def maces_extract_output_files(oPest_in):
-    """
-    sFilename_configuration_in
-    """
-    #stream discharge
-    maces_extract_hydrodynamic_output(oPest_in)
+def maces_extract_hydrodynamic_output():
 
 
+
+    return
 if __name__ == '__main__':
-    
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
     aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
     print(aParameter)    
     oPest = pest(aParameter)
-
-    maces_extract_output_files()
-    
-   
+    maces_extract_hydrodynamic_output(oPest)

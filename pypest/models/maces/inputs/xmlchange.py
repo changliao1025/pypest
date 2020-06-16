@@ -14,16 +14,16 @@ from optparse import OptionParser
 
 # use the OptionParser to parse the command line options
 
-def xmlchange():
-    parser = OptionParser()
-    parser.add_option("-f", "--file", type="string", dest="filename")
-    parser.add_option("-g", "--group", type="string", dest="group", default=None)
-    parser.add_option("-p", "--parameter", type="string", dest="parameter")
-    parser.add_option("-v", "--value", type="string", dest="value", default=None)
-    parser.add_option("-s", "--values", type="string", nargs=10, 
-                      dest="values", default=None)
+def xmlchange(filename=None, group=None, parameter=None,value=None, values=None):
+    #parser = OptionParser()
+    #parser.add_option("-f", "--file", type="string", dest="filename")
+    #parser.add_option("-g", "--group", type="string", dest="group", default=None)
+    #parser.add_option("-p", "--parameter", type="string", dest="parameter")
+    #parser.add_option("-v", "--value", type="string", dest="value", default=None)
+    #parser.add_option("-s", "--values", type="string", nargs=10, 
+    #                  dest="values", default=None)
 
-    (options, args) = parser.parse_args()
+    #(options, args) = parser.parse_args()
 
     try:
         # extract arguments and check

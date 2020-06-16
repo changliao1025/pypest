@@ -1,24 +1,17 @@
-import sys
-import os
+import sys, os
 import numpy as np
-import datetime
-import calendar
-
-from numpy  import array
-from pest import pest
-
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
 from eslib.system import define_global_variables
 from eslib.system.define_global_variables import *
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-            
 
+#the pypest library
+sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
+sys.path.append(sPath_pypest_python)
 
-from pest import pest
-from pest_read_configuration_file import pest_read_configuration_file
+from pypest.models.maces.inputs.pest import pest
+from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
 def pest_prepare_maces_control_file(oPest_in):
     """
     #prepare the pest control file
