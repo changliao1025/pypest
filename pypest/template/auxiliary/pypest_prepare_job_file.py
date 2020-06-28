@@ -1,32 +1,13 @@
 #this function is used to copy swat and beopest from linux hpc to calibration folder
 import sys
 import os
-import numpy as np
-import datetime
-import calendar
-
-import errno
-from os.path import isfile, join
-from os import listdir
-
-from numpy  import array
-from shutil import copyfile, copy2
-
-
-
-#import library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-
-from toolbox.reader.text_reader_string import text_reader_string
 
     
 def pypest_prepare_job_file(sFilename_configuration_in, sModel_in = None):
     """
     prepare the job submission file
     """
-   
-    
+
     #strings
     sWorkspace_home = config['sWorkspace_home']
     sWorkspace_scratch=config['sWorkspace_scratch']
