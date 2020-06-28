@@ -1,6 +1,6 @@
 # PyPEST
 
-This is a Python package for the PEST [label](http://www.pesthomepage.org/) tool.
+This is a Python package for the PEST [http://www.pesthomepage.org/](http://www.pesthomepage.org/) tool.
 
 It extends the capacity of current PEST that it can be applied to almost any computational numerical model.
 
@@ -16,7 +16,7 @@ Model calibration can be tedious and computationally expensive, especially when 
 ![Model concept](https://github.com/changliao1025/pypest/blob/master/pypest/pypest.png?raw=true)
 
 
-2. Code structure
+2. Code template structure
    
 ![Code structure](https://github.com/changliao1025/pypest/blob/master/pypest/instruction.png?raw=true)
 
@@ -32,8 +32,8 @@ The research described in this paper was primarily funded by a Laboratory Direct
 In order to run the program, you need:
 1. git clone git@github.com:changliao1025/pypest.git
 2. compile PEST/BeoPEST and place it under the system path
-3. Use exisitng supported models, or
-4. Add new models based on the template files
+3. use exisitng supported models, or
+4. add new models based on the template files
 
 # Contact
 Please contact Chang Liao (chang.liao@pnnl.gov) if you have any questions.
