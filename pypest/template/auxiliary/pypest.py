@@ -1,6 +1,6 @@
 from abc import ABCMeta, abstractmethod
 
-class pest(object):
+class pypest(object):
     __metaclass__ = ABCMeta    
     aParameter={}
     sPest_mode=''

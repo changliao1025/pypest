@@ -9,7 +9,7 @@ sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + s
 sys.path.append(sPath_pypest_python)
 
 from pypest.models.maces.inputs.pest_parse_xml_file import pest_parse_xml_file
-def pest_read_configuration_file(sFilename_configuration_in):
+def pypest_read_configuration_file(sFilename_configuration_in):
     aConfiguration = pest_parse_xml_file(sFilename_configuration_in)
     return aConfiguration
 if __name__ == '__main__':

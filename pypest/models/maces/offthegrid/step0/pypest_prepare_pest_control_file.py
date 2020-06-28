@@ -12,7 +12,7 @@ sys.path.append(sPath_pypest_python)
 
 from pypest.models.maces.inputs.pest import pest
 from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
-def pest_prepare_maces_control_file(oPest_in):
+def pypest_prepare_pest_control_file(oPest_in):
     """
     #prepare the pest control file
     """
