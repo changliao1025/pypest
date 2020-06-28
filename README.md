@@ -1,6 +1,6 @@
 # PyPEST
 
-This is a Python package for the PEST [http://www.pesthomepage.org/](http://www.pesthomepage.org/) tool.
+This is a Python package for the PEST [(http://www.pesthomepage.org/)](http://www.pesthomepage.org/) tool.
 
 It extends the capacity of current PEST that it can be applied to almost any computational numerical model.
 
