@@ -13,12 +13,12 @@ Model calibration can be tedious and computationally expensive, especially when 
 
 1. Model concept
 
-![Model concept](https://github.com/changliao1025/pypest/blob/master/pypest.png?raw=true)
+![Model concept](https://github.com/changliao1025/pypest/blob/master/pypest/pypest.png?raw=true)
 
 
 2. Code structure
    
-![Code structure](https://github.com/changliao1025/pypest/blob/master/instruction.png?raw=true)
+![Code structure](https://github.com/changliao1025/pypest/blob/master/pypest/instruction.png?raw=true)
 
 # Citation
 Chang Liao, Teklu Tesfa, Zeli Tan, Chao Chen, & L. Ruby Leung. (2020). 
