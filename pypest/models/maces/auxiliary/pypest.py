@@ -29,7 +29,9 @@ class pypest(object):
     
     sWorkspace_pest=''
     sFilename_control=''
-    sFilename_instruction=''    
+    sFilename_instruction=''
+    sFilename_hydro_template=''
+    sFilename_hydro_parameter=''
     sFilename_template=''
     sFilename_output=''
 
@@ -60,6 +62,8 @@ class pypest(object):
         self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
         self.sFilename_instruction = aParameter['sFilename_instruction']
+        self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
+        self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']
         self.sFilename_output = aParameter['sFilename_output']
 
         sCase_index = "{:03d}".format( int(aParameter['iCase_index']) )
