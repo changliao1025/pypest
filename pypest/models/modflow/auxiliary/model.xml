@@ -1,0 +1,56 @@
+<file id="model.xml" version="2.0">
+  <header>
+    This file is used to control the pest calibrationb process.
+  </header>
+  
+  <group id="model">
+
+    <entry id="sWorkspace_project" value="/maces/coastal">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sWorkspace_simulation" value="/04model/maces/coastal/simulation">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sWorkspace_calibration" value="/04model/maces/coastal/calibration">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sRegion" value="coastal">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sModel" value="maces">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sDate" value="20200602">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="iCase_index" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+  </group>
+
+
+</file>
