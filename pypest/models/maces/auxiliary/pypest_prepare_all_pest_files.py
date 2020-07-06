@@ -11,7 +11,7 @@ from eslib.system.define_global_variables import *
 sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
 sys.path.append(sPath_pypest_python)
 
-from pypest.models.maces.inputs.pest import pest
+from pypest.models.maces.inputs.pest import pypest
 
 from pypest.models.maces.inputs.pest_prepare_maces_control_file import pest_prepare_maces_control_file
 from pypest.models.maces.inputs.pest_prepare_maces_instruction_file import pest_prepare_maces_instruction_file
@@ -22,7 +22,7 @@ from pypest.models.maces.inputs.template.pest_prepare_maces_parameter_template_f
 from pest_read_configuration_file import pest_read_configuration_file
 
 
-def pest_prepare_all_maces_files(sFilename_pest_configuration):
+def pest_prepare_all_pest_files(sFilename_pest_configuration):
 
 
     aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
@@ -38,8 +38,14 @@ def pest_prepare_all_maces_files(sFilename_pest_configuration):
     return
 
 if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest_python/pypest/models/maces/config/pypest.xml'
     aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
     print(aParameter)    
-    oPest = pest(aParameter)
+    oPest = pypest(aParameter)
+
+
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest_python/pypest/models/maces/config/model.xml'
+    aParameter  = pest_read_configuration_file(sFilename_model_configuration)
+    print(aParameter)    
+    oMaces = pest(aParameter)
     pest_prepare_maces_control_file(oPest)
