@@ -4,36 +4,36 @@ import xml.etree.ElementTree as ET
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from eslib.system import define_global_variables
-from eslib.system.define_global_variables import *
+from pyes.system import define_global_variables
+from pyes.system.define_global_variables import *
 
 #the pypest library
-sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
-sys.path.append(sPath_pypest_python)
+sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest)
 
-from pypest.models.maces.inputs.pest import pypest
+from pypest.models.maces.shared.pest import pypest
+from pypest.models.maces.shared.model import maces
 
-from pypest.models.maces.inputs.pest_prepare_maces_control_file import pest_prepare_maces_control_file
-from pypest.models.maces.inputs.pest_prepare_maces_instruction_file import pest_prepare_maces_instruction_file
-
-from pypest.models.maces.inputs.template.pest_prepare_maces_parameter_template_files import pest_prepare_maces_parameter_template_files
+from pypest.models.maces.offthegrid.step0.pypest_prepare_pest_control_file import pypest_prepare_pest_control_file
+from pypest.models.maces.offthegrid.step1.pypest_prepare_pest_template_files import pypest_prepare_pest_template_files
+from pypest.models.maces.offthegrid.step2.pypest_prepare_pest_command_file import pypest_prepare_pest_command_file
+from pypest.models.maces.offthegrid.step6.pypest_prepare_pest_instruction_files import pypest_prepare_pest_instruction_files
 
 #from pest_prepare_maces_run_bash_file import pest_prepare_maces_run_bash_file
-from pest_read_configuration_file import pest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
 
-def pest_prepare_all_pest_files(sFilename_pest_configuration):
+def pypest_prepare_all_pest_files(oPest, oModel):
 
 
-    aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
-    print(aParameter)    
-    oPest = pest(aParameter)
+    #aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
+    #print(aParameter)    
+    #oPest = pest(aParameter)
     #call each step
-    pest_prepare_maces_control_file(oPest)
-    pest_prepare_maces_instruction_file()
-    #pest_prepare_maces_parameter_template_file()
-    #pest_prepare_maces_run_bash_file()
-
+    pypest_prepare_pest_control_file(oPest, oModel)
+    pypest_prepare_pest_template_files(oPest, oModel)
+    pypest_prepare_pest_command_file(oPest, oModel)
+    pypest_prepare_pest_instruction_files(oPest, oModel)
 
     return
 
@@ -48,4 +48,4 @@ if __name__ == '__main__':
     aParameter  = pest_read_configuration_file(sFilename_model_configuration)
     print(aParameter)    
     oMaces = pest(aParameter)
-    pest_prepare_maces_control_file(oPest)
+    pypest_prepare_all_pest_files(oPest)

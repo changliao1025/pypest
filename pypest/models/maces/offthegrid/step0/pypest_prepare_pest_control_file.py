@@ -3,15 +3,16 @@ import numpy as np
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from eslib.system import define_global_variables
-from eslib.system.define_global_variables import *
+from pyes.system import define_global_variables
+from pyes.system.define_global_variables import *
 
 #the pypest library
-sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
-sys.path.append(sPath_pypest_python)
+sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest)
 
-from pypest.models.maces.inputs.pest import pest
-from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
+from pypest.models.maces.shared.pest import pypest
+from pypest.models.maces.shared.model import maces
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file

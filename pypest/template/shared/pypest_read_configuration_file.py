@@ -2,13 +2,13 @@ import sys, os
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from eslib.system import define_global_variables
-from eslib.system.define_global_variables import *
+from pyes.system import define_global_variables
+from pyes.system.define_global_variables import *
 
-sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
-sys.path.append(sPath_pypest_python)
+sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest)
 
-from pypest.models.maces.inputs.pest_parse_xml_file import pest_parse_xml_file
+from pypest.template.shared.pypest_parse_xml_file import pypest_parse_xml_file
 
 def pypest_read_configuration_file(sFilename_configuration_in):
     aConfiguration = pest_parse_xml_file(sFilename_configuration_in)

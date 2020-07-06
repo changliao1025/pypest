@@ -15,7 +15,7 @@ from pypest.models.maces.inputs.pest import pest
 from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
 from pypest.models.maces.inputs.pest_prepare_maces_observation_file import pest_prepare_maces_observation_file
 
-def pest_prepare_maces_instruction_file(oPest_in):
+def pest_prepare_maces_instruction_files(oPest_in):
     """
     prepare pest instruction file
     """

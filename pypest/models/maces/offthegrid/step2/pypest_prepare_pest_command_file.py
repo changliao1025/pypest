@@ -2,25 +2,21 @@
 import sys
 import os, stat
 import numpy as np
-import datetime
-import calendar
-
-
-
 import errno
 from os.path import isfile, join
 from os import listdir
-
 from numpy  import array
 from shutil import copyfile, copy2
 
 
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
+sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest)
+
+from pypest.models.maces.shared.pest import pypest
+from pypest.models.maces.shared.model import maces
 
     
-def pest_prepare_maces_run_bash_file(sFilename_configuration_in, sModel):
+def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     """
     prepare the job submission file
     """
@@ -38,54 +34,11 @@ def pest_prepare_maces_run_bash_file(sFilename_configuration_in, sModel):
 
     sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
 
+
+    #start writing the script
     sFilename_script = sWorkspace_pest_model + slash + 'run_swat_model'
     ifs = open(sFilename_script, 'w')
-    #example
-    #!/bin/bash
-    #echo "Started to prepare python scripts"
-    #
-    #cat << EOF > pyscript1.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_prepare_pest_slave_input_file import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_prepare_pest_slave_input_file(sFilename_configuration_in)
-    #EOF
-    #
-    #cat << EOF > pyscript2.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_prepare_input_from_pest import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_prepare_input_from_pest(sFilename_configuration_in)
-    #EOF
-    #
-    #cat << EOF > pyscript3.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_extract_output_for_pest import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_extract_output_for_pest(sFilename_configuration_in)
-    #EOF
-    #
-    #chmod 755 pyscript1.py
-    #chmod 755 pyscript2.py
-    #chmod 755 pyscript3.py
-    #echo "Finished preparing python scripts"
-    #
-    #echo "Started to prepare SWAT inputs"
-    ##step 1: prepare inputs
-    #./pyscript1.py
-    #./pyscript2.py
-    #echo "Finished preparing SWAT simulation"
-    #
-    ##step 2: run swat model
-    #echo "Started to run SWAT simulation"
-    #./swat
-    #echo "Finished running SWAT simulation"
-    #
-    ##step 3: extract SWAT output
-    #echo "Started to extract SWAT simulation outputs"
-    #./pyscript3.py
-    #echo "Finished extracting SWAT simulation outputs"
-    #end of example
+    
     sLine = '#!/bin/bash\n'
     ifs.write(sLine)
 
