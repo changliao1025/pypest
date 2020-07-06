@@ -1,13 +1,10 @@
 #this function is used to copy swat and beopest from linux hpc to calibration folder
-import sys
-import os, stat
-import numpy as np
-import errno
-from os.path import isfile, join
-from os import listdir
-from numpy  import array
-from shutil import copyfile, copy2
+import sys, os
 
+
+sSystem_paths = os.environ['PATH'].split(os.pathsep)
+sys.path.extend(sSystem_paths)
+from pyes.system.define_global_variables import *
 
 sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
 sys.path.append(sPath_pypest)
@@ -23,29 +20,34 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     
     
     #strings
-    
+    sModel = oPest_in.sModel
 
-    sWorkspace_data_relative = config['sWorkspace_data']  
-    sWorkspace_project_relative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
+    sWorkspace_data_relative = sWorkspace_data
+    sWorkspace_project_relative = oPest_in.sWorkspace_project
+    sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
+    sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
 
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
 
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
+    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel + slash + sRegion
+    #create the directory if not available
+    if not os.path.exists(sWorkspace_pest_model):
+        os.mkdir(sWorkspace_pest_model)
+    else:
+        pass
 
 
     #start writing the script
-    sFilename_script = sWorkspace_pest_model + slash + 'run_swat_model'
+    sFilename_script = sWorkspace_pest_model + slash + 'run_model'
     ifs = open(sFilename_script, 'w')
     
     sLine = '#!/bin/bash\n'
     ifs.write(sLine)
 
-    sLine = 'echo "Started to prepare python scripts"\n'
+    sLine = 'echo "Started to write PyPEST scripts"\n'
     ifs.write(sLine)
     #the first one
-    sLine = 'cat << EOF > pyscript1.py\n'
+    sLine = 'cat << EOF > step3.py' + '\n'
     ifs.write(sLine)
 
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
@@ -65,7 +67,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'EOF\n'
     ifs.write(sLine)
     #the second 
-    sLine = 'cat << EOF > pyscript2.py\n'
+    sLine = 'cat << EOF > step4.py' + '"\n'
     ifs.write(sLine)
 
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
@@ -77,7 +79,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
     ifs.write(sLine)
 
-    sLine = 'sModel = ' + '"' + sModel + '"\n'
+    sLine = 'sModel = ' + '"' + sModel + '\n'
     ifs.write(sLine)
     sLine = 'swat_prepare_input_from_pest(sFilename_configuration_in, sModel)\n'
     ifs.write(sLine)
@@ -85,7 +87,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'EOF\n'
     ifs.write(sLine)
     #the third one
-    sLine = 'cat << EOF > pyscript3.py\n'
+    sLine = 'cat << EOF > step5.py' + '\n'
     ifs.write(sLine)
 
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'

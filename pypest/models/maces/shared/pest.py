@@ -16,9 +16,7 @@ class pypest(object):
     iCase_index=0
 
     sWokspace_pest_configuration=''
-    sWorkspace_home=''
-    sWorkspace_scratch=''
-    sWorkspace_data=''
+    
     sWorkspace_project=''
     sWorkspace_simulation=''
     sWorkspace_calibration=''
@@ -40,7 +38,7 @@ class pypest(object):
         self.aParameter = aParameter
 
         self.sPest_mode             = aParameter[ 'sPest_mode']
-        self.sDate = aParameter[ 'sDate']
+  
         
         self.npargp             = int(aParameter[ 'npargp'])
         self.npar             = int(aParameter[ 'npar'])
@@ -51,9 +49,10 @@ class pypest(object):
         self.ninsfile             = int(aParameter[ 'ninsfile'])
 
         self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
-        self.sWorkspace_home       = aParameter[ 'sWorkspace_home' ]
-        self.sWorkspace_scratch    = aParameter[ 'sWorkspace_scratch']
-        self.sWorkspace_data       = aParameter[ 'sWorkspace_data']
+
+        #system wide variable will not be used
+       
+
         self.sWorkspace_project    = aParameter[ 'sWorkspace_project']
         self.sWorkspace_simulation = aParameter[ 'sWorkspace_simulation']
         self.sWorkspace_calibration= aParameter[ 'sWorkspace_calibration']
@@ -61,9 +60,9 @@ class pypest(object):
         self.sModel                = aParameter[ 'sModel']
         self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
-        self.sFilename_instruction = aParameter['sFilename_instruction']
-        self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
-        self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']
+        #self.sFilename_instruction = aParameter['sFilename_instruction']
+        #self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
+        #self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']
         self.sFilename_output = aParameter['sFilename_output']
 
         sCase_index = "{:03d}".format( int(aParameter['iCase_index']) )

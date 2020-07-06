@@ -5,9 +5,9 @@ import pandas as pd
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from eslib.system import define_global_variables
-from eslib.system.define_global_variables import *
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
+from pyes.system import define_global_variables
+from pyes.system.define_global_variables import *
+sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyes_python'
 sys.path.append(sPath_library_python)
 
 

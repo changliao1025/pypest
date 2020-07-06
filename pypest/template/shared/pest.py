@@ -13,17 +13,16 @@ class pypest(object):
     ninsfile=0
     svd=1
 
-    iCase_index=0
+    #iCase_index=0
 
     sWokspace_pest_configuration=''
-    sWorkspace_home=''
-    sWorkspace_scratch=''
-    sWorkspace_data=''
+    
     sWorkspace_project=''
     sWorkspace_simulation=''
     sWorkspace_calibration=''
     sRegion=''
     sModel=''
+    
     sCase=''
     sDate=''
     

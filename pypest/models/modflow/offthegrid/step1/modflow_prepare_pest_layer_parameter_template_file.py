@@ -9,8 +9,8 @@ import platform
 from pathlib import Path
 from numpy  import array
 
-#import the eslib library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
+#import the pyes library
+sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyes_python'
 
 sys.path.append(sPath_library_python)
 from toolbox.reader.text_reader_string import text_reader_string

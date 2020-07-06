@@ -20,11 +20,10 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     
     #strings
-    sWorkspace_home = oPest_in.sWorkspace_home
-    sWorkspace_scratch = oPest_in.sWorkspace_scratch
+    sWorkspace_home = sWorkspace_home
+    sWorkspace_scratch = sWorkspace_scratch
+    sWorkspace_data_relative = sWorkspace_data
 
-    
-    sWorkspace_data_relative = oPest_in.sWorkspace_data
     sWorkspace_project_ralative = oPest_in.sWorkspace_project
     sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
     sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
