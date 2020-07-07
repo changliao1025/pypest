@@ -11,7 +11,7 @@ sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
-
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
     
 def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     """
@@ -57,7 +57,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from swat_prepare_pest_slave_input_file import *\n'
+    sLine = 'from pypest.models.maces.offthegrid.step3 import step3\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -65,7 +65,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
     sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
-    sLine = 'swat_prepare_pest_slave_input_file(sFilename_configuration_in, sModel)\n'
+    sLine = 'step3(sFilename_pest_configuration, sFilename_model_configuration)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'
@@ -79,7 +79,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from swat_prepare_input_from_pest import *\n'
+    sLine = 'from pypest.models.maces.offthegrid.step4 import step4\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -88,9 +88,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
 
-    sLine = 'sModel = ' + '"' + sModel + '\n'
-    ifs.write(sLine)
-    sLine = 'swat_prepare_input_from_pest(sFilename_configuration_in, sModel)\n'
+    sLine = 'step4(sFilename_pest_configuration, sFilename_model_configuration)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'
@@ -102,7 +100,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from swat_extract_output_for_pest import *\n'
+    sLine = 'from pypest.models.maces.offthegrid.step5 import step3\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -111,9 +109,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
 
-    sLine = 'sModel = ' + '"' + sModel + '"\n'
-    ifs.write(sLine)
-    sLine = 'swat_extract_output_for_pest(sFilename_configuration_in, sModel)\n'
+    sLine = 'step5(sFilename_pest_configuration, sFilename_model_configuration)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'
@@ -153,7 +149,18 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
     print('The pest run model file is prepared successfully!')
 
+def step2(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
+    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
+    oPest = pypest(aParameter_pest)
+    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
+    oMaces = maces(aParameter_model)
 
+    pypest_prepare_pest_command_file(oPest, oMaces)
+
+    return
 if __name__ == '__main__':
-    
-    pass
+    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
+    step2(sFilename_pest_configuration, sFilename_model_configuration)

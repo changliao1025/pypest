@@ -13,6 +13,7 @@ sys.path.append(sPath_pypest)
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file
@@ -20,20 +21,20 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     
     #strings
-    sWorkspace_home = sWorkspace_home
-    sWorkspace_scratch = sWorkspace_scratch
-    sWorkspace_data_relative = sWorkspace_data
-
-    sWorkspace_project_ralative = oPest_in.sWorkspace_project
-    sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
-    sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
-    
     sPest_mode = oPest_in.sPest_mode
     
-    sRegion = oPest_in.sRegion
-    sModel = oPest_in.sModel
+    
 
-    sWorkspace_data = sWorkspace_home + slash + sWorkspace_data_relative
+    sWorkspace_project_ralative = oModel_in.sWorkspace_project
+    sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
+    
+    
+    
+    sRegion = oModel_in.sRegion
+    sModel = oModel_in.sModel
+
+    
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
@@ -173,24 +174,27 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     ofs.write('* model command line\n')
 
     #run the model
-    sLine  = sWorkspace_pest_model + slash + 'run_maces_model\n'
+    sLine  = sWorkspace_pest_model + slash + 'run_model\n'
     ofs.write(sLine)
 
     
     ofs.write('* model input/output\n')
 
-    
+    sIndex = "{:02d}".format( 0 ) 
 
-    sLine1 = sWorkspace_pest_model + slash + 'parameter.tpl'    
+    sLine1 = sWorkspace_pest_model + slash + 'pest_template_' + sIndex + '.tpl'
     sLine2 = 'hru.para\n'
     sLine = sLine1 + ' ' + sLine2
     ofs.write(sLine)
 
     #result
-    sFilename_instruction = oPest_in.sFilename_instruction
+    #in curret case, we only have one instruction file
+     
+    sFilename_instruction = sWorkspace_pest_model + slash + 'pest_instructon_' + sIndex + '.ins'
+    
 
    
-    sFilename_output =  oPest_in.sFilename_output
+    sFilename_output =   'pest_output_' + sIndex + '.out'
     sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
 
@@ -228,11 +232,18 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     print('The PEST control file is prepared successfully at: ' + sFilename_control)
 
+def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
+    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
+    oPest = pypest(aParameter_pest)
+    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
+    oMaces = maces(aParameter_model)
 
+    pypest_prepare_pest_control_file(oPest, oMaces )
+    return
 if __name__ == '__main__':
-
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
-    print(aParameter)    
-    oPest = pest(aParameter)
-    pest_prepare_maces_control_file(oPest)
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
+    step0(sFilename_pest_configuration, sFilename_model_configuration)
+    

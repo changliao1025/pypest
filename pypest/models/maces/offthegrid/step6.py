@@ -11,21 +11,24 @@ from pyes.system.define_global_variables import *
 sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
 sys.path.append(sPath_pypest_python)
 
-from pypest.models.maces.inputs.pest import pest
-from pypest.models.maces.inputs.pest_read_configuration_file import pest_read_configuration_file
-from pypest.models.maces.inputs.pest_prepare_maces_observation_file import pest_prepare_maces_observation_file
+from pypest.models.maces.shared.pest import pypest
+from pypest.models.maces.shared.model import maces
 
-def pest_prepare_maces_instruction_files(oPest_in):
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.models.maces.auxiliary.maces_prepare_observation_file import maces_prepare_observation_file
+
+def pypest_prepare_pest_instruction_files(oPest_in, oModel_in):
     """
     prepare pest instruction file
     """
 
-    sWorkspace_scratch = oPest_in.sWorkspace_scratch
-    sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration        
+
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
+
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
     sWorkspace_pest_model = sWorkspace_calibration
     #read obs
-    aObservation1 = pest_prepare_maces_observation_file(oPest_in)
+    aObservation1 = maces_prepare_observation_file()
     nobs_with_missing_value = len(aObservation1)
     nstress = nobs_with_missing_value
     
@@ -34,7 +37,9 @@ def pest_prepare_maces_instruction_files(oPest_in):
     aObservation1[nan_index] = missing_value
 
     #write instruction
-    sFilename_instruction =  sWorkspace_pest_model + slash + oPest_in.sFilename_instruction
+    sIndex = "{:02d}".format( 0 )  
+    sFilename_instruction = sWorkspace_pest_model + slash + 'pest_instruction_' + sIndex + '.ins'
+
     ofs= open(sFilename_instruction,'w')
     ofs.write('pif $\n')
 
@@ -50,10 +55,19 @@ def pest_prepare_maces_instruction_files(oPest_in):
     ofs.close()
     print('The instruction file is prepared successfully!')
 
+def step6(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
+    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
+    oPest = pypest(aParameter_pest)
+    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
+    oMaces = maces(aParameter_model)
+
+    pypest_prepare_pest_instruction_files(oPest, oMaces)
+    return
+
 if __name__ == '__main__':
-    
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
-    print(aParameter)    
-    oPest = pest(aParameter)
-    pest_prepare_maces_instruction_file(oPest)
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
+    step6(sFilename_pest_configuration, sFilename_model_configuration)
+    

@@ -5,15 +5,16 @@ import pandas as pd
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from pyes.system import define_global_variables
+
 from pyes.system.define_global_variables import *
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyes_python'
-sys.path.append(sPath_library_python)
+sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
+sys.path.append(sPath_pypest)
 
 
-from pest import pest
-from pest_read_configuration_file import pest_read_configuration_file
-def pest_prepare_maces_observation_file(oPest_in):
+from pypest.models.maces.shared.pest import pypest
+from pypest.models.maces.shared.model import maces
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+def maces_prepare_observation_file():
 
     # read data
     sFilename = r'/people/liao313/data/maces/auxiliary' + slash +'VeniceLagoon/1BF_OBS.xls'
@@ -37,8 +38,4 @@ def pest_prepare_maces_observation_file(oPest_in):
 
 if __name__ == '__main__':
     
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    aParameter  = pest_read_configuration_file(sFilename_pest_configuration)
-    print(aParameter)    
-    oPest = pest(aParameter)
-    pest_prepare_maces_observation_file(oPest)
+    pass
