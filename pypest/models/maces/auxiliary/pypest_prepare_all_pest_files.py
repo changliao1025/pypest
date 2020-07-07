@@ -40,11 +40,13 @@ if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     aParameter  = pypest_read_configuration_file(sFilename_pest_configuration)
     print(aParameter)    
+    aParameter['sFilename_pest_configuration'] = sFilename_pest_configuration
     oPest = pypest(aParameter)
 
 
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'
     aParameter  = pypest_read_configuration_file(sFilename_model_configuration)
     print(aParameter)    
-    oMaces = pest(aParameter)
-    pypest_prepare_all_pest_files(oPest)
+    aParameter['sFilename_model_configuration'] = sFilename_model_configuration
+    oMaces = maces(aParameter)
+    pypest_prepare_all_pest_files(oPest, oMaces)

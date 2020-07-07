@@ -13,25 +13,21 @@ class pypest(object):
     ninsfile=0
     svd=1
 
-    iCase_index=0
-
+    sFilename_pest_configuration=''
     sWokspace_pest_configuration=''
+
     
-    sWorkspace_project=''
-    sWorkspace_simulation=''
-    sWorkspace_calibration=''
-    sRegion=''
-    sModel=''
-    sCase=''
-    sDate=''
+
+    
+    
     
     sWorkspace_pest=''
     sFilename_control=''
-    sFilename_instruction=''
-    sFilename_hydro_template=''
-    sFilename_hydro_parameter=''
-    sFilename_template=''
-    sFilename_output=''
+    #sFilename_instruction=''
+    #sFilename_hydro_template=''
+    #sFilename_hydro_parameter=''
+    #sFilename_template=''
+    #sFilename_output=''
 
     def __init__(self, aParameter):
         print('PEST model is being initialized')
@@ -47,27 +43,21 @@ class pypest(object):
         self.nobsgp             = int(aParameter[ 'nobsgp'])
         self.ntplfile             = int(aParameter[ 'ntplfile'])
         self.ninsfile             = int(aParameter[ 'ninsfile'])
-
+        self.sFilename_pest_configuration = aParameter['sFilename_pest_configuration']
         self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
 
         #system wide variable will not be used
        
 
-        self.sWorkspace_project    = aParameter[ 'sWorkspace_project']
-        self.sWorkspace_simulation = aParameter[ 'sWorkspace_simulation']
-        self.sWorkspace_calibration= aParameter[ 'sWorkspace_calibration']
-        self.sRegion               = aParameter[ 'sRegion']
-        self.sModel                = aParameter[ 'sModel']
+        
         self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
         #self.sFilename_instruction = aParameter['sFilename_instruction']
         #self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
         #self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']
-        self.sFilename_output = aParameter['sFilename_output']
+        #self.sFilename_output = aParameter['sFilename_output']
 
-        sCase_index = "{:03d}".format( int(aParameter['iCase_index']) )
-        sCase = self.sModel + self.sDate + sCase_index
-        self.sCase = sCase
+        
         pass
 
     def read_pest_configuration(self, sInput):

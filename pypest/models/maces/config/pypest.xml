@@ -73,6 +73,12 @@
         The scratch workspace
       </desc>
     </entry>
+     <entry id="sFilename_pest_configuration" value="">
+      <type>char</type>
+      <desc>
+        The workspace of pest calibration
+      </desc>
+    </entry>
     <entry id="sWokspace_pest_configuration" value="/qfs/people/liao313/03configuration/maces/coastal/calibration/pest.xml">
       <type>char</type>
       <desc>
@@ -92,30 +98,8 @@
         The workspace of pest calibration
       </desc>
     </entry>
-    <entry id="sFilename_instruction" value="maces_pest.ins">
-      <type>char</type>
-      <desc>
-        The workspace of pest calibration
-      </desc>
-    </entry>
-    <entry id="sFilename_hydro_template" value="maces_hydro_pest.tpl">
-      <type>char</type>
-      <desc>
-        The workspace of pest calibration
-      </desc>
-    </entry>
-    <entry id="sFilename_hydro_parameter" value="maces_hydro_pest.para">
-      <type>char</type>
-      <desc>
-        The workspace of pest calibration
-      </desc>
-    </entry>
-    <entry id="sFilename_output" value="maces_pest.out">
-      <type>char</type>
-      <desc>
-        The workspace of pest calibration
-      </desc>
-    </entry>
+   
+   
   </group>
 
 </file>

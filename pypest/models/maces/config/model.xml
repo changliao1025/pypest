@@ -4,7 +4,12 @@
   </header>
   
   <group id="model">
-
+<entry id="sFilename_model_configuration" value="">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
     <entry id="sWorkspace_project" value="/maces/coastal">
       <type>char</type>
       <desc>
