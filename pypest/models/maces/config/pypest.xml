@@ -92,7 +92,7 @@
         The workspace of pest calibration
       </desc>
     </entry>
-    <entry id="sFilename_control" value="maces_pest.pst">
+    <entry id="sFilename_control" value="pest_maces.pst">
       <type>char</type>
       <desc>
         The workspace of pest calibration

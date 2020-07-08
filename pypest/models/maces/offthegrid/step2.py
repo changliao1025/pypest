@@ -23,9 +23,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sModel = oModel_in.sModel
     sRegion= oModel_in.sRegion
 
-    sWorkspace_data_relative = sWorkspace_data
-    sWorkspace_project_relative = oModel_in.sWorkspace_project
-    sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
+ 
     sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
 
     sFilename_pest_configuration = oPest_in.sFilename_pest_configuration

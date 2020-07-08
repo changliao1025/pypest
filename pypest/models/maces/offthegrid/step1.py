@@ -13,6 +13,36 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
+#we also need a parameter file for the first run
+def pypest_prepare_maces_hydro_parameter_file(oPest_in, oModel_in ):
+
+   
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
+    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
+    sWorkspace_pest_model = sWorkspace_calibration
+    #read obs
+    sIndex = "{:02d}".format( 0 )  
+    sFilename_hydro_parameter_template = sWorkspace_pest_model + slash + 'pest_template_' + sIndex + '.para'
+    
+    ofs = open(sFilename_hydro_parameter_template, 'w')
+    
+    #the first parameter group
+    sLine = 'Cz' + ', ' + 'Cz0'  + '\n'
+    ofs.write(sLine)
+    
+    sValue =  "{:5.2f}".format( 1.0 )  
+    sLine = 'Cz0' + ', ' + sValue  + '\n'
+    ofs.write(sLine)
+    ofs.close()
+    print('hydro parameter file is ready!')
+    return
+
+#the model could have more than one parameter file
+#the number of parameter file should be same as the template file
+def maces_prepare_parameter_files(oPest_in, oModel_in):
+    pypest_prepare_maces_hydro_parameter_file(oPest_in, oModel_in )
+    return
+
 def pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in ):
 
    
@@ -21,7 +51,7 @@ def pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in ):
     sWorkspace_pest_model = sWorkspace_calibration
     #read obs
     sIndex = "{:02d}".format( 0 )  
-    sFilename_hydro_parameter_template = sWorkspace_pest_model + slash + 'pest_parameter_' + sIndex + '.tpl'
+    sFilename_hydro_parameter_template = sWorkspace_pest_model + slash + 'pest_template_' + sIndex + '.tpl'
     
     ofs = open(sFilename_hydro_parameter_template, 'w')
     sLine = 'ptf $\n'
@@ -31,6 +61,9 @@ def pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in ):
     ofs.write(sLine)
     ofs.close()
     print('hydro template file is ready!')
+
+    pypest_prepare_maces_hydro_parameter_file(oPest_in, oModel_in )
+    
     return
 
 #we need to prepare the template files for all possible parameters

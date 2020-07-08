@@ -14,6 +14,27 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
+def maces_prepare_observation_file():
+
+    # read data
+    sFilename = r'/people/liao313/data/maces/auxiliary' + slash +'VeniceLagoon/1BF_OBS.xls'
+    df = pd.read_excel(sFilename, sheet_name='1BF', header=None, skiprows=range(3), 
+                       usecols='A,B,F,O,Q')
+    df.columns = ['Time','Hmo','Hmax','hw','Turbidity']
+    sed_obs_1BF = np.array(df['Turbidity'])[5334:5526]  # mg/l
+    nt_obs = np.size(sed_obs_1BF)
+
+    #the orginal data is 15 minutes temporal resolution
+    tt_obs = np.arange(nt_obs)/4
+    nhour = int(nt_obs/4)
+    #reshape 
+
+    sed_obs_1BF1= np.reshape(sed_obs_1BF, (nhour, 4))
+    #get hourly dataset
+    sed_obs_1BF2=np.nanmean(sed_obs_1BF1, axis=1)
+    #the temporal resolution is now at hourly
+    return sed_obs_1BF2
+
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file
@@ -168,7 +189,7 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     ofs.write( '* observation data\n')
     
-    
+    #add the observation here
     
 
     ofs.write('* model command line\n')

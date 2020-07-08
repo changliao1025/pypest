@@ -10,6 +10,12 @@
         The scratch workspace
       </desc>
     </entry>
+    <entry id="sFilename_namelist" value="/people/liao313/workspace/python/maces/MACES/src/namelist.maces.xml">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
     <entry id="sWorkspace_project" value="/maces/coastal">
       <type>char</type>
       <desc>

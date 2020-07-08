@@ -12,8 +12,11 @@ class maces(object):
     sModel=''
     sCase=''
     sDate=''
+    sFilename_namelist=''
     def __init__(self, aParameter):
         self.sFilename_model_configuration    = aParameter[ 'sFilename_model_configuration']
+        self.sFilename_namelist    = aParameter[ 'sFilename_namelist']
+        
         self.sWorkspace_project    = aParameter[ 'sWorkspace_project']
         self.sWorkspace_simulation = aParameter[ 'sWorkspace_simulation']
         self.sWorkspace_calibration= aParameter[ 'sWorkspace_calibration']
