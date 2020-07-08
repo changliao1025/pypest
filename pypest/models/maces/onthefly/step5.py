@@ -52,6 +52,7 @@ def pypest_extract_model_outputs(oPest_in, oModel_in):
     """
     #stream discharge
     maces_extract_hydrodynamic_output(oPest_in, oModel_in)
+    return
 
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    

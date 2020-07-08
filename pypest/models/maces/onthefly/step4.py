@@ -1,5 +1,4 @@
-import sys, os, stat
-
+import sys, os
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
