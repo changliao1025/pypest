@@ -35,6 +35,7 @@ def maces_copy_input_files(oPest_in, oModel_in):
 
     #the model will have more than one namelist in the future
     sFilename_namelist = oModel_in.sFilename_namelist
+    sFilename_parameter  = oModel_in.sFilename_parameter  # 'optpar_minac.xml'
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_model + slash + 'beopest1'
@@ -43,13 +44,18 @@ def maces_copy_input_files(oPest_in, oModel_in):
     print('The current child path is: ' + sPath_current)
     sWorkspace_child = sPath_current
 
-    sFilename_new = sPath_current + slash + 'namelist.maces.xml'
-    copy2(sFilename_namelist, sFilename_new)
+
+    sFilename_namelist_new = sPath_current + slash + 'namelist.maces.xml'
+    copy2(sFilename_namelist, sFilename_namelist_new)
+
+    sFilename_parameter_new  = sPath_current + slash + 'optpar_hydro.xml'
+    copy2(sFilename_parameter, sFilename_parameter_new)
     return
 
 def pypest_convert_parameter_files(oPest_in, oModel_in):
-    sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
     sCase = oModel_in.sCase
+    sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
+    
     sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
     sWorkspace_simulation_case  = sWorkspace_simulation + slash + sCase
 
@@ -72,15 +78,15 @@ def pypest_convert_parameter_files(oPest_in, oModel_in):
     else:
         sPath_current = os.getcwd()
     sWorkspace_child = sPath_current    
-    sFilename_parameter = sWorkspace_child + slash + 'pest_template_' + sIndex + '.para'
+    sFilename_pest_parameter = sWorkspace_child + slash + 'pest_template_' + sIndex + '.para'
 
-    if os.path.isfile(sFilename_parameter):
+    if os.path.isfile(sFilename_pest_parameter):
         pass
     else:
         print('The file does not exist!')
         return
         
-    aData_all = text_reader_string(sFilename_parameter, cDelimiter_in = ',')
+    aData_all = text_reader_string(sFilename_pest_parameter, cDelimiter_in = ',')
     aDummy = aData_all[0,:]
     nParameter = len(aDummy) - 1
     aParameter_list = aDummy[1: nParameter+1]
@@ -95,10 +101,10 @@ def pypest_convert_parameter_files(oPest_in, oModel_in):
     #./xmlchange.py -f optpar_minac.xml -g M12MOD -p rhoSed -v 2650.0
 
     #for p in range(0, nParameter):
-    sFilename  = sWorkspace_simulation_case + slash + 'optpar_minac.xml'
-    sValue =  "{:16.2f}".format( aParameter_value[0] )
+    
+    sValue =  "{:16.2f}".format( aParameter_value[0][0] )
     #sCommand = '-f' + sFilename + ' -g M12MOD -p rhoSed -v '  + sValue
-    xmlchange(filename=sFilename, group='M12MOD', parameter='Cz0',value=sValue)
+    xmlchange(filename=oModel_in.sFilename_parameter,  parameter='Cz0',value=sValue)
     print('Finished')
 
 

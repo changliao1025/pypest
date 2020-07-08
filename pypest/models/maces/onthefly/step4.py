@@ -12,6 +12,23 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
+def pypest_run_model(oPest_in, oMaces_in):
+
+    #is it possible to call the maces python script from here?
+    #a glimplse of the job file
+    #==================================================
+    #JOB_DIRECTORY=/people/liao313/workspace/python/maces/MACES/src
+    #cd $JOB_DIRECTORY
+    #mpiexec -np 1 python MACES_main.py -f namelist.maces.xml 
+    #==================================================
+
+    #if not, we can just place the command within the run command
+    #we will use the second option here because it does not require python to call mpi
+    #the way to do it is explained in step 2
+
+    return
+
+
 def step4(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
@@ -19,6 +36,8 @@ def step4(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
+    pypest_run_model(oPest, oMaces):
+
     return
 def pypest_run_model_simulation():
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'

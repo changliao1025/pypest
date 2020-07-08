@@ -131,9 +131,19 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = './step3.py\n'
     ifs.write(sLine)
     
-    #step 4: prepare inputs
-    sLine = './step4.py\n'
-    ifs.write(sLine)       
+    #step 4: run model is replace by the command line directly
+    #sLine = './step4.py\n'
+    #ifs.write(sLine)       
+    if(iFlag_debug == 1 ):
+        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+    else:
+        sPath_current = os.getcwd()
+    sMaces_main = '/people/liao313/workspace/python/maces/MACES/src/MACES_main.py'
+    sFilename_namelist_new = sPath_current + 'optpar_hydro.xml'
+    sLine = 'mpiexec -np 1 python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'
+    #namelist.maces.xml 
+    ifs.write(sLine)     
+
 
     #step 5: extract  output
     sLine = './step5.py\n'

@@ -27,13 +27,13 @@ def xmlchange(filename=None, group=None, parameter=None,value=None, values=None)
 
     try:
         # extract arguments and check
-        filename = options.filename
-        group = options.group
-        parameter = options.parameter
-        value = options.value
-        values = options.values
-        assert np.logical_xor(options.value==None,options.values==None), \
-            "both -v and -s are present or neither of them are present."
+        #filename = options.filename
+        #group = options.group
+        #parameter = options.parameter
+        #value = options.value
+        #values = options.values
+        #assert np.logical_xor(options.value==None,options.values==None), \
+        #    "both -v and -s are present or neither of them are present."
 
         # for hydrodynamics parameters
         isfind = False

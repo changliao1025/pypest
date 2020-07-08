@@ -21,8 +21,14 @@ def pypest_prepare_maces_hydro_parameter_file(oPest_in, oModel_in ):
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
     sWorkspace_pest_model = sWorkspace_calibration
     #read obs
+    iFlag_debug = 1
+    if(iFlag_debug == 1 ):
+        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+    else:
+        sPath_current = os.getcwd()
+
     sIndex = "{:02d}".format( 0 )  
-    sFilename_hydro_parameter_template = sWorkspace_pest_model + slash + 'pest_template_' + sIndex + '.para'
+    sFilename_hydro_parameter_template = sPath_current + slash + 'pest_template_' + sIndex + '.para'
     
     ofs = open(sFilename_hydro_parameter_template, 'w')
     
