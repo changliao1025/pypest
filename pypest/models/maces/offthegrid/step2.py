@@ -17,8 +17,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     """
     prepare the job submission file
     """
-    
-    
+
     #strings
     sModel = oModel_in.sModel
     sRegion= oModel_in.sRegion

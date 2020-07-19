@@ -15,7 +15,10 @@ from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
-def maces_extract_hydrodynamic_output(oPest_in, oModel_in):
+def maces_extract_minac_type_output(oPest_in, oModel_in):
+    maces_extract_f06_output(oPest_in, oModel_in)
+
+def maces_extract_f06_output(oPest_in, oModel_in):
     # read simulation outputs
     #example code from maces
     #filename = '/Users/tanz151/Python_maces/src/maces_ecogeom_2002-12-01_2002-12-13_466.nc'
@@ -51,7 +54,7 @@ def pypest_extract_model_outputs(oPest_in, oModel_in):
     sFilename_configuration_in
     """
     #stream discharge
-    maces_extract_hydrodynamic_output(oPest_in, oModel_in)
+    maces_extract_minac_type_output(oPest_in, oModel_in)
     return
 
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    

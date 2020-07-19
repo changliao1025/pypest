@@ -16,17 +16,7 @@ from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 from pypest.models.maces.auxiliary.maces_prepare_observation_file import maces_prepare_observation_file
-
-def pypest_prepare_pest_instruction_files(oPest_in, oModel_in):
-    """
-    prepare pest instruction file
-    """
-
-
-    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
-
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
-    sWorkspace_pest_model = sWorkspace_calibration
+def pypest_prepare_minac_type_instruction_files(oPest_in, oModel_in):
     #read obs
     aObservation1 = maces_prepare_observation_file()
     nobs_with_missing_value = len(aObservation1)
@@ -53,6 +43,16 @@ def pypest_prepare_pest_instruction_files(oPest_in, oModel_in):
         ofs.write(sLine)
             
     ofs.close()
+
+def pypest_prepare_pest_instruction_files(oPest_in, oModel_in):
+    """
+    prepare pest instruction file
+    """
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
+
+    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
+    sWorkspace_pest_model = sWorkspace_calibration
+    pypest_prepare_minac_type_instruction_files(oPest_in, oModel_in)
     print('The instruction file is prepared successfully!')
 
 def step6(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
