@@ -79,12 +79,6 @@
         The workspace of pest calibration
       </desc>
     </entry>
-    <entry id="sWokspace_pest_configuration" value="/qfs/people/liao313/03configuration/maces/coastal/calibration/pest.xml">
-      <type>char</type>
-      <desc>
-        The workspace of pest calibration
-      </desc>
-    </entry>
 
     <entry id="sWorkspace_pest" value="/qfs/people/liao313/03configuration/maces/coastal/calibration/">
       <type>char</type>

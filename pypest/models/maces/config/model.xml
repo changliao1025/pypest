@@ -16,7 +16,37 @@
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.xml">
+     <entry id="sFilename_parameter_hydro" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.xml">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sFilename_parameter_minac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_minac.xml">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sFilename_template_minac" value="template_minac.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sFilename_parameter_omac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_omac.xml">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sFilename_parameter_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.wavero">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sFilename_parameter_landmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.landmgr">
       <type>char</type>
       <desc>
         The scratch workspace

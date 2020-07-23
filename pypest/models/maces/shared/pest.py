@@ -13,13 +13,9 @@ class pypest(object):
     ninsfile=0
     svd=1
 
-    sFilename_pest_configuration=''
-    sWokspace_pest_configuration=''
-
+    sFilename_pest_configuration='' #the actual full path to the pest configuration
     
-
-    
-    
+    #sWokspace_pest_configuration='' #this is where pest files should be written to
     
     sWorkspace_pest=''
     sFilename_control=''
@@ -44,14 +40,15 @@ class pypest(object):
         self.ntplfile             = int(aParameter[ 'ntplfile'])
         self.ninsfile             = int(aParameter[ 'ninsfile'])
         self.sFilename_pest_configuration = aParameter['sFilename_pest_configuration']
-        self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
 
-        #system wide variable will not be used
-       
+        #self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
 
+        #system wide variable will not be used 
         
-        self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
+        self.sWorkspace_pest   = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
+        #after recent update, these are moved to the model configuration
+        #however the total count should match in python script
         #self.sFilename_instruction = aParameter['sFilename_instruction']
         #self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
         #self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']

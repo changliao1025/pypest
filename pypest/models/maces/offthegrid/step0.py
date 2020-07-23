@@ -1,15 +1,27 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+__author__ = "Chang Liao"
+__copyright__ = "Copyright 2020, Pacific Northwest National Labortory"
+__credits__ = ["Chang Liao", "Teklu Tesfa"]
+__license__ = "GPL"
+__version__ = "1.0.1"
+__maintainer__ = "Chang Liao"
+__email__ = "chang.liao@pnnl.gov"
+__status__ = "Production"
+"""
 import sys, os
+#third party package
 import numpy as np
-
+import pandas as pd
+#dependency package
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from pyes.system import define_global_variables
 from pyes.system.define_global_variables import *
 
 #the pypest library
 sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
 sys.path.append(sPath_pypest)
-
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
@@ -18,10 +30,13 @@ def maces_prepare_tsm_observation():
 
     # read data
     sFilename = r'/people/liao313/data/maces/auxiliary' + slash +'VeniceLagoon/1BF_OBS.xls'
-    df = pd.read_excel(sFilename, sheet_name='1BF', header=None, skiprows=range(3), 
-                       usecols='A,B,F,O,Q')
+    df = pd.read_excel(sFilename, \
+        sheet_name='1BF', \
+        header=None, \
+            skiprows=range(3), \
+            usecols='A,B,F,O,Q')
     df.columns = ['Time','Hmo','Hmax','hw','Turbidity']
-    sed_obs_1BF = np.array(df['Turbidity'])[5334:5526]  # mg/l
+    sed_obs_1BF = np.array(df['Turbidity'])[5334:5526]  #mg/l
     nt_obs = np.size(sed_obs_1BF)
     #the orginal data is 15 minutes temporal resolution
     tt_obs = np.arange(nt_obs)/4
@@ -43,25 +58,21 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     sWorkspace_project_ralative = oModel_in.sWorkspace_project
     sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
-    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
-    
-    
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration   
     
     sRegion = oModel_in.sRegion
-    sModel = oModel_in.sModel
-
-    
+    sModel = oModel_in.sModel    
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
     sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
 
-    
-    sWorkspace_pest_model = sWorkspace_calibration
+    #the pest workspace should be the same with the calibration workspace
+    sWorkspace_pest = oPest_in.sWorkspace_pest
+    sWorkspace_pest_model = sWorkspace_pest
 
-    sFilename_control = sWorkspace_pest_model + slash + oPest_in.sFilename_control
-    
+    sFilename_control = sWorkspace_pest_model + slash + oPest_in.sFilename_control    
 
     if not os.path.exists(sWorkspace_pest_model):
         os.mkdir(sWorkspace_pest_model)
@@ -183,7 +194,6 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     ofs.write('* observation groups\n')
     
     ofs.write( '* observation data\n')
-    
     #add the observation here
     tsm_obs = maces_prepare_tsm_observation()
     
@@ -197,21 +207,20 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     ofs.write('* model input/output\n')
 
-    sIndex = "{:02d}".format( 0 ) 
+    #this part is model dependent
 
-    sLine1 = sWorkspace_pest_model + slash + 'pest_template_' + sIndex + '.tpl'
-    sLine2 = 'hru.para\n'
+    
+    #input template files
+    sLine1 = sWorkspace_pest_model + slash + oModel_in.sFilename_template_ + '.tpl'
+    sLine2 = 'hru.para'  + '\n'
     sLine = sLine1 + ' ' + sLine2
     ofs.write(sLine)
 
-    #result
-    #in curret case, we only have one instruction file
+    #output instruction files
      
-    sFilename_instruction = sWorkspace_pest_model + slash + 'pest_instructon_' + sIndex + '.ins'
+    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_ + '.ins'
     
-
-   
-    sFilename_output =   'pest_output_' + sIndex + '.out'
+    sFilename_output =  oModel_in.sFilename_output_  + '.out'
     sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
 
