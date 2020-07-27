@@ -2,9 +2,9 @@
   <header>
     This file is used to control the pest calibrationb process.
   </header>
-  
+
   <group id="model">
-<entry id="sFilename_model_configuration" value="">
+    <entry id="sFilename_model_configuration" value="">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -16,42 +16,160 @@
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter_hydro" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.xml">
+    <entry id="sFilename_config_hydro" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.xml">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter_minac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_minac.xml">
+    <entry id="sFilename_config_minac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_minac.xml">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_template_minac" value="template_minac.tpl">
+    <entry id="sFilename_config_omac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_omac.xml">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter_omac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_omac.xml">
+    <entry id="sFilename_config_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.wavero">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.wavero">
+    <entry id="sFilename_config_landmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.landmgr">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-     <entry id="sFilename_parameter_landmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.landmgr">
+    <entry id="sFilename_parameter_hydro" value="hydro.para">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
+    <entry id="sFilename_parameter_minac" value="minac.para">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_parameter_omac" value="omac.para">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_parameter_wavero" value="wavero.para">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_parameter_landmgr" value="landmgr.para">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sFilename_template_hydro" value="template_hydro.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_template_minac" value="template_minac.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_template_omac" value="template_omac.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_template_wavero" value="template_wavero.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_template_landmgr" value="template_landmgr.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sFilename_instruction_hydro" value="instruction_hydro.xml">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_instruction_minac" value="instruction_minac.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_instruction_omac" value="instruction_omac.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_instruction_wavero" value="instruction_wavero.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_instruction_landmgr" value="instruction_landmgr.tpl">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sFilename_output_hydro" value="output_hydro.out">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_output_minac" value="output_minac.out">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_output_omac" value="output_omac.out">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_output_wavero" value="output_wavero.out">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sFilename_output_landmgr" value="output_landmgr.out">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
     <entry id="sWorkspace_project" value="/maces/coastal">
       <type>char</type>
       <desc>

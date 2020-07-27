@@ -195,7 +195,8 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     ofs.write( '* observation data\n')
     #add the observation here
-    tsm_obs = maces_prepare_tsm_observation()
+    #tsm_obs = maces_prepare_tsm_observation()
+    #omac obervation
     
 
     ofs.write('* model command line\n')
@@ -211,16 +212,16 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     
     #input template files
-    sLine1 = sWorkspace_pest_model + slash + oModel_in.sFilename_template_ + '.tpl'
-    sLine2 = 'hru.para'  + '\n'
+    sLine1 = sWorkspace_pest_model + slash + oModel_in.sFilename_template_omac 
+    sLine2 = oModel_in.sFilename_parameter_omac  + '\n'
     sLine = sLine1 + ' ' + sLine2
     ofs.write(sLine)
 
     #output instruction files
      
-    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_ + '.ins'
+    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_omac 
     
-    sFilename_output =  oModel_in.sFilename_output_  + '.out'
+    sFilename_output =  oModel_in.sFilename_output_omac  
     sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
 
@@ -269,7 +270,7 @@ def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     pypest_prepare_pest_control_file(oPest, oMaces )
     return
 if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
     step0(sFilename_pest_configuration, sFilename_model_configuration)
     

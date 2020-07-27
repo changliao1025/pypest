@@ -14,11 +14,10 @@ from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
 #we also need a parameter file for the first run
-def pypest_prepare_maces_f06_parameter_file(oPest_in, oModel_in ):
+def maces_prepare_minac_f06_parameter_file(oPest_in, oModel_in ):
 
-    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
-    sWorkspace_pest_model = sWorkspace_calibration
+    sWorkspace_pest = oPest_in.sWorkspace_pest
+    sWorkspace_pest_model = sWorkspace_pest
     #read obs
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
@@ -26,10 +25,9 @@ def pypest_prepare_maces_f06_parameter_file(oPest_in, oModel_in ):
     else:
         sPath_current = os.getcwd()
 
-    sIndex = "{:02d}".format( 0 )  
-    sFilename_hydro_parameter_template = sPath_current + slash + 'pest_template_' + sIndex + '.para'
     
-    ofs = open(sFilename_hydro_parameter_template, 'w')
+    
+    ofs = open(sFilename_minac, 'w')
     
     #the first parameter group
     sLine = 'd50' + ', ' + '50'  +'$\n'
@@ -50,11 +48,7 @@ def pypest_prepare_maces_f06_parameter_file(oPest_in, oModel_in ):
 
 #the model could have more than one parameter file
 #the number of parameter file should be same as the template file
-def maces_prepare_parameter_files(oPest_in, oModel_in):
-    pypest_prepare_maces_f06_parameter_file(oPest_in, oModel_in )
-    return
-
-def pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in ):
+def maces_prepare_minac_template_file(oPest_in, oModel_in ):
 
    
     sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
@@ -83,12 +77,34 @@ def pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in ):
     pypest_prepare_maces_hydro_parameter_file(oPest_in, oModel_in )
     
     return
+#major components
 
+def maces_prepare_hydro_template_file(oPest_in, oModel_in ):
+    return
+
+def maces_prepare_minac_template_file(oPest_in, oModel_in ):
+    
+    maces_prepare_minac_f06_parameter_file(oPest_in, oModel_in )
+    return
+def maces_prepare_omac_template_file(oPest_in, oModel_in ):
+    
+    return
+def maces_prepare_wavero_template_file(oPest_in, oModel_in ):
+    
+    return
+def maces_prepare_landmgr_template_file(oPest_in, oModel_in ):
+    
+    return
 #we need to prepare the template files for all possible parameters
 #in general, a model may have more than one parameter file for different components
 
+
 def pypest_prepare_pest_template_files(oPest_in, oModel_in):
-    pypest_prepare_maces_hydro_template_file(oPest_in, oModel_in)
+    #maces_prepare_hydro_template_file(oPest_in, oModel_in)
+    maces_prepare_minac_template_file(oPest_in, oModel_in )
+    #maces_prepare_omac_template_file(oPest_in, oModel_in)
+    #maces_prepare_wavero_template_file(oPest_in, oModel_in)
+    #maces_prepare_landmgr_template_file(oPest_in, oModel_in)
     return 
 
 
