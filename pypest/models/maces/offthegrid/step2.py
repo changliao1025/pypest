@@ -30,7 +30,8 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
 
-    sWorkspace_pest_model = sWorkspace_calibration #+ slash + sModel + slash + sRegion
+    sWorkspace_pest = oPest_in.sWorkspace_pest
+    sWorkspace_pest_model = sWorkspace_pest
     #create the directory if not available
     if not os.path.exists(sWorkspace_pest_model):
         os.mkdir(sWorkspace_pest_model)
@@ -121,10 +122,6 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'chmod 755 step5.py\n'
     ifs.write(sLine)
     #end of change permission
-
-    
-    
-
     
     #step 3: prepare inputs
     sLine = './step3.py\n'
@@ -133,12 +130,16 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     #step 4: run model is replace by the command line directly
     #sLine = './step4.py\n'
     #ifs.write(sLine)       
+    iFlag_debug = 1
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_model + slash + 'beopest1'
     else:
         sPath_current = os.getcwd()
     sMaces_main = '/people/liao313/workspace/python/maces/MACES/src/MACES_main.py'
-    sFilename_namelist_new = sPath_current + 'optpar_hydro.xml'
+
+    sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
+
+
     sLine = 'mpiexec -np 1 python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'
     #namelist.maces.xml 
     ifs.write(sLine)     
@@ -168,6 +169,6 @@ def step2(sFilename_pest_configuration_in, sFilename_model_configuration_in):
 
     return
 if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
     step2(sFilename_pest_configuration, sFilename_model_configuration)

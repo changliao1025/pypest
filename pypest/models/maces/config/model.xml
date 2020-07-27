@@ -7,7 +7,7 @@
     <entry id="sFilename_model_configuration" value="">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The filename of the model configuration file
       </desc>
     </entry>
     <entry id="sFilename_namelist" value="/people/liao313/workspace/python/maces/MACES/src/namelist.maces.xml">
