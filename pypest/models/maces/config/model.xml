@@ -34,13 +34,13 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_config_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.wavero">
+    <entry id="sFilename_config_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_wavero.xml">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_config_landmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.landmgr">
+    <entry id="sFilename_config_lndmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_lndmgr.xml">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -70,7 +70,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_parameter_landmgr" value="landmgr.para">
+    <entry id="sFilename_parameter_lndmgr" value="lndmgr.para">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -101,7 +101,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_template_landmgr" value="template_landmgr.tpl">
+    <entry id="sFilename_template_lndmgr" value="template_lndmgr.tpl">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -132,7 +132,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_instruction_landmgr" value="instruction_landmgr.tpl">
+    <entry id="sFilename_instruction_lndmgr" value="instruction_lndmgr.tpl">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -163,7 +163,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sFilename_output_landmgr" value="output_landmgr.out">
+    <entry id="sFilename_output_lndmgr" value="output_lndmgr.out">
       <type>char</type>
       <desc>
         The scratch workspace

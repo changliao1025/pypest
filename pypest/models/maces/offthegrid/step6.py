@@ -5,7 +5,6 @@ sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
 from pyes.system.define_global_variables import *
 
-
 #to be sure we will add the libary here similar to other library
 sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest_python'
 sys.path.append(sPath_pypest_python)
@@ -45,7 +44,7 @@ def step6(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     return
 
 if __name__ == '__main__':
-     sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
     step6(sFilename_pest_configuration, sFilename_model_configuration)
     

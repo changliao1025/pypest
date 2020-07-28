@@ -30,7 +30,7 @@ def maces_prepare_omac_instruction_files(oPest_in, oModel_in):
 
     #write instruction
     
-    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_minac
+    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_omac
 
     ofs= open(sFilename_instruction,'w')
     ofs.write('pif $\n')

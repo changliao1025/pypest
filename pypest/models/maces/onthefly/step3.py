@@ -34,7 +34,7 @@ def maces_copy_input_files(oPest_in, oModel_in):
 
     #the model will have more than one namelist in the future
     sFilename_namelist = oModel_in.sFilename_namelist
-    sFilename_parameter  = oModel_in.sFilename_parameter  # 'optpar_minac.xml'
+    
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_model + slash + 'beopest1'
@@ -43,25 +43,30 @@ def maces_copy_input_files(oPest_in, oModel_in):
     print('The current child path is: ' + sPath_current)
     sWorkspace_child = sPath_current
 
-
-    sFilename_namelist_new = sPath_current + slash + 'namelist.maces.xml'
+    sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
     copy2(sFilename_namelist, sFilename_namelist_new)
 
-    #we will copy all xml needed
+    #we will copy all xml files needed
 
-    sFilename_parameter_new  = sPath_current + slash + 'optpar_hydro.xml'
-    copy2(sFilename_parameter, sFilename_parameter_new)
+    sFilename_config_hydro   = oModel_in.sFilename_config_hydro
+    sFilename_config_minac   = oModel_in.sFilename_config_minac
+    sFilename_config_omac    = oModel_in.sFilename_config_omac
+    sFilename_config_wavero  = oModel_in.sFilename_config_wavero
+    sFilename_config_lndmgr  = oModel_in.sFilename_config_lndmgr
 
-    sFilename_parameter_new  = sPath_current + slash + 'optpar_lndmgr.xml'
-    copy2(sFilename_parameter, sFilename_parameter_new)
+    sFilename_config_hydro_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_hydro)
+    sFilename_config_minac_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_minac)
+    sFilename_config_omac_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_omac)
+    sFilename_config_wavero_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_wavero)
+    sFilename_config_lndmgr_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_lndmgr)
 
-    sFilename_parameter_new  = sPath_current + slash + 'optpar_minac.xml'
-    copy2(sFilename_parameter, sFilename_parameter_new)
+    copy2(sFilename_config_hydro, sFilename_config_hydro_new)
+    copy2(sFilename_config_minac, sFilename_config_minac_new)
+    copy2(sFilename_config_omac, sFilename_config_omac_new)
+    copy2(sFilename_config_wavero, sFilename_config_wavero_new)
+    copy2(sFilename_config_lndmgr, sFilename_config_lndmgr_new)
 
-    sFilename_parameter_new  = sPath_current + slash + 'optpar_omac.xml'
-    copy2(sFilename_parameter, sFilename_parameter_new)
-    sFilename_parameter_new  = sPath_current + slash + 'optpar_wavero.xml'
-    copy2(sFilename_parameter, sFilename_parameter_new)
+
     return
     
 
@@ -69,7 +74,9 @@ def maces_copy_input_files(oPest_in, oModel_in):
 def maces_change_file_path(oPest_in, oModel_in):
     iFlag_debug =1
     if iFlag_debug ==1:
+        pass
     else:
+        pass
 
     
     #change the namliest file only
@@ -77,10 +84,8 @@ def maces_change_file_path(oPest_in, oModel_in):
 
     return
 
-def pypest_convert_f06_parameter_file(oPest_in, oModel_in):
-    #read f06 parameter
-    #the multiple parameter index starts with 0
-    sIndex = "{:02d}".format( 0 )  
+def pypest_convert_minac_parameter_file(oPest_in, oModel_in):
+    sWorkspace_pest_model = oPest_in.sWorkspace_pest
 
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
@@ -88,15 +93,15 @@ def pypest_convert_f06_parameter_file(oPest_in, oModel_in):
     else:
         sPath_current = os.getcwd()
     sWorkspace_child = sPath_current    
-    sFilename_pest_parameter = sWorkspace_child + slash + 'pest_template_' + sIndex + '.para'
-
-    if os.path.isfile(sFilename_pest_parameter):
+    sFilename_parameter = sWorkspace_child + slash + oModel_in.sFilename_parameter_minac
+    sFilename_config =  sWorkspace_child + slash + oModel_in.sFilename_config_minac
+    if os.path.isfile(sFilename_parameter):
         pass
     else:
         print('The file does not exist!')
         return
         
-    aData_all = text_reader_string(sFilename_pest_parameter, cDelimiter_in = ',')
+    aData_all = text_reader_string(sFilename_parameter, cDelimiter_in = ',')
     aDummy = aData_all[0,:]
     nParameter = len(aDummy) - 1
     aParameter_list = aDummy[1: nParameter+1]
@@ -109,7 +114,45 @@ def pypest_convert_f06_parameter_file(oPest_in, oModel_in):
     #construct the command string
     #./xmlchange.py -f optpar_minac.xml -g M12MOD -p rhoSed -v 2650.0
 
-    aParameter = ['d50']
+    #aParameter = ['d50']
+
+    for p in range(0, nParameter):    
+        sValue =  "{:16.2f}".format( aParameter_value[0][0] )
+        #sCommand = '-f' + sFilename + ' -g M12MOD -p rhoSed -v '  + sValue
+        xmlchange(filename=sFilename_config,  parameter=aParameter[p],value=sValue)
+
+    return
+def pypest_convert_omac_parameter_file(oPest_in, oModel_in):
+    sWorkspace_pest_model = oPest_in.sWorkspace_pest
+
+    iFlag_debug = 1
+    if(iFlag_debug == 1 ):
+        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+    else:
+        sPath_current = os.getcwd()
+    sWorkspace_child = sPath_current    
+    sFilename_parameter = sWorkspace_child + slash + oModel_in.sFilename_parameter_omac
+
+    if os.path.isfile(sFilename_parameter):
+        pass
+    else:
+        print('The file does not exist!')
+        return
+        
+    aData_all = text_reader_string(sFilename_parameter, cDelimiter_in = ',')
+    aDummy = aData_all[0,:]
+    nParameter = len(aDummy) - 1
+    aParameter_list = aDummy[1: nParameter+1]
+
+    ngrid = 1 
+    aParameter_value = (aData_all[1:ngrid+1,1: nParameter+1]).astype(float)
+    aParameter_value = np.asarray(aParameter_value)
+    
+    #second we will call the existing python function to convert
+    #construct the command string
+    #./xmlchange.py -f optpar_minac.xml -g M12MOD -p rhoSed -v 2650.0
+
+    #aParameter = ['d50']
 
     for p in range(0, nParameter):    
         sValue =  "{:16.2f}".format( aParameter_value[0][0] )
@@ -117,7 +160,6 @@ def pypest_convert_f06_parameter_file(oPest_in, oModel_in):
         xmlchange(filename=oModel_in.sFilename_parameter,  parameter=aParameter[p],value=sValue)
 
     return
-
 def pypest_convert_parameter_files(oPest_in, oModel_in):
     sCase = oModel_in.sCase
     sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
@@ -127,14 +169,15 @@ def pypest_convert_parameter_files(oPest_in, oModel_in):
 
     sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
-    sWorkspace_pest_model = sWorkspace_calibration
+    sWorkspace_pest_model = oPest_in.sWorkspace_pest
 
     #in order to avoid issue, we will copy the input file into the current folder
     maces_copy_input_files(oPest_in, oModel_in)
+    maces_change_file_path(oPest_in, oModel_in)
 
     #next, we need to read the parameter file generated by pest
-
-    pypest_convert_f06_parameter_file(oPest_in, oModel_in)
+    pypest_convert_minac_parameter_file(oPest_in, oModel_in)
+    pypest_convert_omac_parameter_file(oPest_in, oModel_in)
     
     print('Finished')
 
@@ -154,7 +197,7 @@ def step3(sFilename_pest_configuration_in, sFilename_model_configuration_in):
 
 
 if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
     step3(sFilename_pest_configuration, sFilename_model_configuration)
     
