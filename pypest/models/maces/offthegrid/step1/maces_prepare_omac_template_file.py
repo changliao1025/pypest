@@ -36,13 +36,13 @@ def maces_prepare_omac_m12_parameter_file(oPest_in, oModel_in ):
     ofs.write(sLine)
     sLine = 'cc' + ', ' + '-10'  +'\n'
     ofs.write(sLine)
-    sLine = 'rhoom' + ', ' + '500'  +'\n'
+    sLine = 'rhoOM' + ', ' + '500'  +'\n'
     ofs.write(sLine)
     sLine = 'phi' + ', ' + '5.0'  +'\n'
     ofs.write(sLine)
-    sLine = 'kr' + ', ' + '0.1'  +'\n'
+    sLine = 'Kr' + ', ' + '0.1'  +'\n'
     ofs.write(sLine)
-    sLine = 'tr' + ', ' + '100'  +'\n'
+    sLine = 'Tr' + ', ' + '100'  +'\n'
     ofs.write(sLine)
     
     ofs.close()
@@ -68,13 +68,13 @@ def maces_prepare_omac_m12_template_file(oPest_in, oModel_in ):
     ofs.write(sLine)
     sLine = 'cc' + ', ' + '$cc'  +'$\n'
     ofs.write(sLine)
-    sLine = 'rhoom' + ', ' + '$rhoom'  +'$\n'
+    sLine = 'rhoOM' + ', ' + '$rhoOM'  +'$\n'
     ofs.write(sLine)
     sLine = 'phi' + ', ' + '$phi'  +'$\n'
     ofs.write(sLine)
-    sLine = 'kr' + ', ' + '$kr'  +'$\n'
+    sLine = 'Kr' + ', ' + '$Kr'  +'$\n'
     ofs.write(sLine)
-    sLine = 'tr' + ', ' + '$tr'  +'$\n'
+    sLine = 'Tr' + ', ' + '$Tr'  +'$\n'
     ofs.write(sLine)
 
     ofs.close()

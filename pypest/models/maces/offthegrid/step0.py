@@ -26,7 +26,9 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
-from pypest.models.maces.auxiliary.maces_prepare_observation_file import maces_prepare_minac_observation_file
+from pypest.models.maces.auxiliary.from_maces.maces_prepare_observation_file import maces_prepare_minac_observation
+
+from pypest.models.maces.auxiliary.from_maces.maces_prepare_observation_file import maces_prepare_omac_observation
 
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
@@ -45,7 +47,7 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
+    sWorkspace_simulation =  +  slash  + sWorkspace_simulation_relativesWorkspace_scratch
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
 
     #the pest workspace should be the same with the calibration workspace
@@ -171,12 +173,17 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
    
     
 
-    ofs.write('* observation groups\n')
-    
+    ofs.write( '* observation groups\n')
+    ofs.write( 'omac \n')
     ofs.write( '* observation data\n')
     #add the observation here
-    #tsm_obs = maces_prepare_minac_observation_file()
     #omac obervation
+    omac_obs = maces_prepare_omac_observation()
+    #there is only one value in fact 132, need to check the units
+    sLine = 'dOMAC_annual'   + ' ' \
+               + "{:0.4f}".format(omac_obs)  + ' 1.0 ' + ' omac' + '\n'
+    ofs.write(sLine)
+    
     
 
     ofs.write('* model command line\n')

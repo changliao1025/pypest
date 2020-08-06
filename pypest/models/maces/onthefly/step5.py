@@ -15,46 +15,16 @@ from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
-def maces_extract_minac_type_output(oPest_in, oModel_in):
-    maces_extract_f06_output(oPest_in, oModel_in)
 
-def maces_extract_f06_output(oPest_in, oModel_in):
-    # read simulation outputs
-    #example code from maces
-    #filename = '/Users/tanz151/Python_maces/src/maces_ecogeom_2002-12-01_2002-12-13_466.nc'
-    #try:
-    #    nc = Dataset(filename,'r')
-    #    x = np.array(nc.variables['x'][:])
-    #    zh = np.array(nc.variables['zh'][0,:])
-    #finally:
-    #    nc.close()
-
-    sFilename = ''
-    try:
-        nc = Dataset(sFilename,'r')
-        x = np.array(nc.variables['x'][:])
-        zh = np.array(nc.variables['zh'][0,:])
-
-        #We will match up with the observation data here
-        aSem_simulation = x
-        #save it to a text file
-        sFilename_out = sWorkspace_child + slash + 'sem.txt'
-
-        np.savetxt(sFilename_out, aSem_simulation, delimiter=",")
-
-    finally:
-        nc.close()
-
-
-
-    return
+from pypest.models.maces.onthefly.step5.maces_extract_omac_output import maces_extract_omac_output
 
 def pypest_extract_model_outputs(oPest_in, oModel_in):
     """
     sFilename_configuration_in
     """
     #stream discharge
-    maces_extract_minac_type_output(oPest_in, oModel_in)
+    #maces_extract_minac_output(oPest_in, oModel_in)
+    maces_extract_omac_output(oPest_in, oModel_in)
     return
 
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    

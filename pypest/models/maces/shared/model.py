@@ -1,8 +1,13 @@
 from abc import ABCMeta, abstractmethod
+import datetime
+
+pDate = datetime.datetime.today()
+sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:02d}".format(pDate.day)
 
 class maces(object):
     __metaclass__ = ABCMeta
     iCase_index=0
+    iFlag_calibration=0
 
     sFilename_model_configuration=''
     sWorkspace_project=''
@@ -57,8 +62,15 @@ class maces(object):
         self.sRegion               = aParameter[ 'sRegion']
         self.sModel                = aParameter[ 'sModel']
         sCase_index = "{:03d}".format( int(aParameter['iCase_index']) )
+        sDate                = aParameter[ 'sDate']
+        if sDate is not None:
+            self.sDate= sDate
+        else:
+            self.sDate = sDate_default
         sCase = self.sModel + self.sDate + sCase_index
         self.sCase = sCase
+
+        self.iFlag_calibration =  int(aParameter['iFlag_calibration']) 
 
         #config
         self.sFilename_config_hydro =      aParameter[ 'sFilename_config_hydro']

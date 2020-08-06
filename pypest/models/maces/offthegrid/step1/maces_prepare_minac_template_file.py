@@ -32,11 +32,11 @@ def maces_prepare_minac_f06_parameter_file(oPest_in, oModel_in ):
     #the first parameter group
     sLine = 'd50' + ', ' + '50'  + '\n'
     ofs.write(sLine)
-    sLine = 'pb' + ', ' + '2000'  + '\n'
+    sLine = 'rhoSed' + ', ' + '2000'  + '\n'
     ofs.write(sLine)
-    sLine = 'phi' + ', ' + '0.5'  + '\n'
+    sLine = 'porSed' + ', ' + '0.5'  + '\n'
     ofs.write(sLine)
-    sLine = 'taud' + ', ' + '50'  + '\n'
+    sLine = 'tauD_cr' + ', ' + '50'  + '\n'
     ofs.write(sLine)
     
     
@@ -59,22 +59,23 @@ def maces_prepare_minac_f06_template_file(oPest_in, oModel_in ):
     #the first parameter group
     sLine = 'd50' + ', ' + '$d50'  +'$\n'
     ofs.write(sLine)
-    sLine = 'pb' + ', ' + '$pb'  +'$\n'
+    sLine = 'rhoSed' + ', ' + '$rhoSed'  +'$\n'
     ofs.write(sLine)
-    sLine = 'phi' + ', ' + '$phi'  +'$\n'
+    sLine = 'porSed' + ', ' + '$porSed'  +'$\n'
     ofs.write(sLine)
-    sLine = 'taud' + ', ' + '$taud'  +'$\n'
+    sLine = 'tauD_cr' + ', ' + '$tauD_cr'  +'$\n'
     ofs.write(sLine)
 
     ofs.close()
     print('minac template file is ready!')
 
-    maces_prepare_minac_f06_parameter_file(oPest_in, oModel_in )
+    
     
     
     return
 def maces_prepare_minac_template_file(oPest_in, oModel_in ):
 
     maces_prepare_minac_f06_template_file(oPest_in, oModel_in )
+    maces_prepare_minac_f06_parameter_file(oPest_in, oModel_in )
     #if you need to calibrate other submodules, add it here
     return
