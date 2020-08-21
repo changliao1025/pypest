@@ -1,6 +1,7 @@
 #this script is used to set up a model easily so we don't have to copy/paste
 import sys, os
 import numpy as np
+from pathlib import Path
 from shutil import copy2
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
@@ -32,8 +33,7 @@ def maces_setup_case(oModel_in):
     if iFlag_calibration == 1:
         pass
     else:
-        sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
-        sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
+        sWorkspace_simulation = oModel_in.sWorkspace_simulation        
         sCase = oModel_in.sCase
         sWorkspace_simulation_case = sWorkspace_simulation + slash + sCase
         if not os.path.exists(sWorkspace_simulation_case):
@@ -42,6 +42,7 @@ def maces_setup_case(oModel_in):
             pass
         
     sFilename_namelist = oModel_in.sFilename_namelist
+    sRegion = oModel_in.sRegion
 
     sFilename_namelist_new = sWorkspace_simulation_case + slash + os.path.basename(oModel_in.sFilename_namelist)
 
@@ -49,14 +50,45 @@ def maces_setup_case(oModel_in):
     xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='RUNROOT',value = sWorkspace_simulation_case)
 
     #change site file
-    sFilename = '/people/liao313/data/maces/auxiliary/HunterEstuary/DIVA_maces.xlsx'
-    xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
-    #change din 
-    sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/HunterEstuary'
-    xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
-    #change archive
-    sWorkspace_archive = '/people/liao313/data/maces/auxiliary/HunterEstuary/Outputs'
-    xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
+    if sRegion == 'VeniceLagoon': #first site
+
+        sFilename = '/people/liao313/data/maces/auxiliary/VeniceLagoon/DIVA_maces.xlsx'
+        xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
+        sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/VeniceLagoon'
+        xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
+        #change archive
+        sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+        Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
+        xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
+
+    else:
+        if sRegion == 'PlumIsland': #second site
+            sFilename = '/people/liao313/data/maces/auxiliary/PlumIsland/DIVA_maces.xlsx'
+            xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
+            #change din 
+            sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/PlumIsland'
+            xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
+            #change archive
+            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+            Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
+            xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
+        else: #last site
+            sFilename = '/people/liao313/data/maces/auxiliary/HunterEstuary/DIVA_maces.xlsx'
+            xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
+            #change din 
+            sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/HunterEstuary'
+            xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
+            #change archive
+            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+            Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
+            xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
+            pass
+
+
+
+
+
+    
     #generate the job file
     maces_prepare_job_file(oModel_in)
 

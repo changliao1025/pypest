@@ -5,17 +5,17 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     #pest object
     sWorkspace_home = oPest_in.sWorkspace_home
     sWorkspace_scratch = oPest_in.sWorkspace_scratch
-    
-    sWorkspace_data_relative = oPest_in.sWorkspace_data
-    sWorkspace_project_ralative = oPest_in.sWorkspace_project
-    sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
-    sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
-    
-    sPest_mode = oPest_in.sPest_mode
-    
     #model object
     sModel = oModel_in.sModel
     sRegion = oModel_in.sRegion
+    sWorkspace_data_relative = oPest_in.sWorkspace_data
+    sWorkspace_project_ralative = oPest_in.sWorkspace_project
+    #sWorkspace_simulation_relative = oPest_in.sWorkspace_simulation
+    #sWorkspace_calibration_relative = oPest_in.sWorkspace_calibration
+    
+    sPest_mode = oPest_in.sPest_mode
+    
+    
     
 
     sWorkspace_data = sWorkspace_home + slash + sWorkspace_data_relative

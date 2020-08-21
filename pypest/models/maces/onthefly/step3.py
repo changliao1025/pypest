@@ -35,12 +35,9 @@ def maces_copy_input_files(oModel_in):
         pass
     else:
         #simulation mode
-        sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
-        sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-        if not os.path.exists(sWorkspace_simulation):
-            os.mkdir(sWorkspace_simulation)
-        else:
-            pass
+        sWorkspace_simulation=oModel_in.sWorkspace_simulation
+        
+        
         sCase = oModel_in.sCase
         sWorkspace_simulation_case = sWorkspace_simulation + slash + sCase
         if not os.path.exists(sWorkspace_simulation_case):

@@ -9,8 +9,8 @@ def maces_prepare_job_file(oModel_in):
     if iFlag_calibration == 1:
         pass
     else:
-        sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
-        sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
+        sWorkspace_simulation = oModel_in.sWorkspace_simulation
+        
         sCase = oModel_in.sCase
         sWorkspace_simulation_case = sWorkspace_simulation + slash + sCase
         if not os.path.exists(sWorkspace_simulation_case):
