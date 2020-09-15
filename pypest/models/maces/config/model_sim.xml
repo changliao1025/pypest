@@ -183,7 +183,19 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sDate" value="20200602">
+    <entry id="sDate" value="20200906">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sDate_start" value="2002-01-01">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sDate_end" value="2004-01-01">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -195,6 +207,13 @@
         The scratch workspace
       </desc>
     </entry>
+    <entry id="iSiteID" value="466">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
     <entry id="iFlag_calibration" value="0">
       <type>int</type>
       <desc>

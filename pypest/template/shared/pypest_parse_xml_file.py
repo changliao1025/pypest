@@ -35,7 +35,8 @@ def pypest_parse_xml_file(sFilename_xml_in):
         else:
             # value is an array
             values = []
-            for value in entry.findall('./values'):
+            #for value in entry.findall('./values'):
+            for value in entry.findall('values/value'):
                 key = entry.get('id')
                 dtype = entry.find('type').text
                 if dtype=='integer':

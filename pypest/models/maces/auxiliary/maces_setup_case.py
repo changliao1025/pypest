@@ -40,6 +40,8 @@ def maces_setup_case(oModel_in):
             os.mkdir(sWorkspace_simulation_case)
         else:
             pass
+
+    print('The model case is: ' + sWorkspace_simulation_case )
         
     sFilename_namelist = oModel_in.sFilename_namelist
     sRegion = oModel_in.sRegion
@@ -51,35 +53,56 @@ def maces_setup_case(oModel_in):
 
     #change site file
     if sRegion == 'VeniceLagoon': #first site
+        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STARTDATE',value = oModel_in.sDate_start)
+        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STOPDATE',value = oModel_in.sDate_end)
 
-        sFilename = '/people/liao313/data/maces/auxiliary/VeniceLagoon/DIVA_maces.xlsx'
+        sFilename = '/qfs/projects/taim/TAIMOD/Data/VeniceLagoon/DIVA_maces.xlsx'
         xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
-        sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/VeniceLagoon'
+        xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='CELL_RES',value = "10")
+        sWorkspace_data_model = '/qfs/projects/taim/TAIMOD/Data/VeniceLagoon'
         xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
+        xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='h_TSTEP',value = "10")
+
+        xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='FILE_SSC',value = "")
+        
+
+
         #change archive
-        sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+        sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'output'
         Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
         xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
 
     else:
         if sRegion == 'PlumIsland': #second site
-            sFilename = '/people/liao313/data/maces/auxiliary/PlumIsland/DIVA_maces.xlsx'
+            xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STARTDATE',value = "2017-07-17")
+            xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STOPDATE',value = "2017-08-01")
+            sFilename = '/qfs/projects/taim/TAIMOD/Data/PlumIsland/DIVA_maces.xlsx'
             xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
+            xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='CELL_RES',value = "50")
             #change din 
-            sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/PlumIsland'
+            sWorkspace_data_model = '/qfs/projects/taim/TAIMOD/Data/PlumIsland'
             xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
+            xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='FILE_SSC',value = "")
+
+            xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='h_TSTEP',value = "15")
+
             #change archive
-            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'output'
             Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
             xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
-        else: #last site
-            sFilename = '/people/liao313/data/maces/auxiliary/HunterEstuary/DIVA_maces.xlsx'
+        else: #last site HunterEstuary
+            xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STARTDATE',value = "2004-09-25")
+            xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STOPDATE',value = "2004-10-06")
+            sFilename = '/qfs/projects/taim/TAIMOD/Data/HunterEstuary/DIVA_maces.xlsx'
             xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='SITE_FILE',value = sFilename)
+            xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='CELL_RES',value = "2")
+
+            xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='h_TSTEP',value = "15")
             #change din 
-            sWorkspace_data_model = '/people/liao313/data/maces/auxiliary/HunterEstuary'
+            sWorkspace_data_model = '/qfs/projects/taim/TAIMOD/Data/HunterEstuary'
             xmlchange(filename=sFilename_namelist_new,  group='run_inputs',parameter='DIN_ROOT',value = sWorkspace_data_model)
             #change archive
-            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'Output'
+            sWorkspace_archive = oModel_in.sWorkspace_simulation_case + slash + 'output'
             Path(sWorkspace_archive).mkdir(parents=True, exist_ok=True)
             xmlchange(filename=sFilename_namelist_new,  group='run_archive',parameter='DOUT_ROOT',value = sWorkspace_archive)
             pass
@@ -101,6 +124,6 @@ if __name__ == '__main__':
     
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_sim.xml'    
 
-    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model = pypest_read_configuration_file(sFilename_model_configuration)   
     oMaces = maces(aParameter_model)
     maces_setup_case(oMaces)

@@ -38,7 +38,7 @@ def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     return
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_sim.xml'    
     step5(sFilename_pest_configuration, sFilename_model_configuration)
     
     

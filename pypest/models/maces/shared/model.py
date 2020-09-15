@@ -13,6 +13,7 @@ sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:
 class maces(object):
     __metaclass__ = ABCMeta
     iCase_index=0
+    iSiteID=0
     iFlag_calibration=0
 
     sFilename_model_configuration=''
@@ -24,6 +25,9 @@ class maces(object):
     sModel=''
     sCase=''
     sDate=''
+    sSiteID=''
+    sDate_start =''
+    sDate_end=''
     sFilename_namelist=''
      #config
     sFilename_config_hydro=''
@@ -65,6 +69,8 @@ class maces(object):
         #self.sWorkspace_project    = aParameter[ 'sWorkspace_project']
         self.sRegion               = aParameter[ 'sRegion']
         self.sModel                = aParameter[ 'sModel']
+        self.sDate_start              = aParameter[ 'sDate_start']
+        self.sDate_end                = aParameter[ 'sDate_end']
 
         self.sWorkspace_simulation = sWorkspace_scratch + slash + '04model' + slash \
             + self.sModel + slash + self.sRegion +  slash + 'simulation'
@@ -85,6 +91,8 @@ class maces(object):
             self.sDate = sDate_default
         sCase = self.sModel + self.sDate + sCase_index
         self.sCase = sCase
+        self.iSiteID                = int(aParameter[ 'iSiteID'])
+        self.sSiteID = "{:03d}".format(self.iSiteID)
 
         self.sWorkspace_simulation_case = self.sWorkspace_simulation + slash + sCase
         sPath = self.sWorkspace_simulation_case

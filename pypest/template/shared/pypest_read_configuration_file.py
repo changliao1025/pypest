@@ -10,9 +10,6 @@ sys.path.append(sPath_pypest)
 
 from pypest.template.shared.pypest_parse_xml_file import pypest_parse_xml_file
 
-
-
-
 def pypest_read_configuration_file(sFilename_configuration_in):
     aConfiguration = pypest_parse_xml_file(sFilename_configuration_in)
 

@@ -16,11 +16,13 @@ def maces_prepare_minac_observation():
 
     # read data
     sFilename = r'/people/liao313/data/maces/auxiliary' + slash +'VeniceLagoon/1BF_OBS.xls'
+
     df = pd.read_excel(sFilename, \
-        sheet_name='1BF', \
-        header=None, \
+            sheet_name='1BF', \
+            header=None, \
             skiprows=range(3), \
             usecols='A,B,F,O,Q')
+
     df.columns = ['Time','Hmo','Hmax','hw','Turbidity']
     sed_obs_1BF = np.array(df['Turbidity'])[5334:5526]  #mg/l
     nt_obs = np.size(sed_obs_1BF)
