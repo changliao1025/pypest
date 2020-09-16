@@ -23,8 +23,6 @@ from pypest.template.shared.pypest_read_configuration_file import pypest_read_co
 
 
 def pypest_prepare_all_pest_files(oPest_in, oModel_in):
-
-
     
     #call each step
     pypest_prepare_pest_control_file(oPest_in, oModel_in)
