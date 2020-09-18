@@ -14,24 +14,24 @@ from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
-from pypest.models.maces.offthegrid.step6.maces_prepare_minac_instruction_files import maces_prepare_minac_instruction_files
+from pypest.models.maces.offthegrid.step6.maces_prepare_minac_instruction_file import maces_prepare_minac_instruction_file
 
-from pypest.models.maces.offthegrid.step6.maces_prepare_omac_instruction_files import maces_prepare_omac_instruction_files
+from pypest.models.maces.offthegrid.step6.maces_prepare_omac_instruction_file import maces_prepare_omac_instruction_file
 
 def pypest_prepare_pest_instruction_files(oPest_in, oModel_in):
     """
     prepare pest instruction file
     """
-    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration        
-
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
-    sWorkspace_pest_model = sWorkspace_calibration
+   
 
 
     #maces_prepare_minac_instruction_files(oPest_in, oModel_in)
-    maces_prepare_omac_instruction_files(oPest_in, oModel_in)
+    maces_prepare_omac_instruction_file(oPest_in, oModel_in)
     print('The instruction file is prepared successfully!')
 
+def run_step6(oPest_in, oModel_in):
+    pypest_prepare_pest_instruction_files(oPest_in, oModel_in)
+    return
 def step6(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration

@@ -170,28 +170,8 @@
       </desc>
     </entry>
 
-    <entry id="sWorkspace_project" value="/maces/coastal">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
 
-    <entry id="sWorkspace_simulation" value="/04model/maces/coastal/simulation">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-
-    <entry id="sWorkspace_calibration" value="/04model/maces/coastal/calibration">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-
-    <entry id="sRegion" value="PlumIsland">
+    <entry id="sRegion" value="VeniceLagoon">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -203,7 +183,19 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sDate" value="20200602">
+    <entry id="sDate" value="20200918">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sDate_start" value="2002-01-01">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sDate_end" value="2004-01-01">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -215,7 +207,13 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iFlag_calibration" value="0">
+    <entry id="iSiteID" value="466">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="iFlag_calibration" value="1">
       <type>int</type>
       <desc>
         The scratch workspace

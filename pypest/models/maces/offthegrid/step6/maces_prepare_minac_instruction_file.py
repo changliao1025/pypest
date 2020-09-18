@@ -15,10 +15,10 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
-from pypest.models.maces.auxiliary.maces_prepare_observation_file import maces_prepare_minac_observation_file
+from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_minac_observation
 
 
-def maces_prepare_minac_instruction_files(oPest_in, oModel_in):
+def maces_prepare_minac_instruction_file(oPest_in, oModel_in):
     #read obs
     aObservation1 = maces_prepare_minac_observation_file()
     nobs_with_missing_value = len(aObservation1)

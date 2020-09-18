@@ -38,7 +38,8 @@ def maces_prepare_minac_observation():
     #Mineral accretion rate	3.54	mm/yr
     return sed_obs_1BF2
 
+#we will use omac for test
 def maces_prepare_omac_observation():
-    omac  = 132  #OM accretion rate	132	gC/m2/yr
+    omac  = np.array([132])  #OM accretion rate	132	gC/m2/yr
     return omac
     

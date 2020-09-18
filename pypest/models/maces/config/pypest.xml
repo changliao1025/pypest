@@ -80,12 +80,13 @@
       </desc>
     </entry>
 
-    <entry id="sWorkspace_pest" value="/pic/scratch/liao313/04model/maces/coastal/calibration/">
+    <entry id="sWorkspace_pest" value="">
       <type>char</type>
       <desc>
         The workspace of pest calibration
       </desc>
     </entry>
+
     <entry id="sFilename_control" value="pest_maces.pst">
       <type>char</type>
       <desc>

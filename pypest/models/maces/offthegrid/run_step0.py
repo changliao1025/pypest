@@ -26,9 +26,12 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
 
-from pypest.models.maces.auxiliary.from_maces.maces_prepare_observation_file import maces_prepare_minac_observation
+from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_minac_observation
 
-from pypest.models.maces.auxiliary.from_maces.maces_prepare_observation_file import maces_prepare_omac_observation
+from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_omac_observation
+
+
+
 
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
@@ -47,17 +50,16 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
-    sWorkspace_simulation =  +  slash  + sWorkspace_simulation_relativesWorkspace_scratch
+    sWorkspace_simulation =  sWorkspace_scratch + slash + sWorkspace_simulation_relative
     sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
 
     #the pest workspace should be the same with the calibration workspace
-    sWorkspace_pest = oPest_in.sWorkspace_pest
-    sWorkspace_pest_model = sWorkspace_pest
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
 
-    sFilename_control = sWorkspace_pest_model + slash + oPest_in.sFilename_control    
+    sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
 
-    if not os.path.exists(sWorkspace_pest_model):
-        os.mkdir(sWorkspace_pest_model)
+    if not os.path.exists(sWorkspace_pest_case):
+        os.mkdir(sWorkspace_pest_case)
     else:
         pass
     
@@ -170,7 +172,142 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     parchglim = 'relative'
     ofs.write('* parameter data\n')
-   
+
+
+    aa_init = 0.0
+    aa_min = -10
+    aa_max = 120
+    bb_init = 0.0
+    bb_min = -267
+    bb_max = 10
+    cc_init = 0.0
+    cc_min = -16
+    cc_max = 10
+
+    #here we should be parameter for different modules
+    if ( oModel_in.sModel_minac =='F06' ):
+        #the defaul when not calibrating minac
+        pass
+    else:
+        if oModel_in.sModel_minac =='T03':
+            pass
+        else: 
+            if oModel_in.sModel_minac =='KM12':
+                pass
+            else: 
+                if oModel_in.sModel_minac =='KM12':
+                    pass
+                else: 
+                    if oModel_in.sModel_minac =='M12':
+                        pass
+                    else: 
+                        if oModel_in.sModel_minac =='F07':
+                            pass
+                       
+                        else:
+                            #the VDK05 
+
+                            pass
+
+    if oModel_in.sModel_omac =='M12':
+        sLine = 'aa' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(aa_init) + ' ' \
+          + "{:0.3f}".format(aa_min) + ' ' \
+          + "{:0.3f}".format(aa_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'bb' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(bb_init) + ' ' \
+          + "{:0.3f}".format(bb_min) + ' ' \
+          + "{:0.3f}".format(bb_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'cc' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(cc_init) + ' ' \
+          + "{:0.3f}".format(cc_min) + ' ' \
+          + "{:0.3f}".format(cc_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'rhoOM' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(cc_init) + ' ' \
+          + "{:0.3f}".format(cc_min) + ' ' \
+          + "{:0.3f}".format(cc_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'cc' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(cc_init) + ' ' \
+          + "{:0.3f}".format(cc_min) + ' ' \
+          + "{:0.3f}".format(cc_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'cc' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(cc_init) + ' ' \
+          + "{:0.3f}".format(cc_min) + ' ' \
+          + "{:0.3f}".format(cc_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+        sLine = 'cc' + ' ' \
+          + partrans + ' ' \
+          + parchglim + ' '\
+          + "{:0.3f}".format(cc_init) + ' ' \
+          + "{:0.3f}".format(cc_min) + ' ' \
+          + "{:0.3f}".format(cc_max) + ' ' \
+          + ' para_gp1 1.0 0.0 1 ' + '\n'
+        ofs.write(sLine)
+
+
+        pass
+    else:
+        if oModel_in.sModel_omac =='DA07':
+            pass
+        else: 
+            if oModel_in.sModel_omac =='KM12':
+                pass
+            else: 
+                if oModel_in.sModel_omac =='K16':
+                    pass
+                else: 
+                    if oModel_in.sModel_omac =='VDK05':
+                        pass
+                    else: 
+                        #the default 
+                        sLine = 'aa' + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' '\
+                          + "{:0.3f}".format(aa_init) + ' ' \
+                          + "{:0.3f}".format(aa_min) + ' ' \
+                          + "{:0.3f}".format(aa_max) + ' ' \
+                          + ' para_gp1 1.0 0.0 1 ' + '\n'
+                        ofs.write(sLine)
+                        sLine = 'bb' + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' ' \
+                          + "{:0.3f}".format(bb_init) + ' ' \
+                          + "{:0.3f}".format(bb_min) + ' ' \
+                          + "{:0.3f}".format(bb_max) + ' ' \
+                          + ' para_gp1 1.0 0.0 1 ' + '\n'
+                        ofs.write(sLine)
+                        sLine = 'cc' + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' ' \
+                          + "{:0.3f}".format(cc_init) + ' ' \
+                          + "{:0.3f}".format(cc_min) + ' ' \
+                          + "{:0.3f}".format(cc_max) + ' ' \
+                          + ' para_gp1 1.0 0.0 1 ' + '\n'
+                        ofs.write(sLine)
+                        pass
     
 
     ofs.write( '* observation groups\n')
@@ -180,16 +317,16 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     #omac obervation
     omac_obs = maces_prepare_omac_observation()
     #there is only one value in fact 132, need to check the units
-    sLine = 'dOMAC_annual'   + ' ' \
-               + "{:0.4f}".format(omac_obs)  + ' 1.0 ' + ' omac' + '\n'
-    ofs.write(sLine)
-    
+    for i in range( len(omac_obs) ):
+        sLine = 'dOMAC_annual' + ' ' \
+               + "{:0.4f}".format(omac_obs[i])  + ' 1.0 ' + ' omac' + '\n'
+        ofs.write(sLine)   
     
 
     ofs.write('* model command line\n')
 
     #run the model
-    sLine  = sWorkspace_pest_model + slash + 'run_model\n'
+    sLine  = sWorkspace_pest_case + slash + 'run_model\n'
     ofs.write(sLine)
 
     
@@ -199,14 +336,14 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     
     #input template files
-    sLine1 = sWorkspace_pest_model + slash + oModel_in.sFilename_template_omac 
+    sLine1 = sWorkspace_pest_case + slash + oModel_in.sFilename_template_omac 
     sLine2 = oModel_in.sFilename_parameter_omac  + '\n'
     sLine = sLine1 + ' ' + sLine2
     ofs.write(sLine)
 
     #output instruction files
      
-    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_omac 
+    sFilename_instruction = sWorkspace_pest_case + slash + oModel_in.sFilename_instruction_omac 
     
     sFilename_output =  oModel_in.sFilename_output_omac  
     sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
@@ -246,6 +383,9 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     print('The PEST control file is prepared successfully at: ' + sFilename_control)
 
+def run_step0(oPest_in, oModel_in):
+    pypest_prepare_pest_control_file(oPest_in, oModel_in)
+    return
 def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
@@ -254,7 +394,7 @@ def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
 
-    pypest_prepare_pest_control_file(oPest, oMaces )
+    run_step0(oPest, oMaces )
     return
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'

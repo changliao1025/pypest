@@ -21,6 +21,7 @@ class maces(object):
     sWorkspace_simulation=''
     sWorkspace_simulation_case=''
     sWorkspace_calibration=''
+    sWorkspace_calibration_case=''
     sRegion=''
     sModel=''
     sCase=''
@@ -29,7 +30,11 @@ class maces(object):
     sDate_start =''
     sDate_end=''
     sFilename_namelist=''
-     #config
+
+    #sub module
+    sModel_minac=''
+    sModel_omac=''
+    #config
     sFilename_config_hydro=''
     sFilename_config_minac=''
     sFilename_config_omac=''
@@ -96,6 +101,10 @@ class maces(object):
 
         self.sWorkspace_simulation_case = self.sWorkspace_simulation + slash + sCase
         sPath = self.sWorkspace_simulation_case
+        Path(sPath).mkdir(parents=True, exist_ok=True)
+
+        self.sWorkspace_calibration_case = self.sWorkspace_calibration + slash + sCase
+        sPath = self.sWorkspace_calibration_case
         Path(sPath).mkdir(parents=True, exist_ok=True)
 
         self.iFlag_calibration =  int(aParameter['iFlag_calibration']) 

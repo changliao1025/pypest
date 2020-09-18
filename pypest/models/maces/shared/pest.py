@@ -45,7 +45,7 @@ class pypest(object):
 
         #system wide variable will not be used 
         
-        self.sWorkspace_pest   = aParameter[ 'sWorkspace_pest']
+        #self.sWorkspace_pest   = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
         #after recent update, these are moved to the model configuration
         #however the total count should match in python script

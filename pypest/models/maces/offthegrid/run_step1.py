@@ -1,5 +1,3 @@
-
-
 import sys, os
 import numpy as np
 
@@ -32,6 +30,9 @@ def pypest_prepare_pest_template_files(oPest_in, oModel_in):
     #maces_prepare_landmgr_template_file(oPest_in, oModel_in)
     return 
 
+def run_step1(oPest_in, oModel_in):
+    pypest_prepare_pest_template_files(oPest_in, oModel_in)
+    return
 
 def step1(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
@@ -41,7 +42,7 @@ def step1(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
 
-    pypest_prepare_pest_template_files(oPest, oMaces)
+    run_step1(oPest, oMaces)
     return
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'

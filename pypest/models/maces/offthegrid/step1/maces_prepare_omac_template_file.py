@@ -1,6 +1,6 @@
 import sys, os
 import numpy as np
-
+from pathlib import Path
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
 from pyes.system import define_global_variables
@@ -16,12 +16,13 @@ from pypest.models.maces.shared.model import maces
 #we also need a parameter file for the first run
 def maces_prepare_omac_m12_parameter_file(oPest_in, oModel_in ):
 
-    sWorkspace_pest = oPest_in.sWorkspace_pest
-    sWorkspace_pest_model = sWorkspace_pest
+    
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
     #read obs
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
-        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+        sPath_current = sWorkspace_pest_case + slash + 'beopest1'
+        Path(sPath_current).mkdir(parents=True, exist_ok=True)
     else:
         sPath_current = os.getcwd()
 
@@ -53,11 +54,11 @@ def maces_prepare_omac_m12_parameter_file(oPest_in, oModel_in ):
 #the number of parameter file should be same as the template file
 def maces_prepare_omac_m12_template_file(oPest_in, oModel_in ):
 
-    sWorkspace_pest = oPest_in.sWorkspace_pest
-    sWorkspace_pest_model = sWorkspace_pest
+    
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
     
     
-    sFilename = sWorkspace_pest_model + slash + oModel_in.sFilename_template_omac 
+    sFilename = sWorkspace_pest_case + slash + oModel_in.sFilename_template_omac 
     ofs = open(sFilename, 'w')
     sLine = 'ptf $\n'
     ofs.write(sLine)    

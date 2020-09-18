@@ -15,12 +15,12 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
-from pypest.models.maces.auxiliary.maces_prepare_observation_file import maces_prepare_omac_observation_file
+from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_omac_observation
 
 
-def maces_prepare_omac_instruction_files(oPest_in, oModel_in):
+def maces_prepare_omac_instruction_file(oPest_in, oModel_in):
     #read obs
-    aObservation1 = maces_prepare_minac_observation_file()
+    aObservation1 = maces_prepare_omac_observation()
     nobs_with_missing_value = len(aObservation1)
     nstress = nobs_with_missing_value
     
@@ -29,8 +29,11 @@ def maces_prepare_omac_instruction_files(oPest_in, oModel_in):
     aObservation1[nan_index] = missing_value
 
     #write instruction
+
+    sWorkspace_pest_case =  oModel_in.sWorkspace_calibration_case
+  
     
-    sFilename_instruction = sWorkspace_pest_model + slash + oModel_in.sFilename_instruction_omac
+    sFilename_instruction = sWorkspace_pest_case + slash + oModel_in.sFilename_instruction_omac
 
     ofs= open(sFilename_instruction,'w')
     ofs.write('pif $\n')
@@ -39,7 +42,7 @@ def maces_prepare_omac_instruction_files(oPest_in, oModel_in):
     for i in range(1, nstress+1):
         dDummy = aObservation1[i-1]
         if( dDummy != missing_value  ):
-            sLine = 'l1' + ' !sem' + "{:04d}".format(i) + '!\n'
+            sLine = 'l1' + ' !omac' + "{:04d}".format(i) + '!\n'
         else:
             sLine = 'l1' + ' !dum' + '!\n'
         ofs.write(sLine)

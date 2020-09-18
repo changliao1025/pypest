@@ -157,6 +157,10 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
     print('The pest run model file is prepared successfully!')
 
+def run_step2(oPest_in, oModel_in):
+    pypest_prepare_pest_command_file(oPest_in, oModel_in)
+    return
+
 def step2(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration

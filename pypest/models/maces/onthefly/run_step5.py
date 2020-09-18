@@ -26,7 +26,9 @@ def pypest_extract_model_outputs(oPest_in, oModel_in):
     #maces_extract_minac_output(oPest_in, oModel_in)
     maces_extract_omac_output(oPest_in, oModel_in)
     return
-
+def run_step5(oPest_in, oModel_in):
+    pypest_extract_model_outputs(oPest_in, oModel_in)
+    return
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
@@ -34,7 +36,7 @@ def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
-    pypest_extract_model_outputs(oPest, oMaces)
+    run_step5(oPest, oMaces)
     return
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
