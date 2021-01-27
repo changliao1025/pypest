@@ -94,6 +94,7 @@ class maces(object):
             self.sDate= sDate
         else:
             self.sDate = sDate_default
+            
         sCase = self.sModel + self.sDate + sCase_index
         self.sCase = sCase
         self.iSiteID                = int(aParameter[ 'iSiteID'])

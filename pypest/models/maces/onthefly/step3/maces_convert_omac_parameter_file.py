@@ -18,7 +18,7 @@ from pypest.template.shared.xmlchange import xmlchange
 def maces_convert_omac_parameter_file(oPest_in, oModel_in):
     sWorkspace_pest_model = oPest_in.sWorkspace_pest
 
-    iFlag_debug = 1
+    iFlag_debug = 0
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_model + slash + 'beopest1'
     else:

@@ -23,7 +23,7 @@ def maces_extract_omac_output(oPest_in, oModel_in):
         sWorkspace_calibration = sWorkspace_scratch + slash +   sWorkspace_calibration_relative
         sWorkspace_pest_model = sWorkspace_calibration
 
-        iFlag_debug = 1
+        iFlag_debug = 0
         if(iFlag_debug == 1 ):
             sPath_current = sWorkspace_pest_model + slash + 'beopest1'
         else:

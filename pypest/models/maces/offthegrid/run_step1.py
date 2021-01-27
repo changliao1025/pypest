@@ -11,7 +11,7 @@ sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
-from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 
 
 from pypest.models.maces.offthegrid.step1.maces_prepare_minac_template_file import maces_prepare_minac_template_file

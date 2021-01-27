@@ -13,7 +13,7 @@ from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 
 
-from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file, pypest_read_model_configuration_file
 
 
 from pypest.models.maces.onthefly.step5.maces_extract_omac_output import maces_extract_omac_output
@@ -30,10 +30,10 @@ def run_step5(oPest_in, oModel_in):
     pypest_extract_model_outputs(oPest_in, oModel_in)
     return
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
-    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
     oPest = pypest(aParameter_pest)
-    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model  = pypest_read_model_configuration_file(sFilename_model_configuration)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
     run_step5(oPest, oMaces)

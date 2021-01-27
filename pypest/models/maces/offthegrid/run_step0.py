@@ -24,7 +24,7 @@ sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 
 sys.path.append(sPath_pypest)
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
-from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 
 from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_minac_observation
 

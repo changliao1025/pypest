@@ -15,7 +15,7 @@ sys.path.append(sPath_pypest)
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 
-from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file, pypest_read_model_configuration_file
 from pypest.template.shared.xmlchange import xmlchange
 
 def maces_copy_input_files(oModel_in):
@@ -23,13 +23,13 @@ def maces_copy_input_files(oModel_in):
     iFlag_calibration = oModel_in.iFlag_calibration
     if iFlag_calibration == 1:
         #calibration mode
-        sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
-        sWorkspace_calibration = sWorkspace_scratch + slash +   sWorkspace_calibration_relative
-        sWorkspace_pest_model = sWorkspace_calibration
+        
+        
+        sWorkspace_pest_model = oModel_in.sWorkspace_calibration_case
 
         iFlag_debug = 1
         if(iFlag_debug == 1 ):
-            sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+            sPath_current = sWorkspace_pest_model #+ slash + 'beopest1'
         else:
             sPath_current = os.getcwd()
         pass
@@ -140,10 +140,10 @@ def run_step3(oPest_in, oModel_in):
     return
 
 def step3(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
-    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
     oPest = pypest(aParameter_pest)
-    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model  = pypest_read_model_configuration_file(sFilename_model_configuration)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
     pypest_convert_parameter_files(oPest, oMaces)

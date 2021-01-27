@@ -11,7 +11,7 @@ sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
-from pypest.template.shared.pypest_read_configuration_file import pypest_read_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
     
 def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     """
@@ -23,24 +23,23 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sRegion= oModel_in.sRegion
 
  
-    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration
+   
 
     sFilename_pest_configuration = oPest_in.sFilename_pest_configuration
     sFilename_model_configuration = oModel_in.sFilename_model_configuration
 
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
-
-    sWorkspace_pest = oPest_in.sWorkspace_pest
-    sWorkspace_pest_model = sWorkspace_pest
+    
+    
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
     #create the directory if not available
-    if not os.path.exists(sWorkspace_pest_model):
-        os.mkdir(sWorkspace_pest_model)
+    if not os.path.exists(sWorkspace_pest_case):
+        os.mkdir(sWorkspace_pest_case)
     else:
         pass
 
 
     #start writing the script
-    sFilename_script = sWorkspace_pest_model + slash + 'run_model'
+    sFilename_script = sWorkspace_pest_case + slash + 'run_model'
     ifs = open(sFilename_script, 'w')
     
     sLine = '#!/bin/bash\n'
@@ -55,7 +54,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from pypest.models.maces.offthegrid.step3 import step3\n'
+    sLine = 'from pypest.models.maces.onthefly.run_step3 import run_step3\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -77,7 +76,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from pypest.models.maces.offthegrid.step4 import step4\n'
+    sLine = 'from pypest.models.maces.onthefly.run_step4 import step4\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -98,7 +97,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from pypest.models.maces.offthegrid.step5 import step3\n'
+    sLine = 'from pypest.models.maces.onthefly.run_step5 import step5\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -132,7 +131,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     #ifs.write(sLine)       
     iFlag_debug = 1
     if(iFlag_debug == 1 ):
-        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+        sPath_current = sWorkspace_pest_case + slash + 'beopest1'
     else:
         sPath_current = os.getcwd()
     sMaces_main = '/people/liao313/workspace/python/maces/MACES/src/MACES_main.py'
@@ -140,7 +139,8 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
 
 
-    sLine = 'mpiexec -np 1 python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'
+    #sLine = 'mpiexec -np 1 python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'
+    sLine = 'python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'
     #namelist.maces.xml 
     ifs.write(sLine)     
 
