@@ -29,15 +29,16 @@ def pypest_read_model_configuration_file(sFilename_configuration_in,\
     config = pypest_parse_xml_file(sFilename_configuration_in)
 
     sModel = config['sModel']
+
     if sDate_in is not None:
         sDate = sDate_in
     else:
-        sDate = sDate_default
+        sDate = config['sDate']
 
     if iCase_index_in is not None:
         iCase_index = iCase_index_in
     else:
-        iCase_index = 0
+        iCase_index = int(config['iCase_index'])
 
     sCase_index = "{:03d}".format(iCase_index)
     #important change here

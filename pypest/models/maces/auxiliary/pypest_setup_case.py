@@ -55,19 +55,28 @@ if __name__ == '__main__':
 
     sDate = '20210127'
     iCase_index=1
-    aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration, \
-        sDate_in = sDate, \
-            iCase_index_in = iCase_index)   
+    aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration)#, \
+     #   sDate_in = sDate, \
+      #      iCase_index_in = iCase_index)   
     
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
 
+    sOmac_model=aOmac_model[0]
+    oMaces.sModel_minac = 'T03'#sMinac_model
+    oMaces.sModel_omac = sOmac_model
+    oMaces.sModel_minac = 'Null' #sOmac_model
+    pypest_setup_case(oPest, oMaces)
+    pypest_prepare_job_file(oPest, oMaces)
+
+    exit
+
     #use loop to control multiple calibrcation
-    for sMinac_model in aMinac_models:
-        oMaces.sModel_minac = 'T03'#sMinac_model
-        for sOmac_model in aOmac_model:
-            oMaces.sModel_omac = sOmac_model
-            oMaces.sModel_minac = 'Null' #sOmac_model
-            pypest_setup_case(oPest, oMaces)
-            pypest_prepare_job_file(oPest, oMaces)
-            break
+    #for sMinac_model in aMinac_models:
+    #    oMaces.sModel_minac = 'T03'#sMinac_model
+    #    for sOmac_model in aOmac_model:
+    #        oMaces.sModel_omac = sOmac_model
+    #        oMaces.sModel_minac = 'Null' #sOmac_model
+    #        pypest_setup_case(oPest, oMaces)
+    #        pypest_prepare_job_file(oPest, oMaces)
+    #        break

@@ -129,7 +129,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     #step 4: run model is replace by the command line directly
     #sLine = './step4.py\n'
     #ifs.write(sLine)       
-    iFlag_debug = 1
+    iFlag_debug = 0
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_case + slash + 'beopest1'
     else:

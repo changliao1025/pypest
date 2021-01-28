@@ -11,7 +11,7 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     """
 
     #strings
-    sModel = oMode_in.sModel
+    sModel = 'pypest'
     sWorkspace_pest_case = oMode_in.sWorkspace_calibration_case
     sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
     
@@ -24,16 +24,19 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = '#SBATCH -A br21_liao313\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -t 100:00:00\n'
+    sLine = '#SBATCH -t 3:00:00\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -N 3\n'
+    sLine = '#SBATCH -N 2\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -n 36\n'
+    sLine = '#SBATCH -n 10\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -J ' + sModel + '\n'
+    ifs.write(sLine)
+
+    sLine = '#SBATCH -p ' + 'short' + '\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -o out.out\n'
@@ -63,7 +66,7 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = 'module load openmpi/1.8.3\n'
     ifs.write(sLine)
 
-    sLine = 'mpirun -np 36 ppest ' + sFilename_control + '  /M slave\n'
+    sLine = 'mpirun -np 10 ppest ' + sFilename_control + ' /M slave\n'
     ifs.write(sLine)
 
     ifs.close()
