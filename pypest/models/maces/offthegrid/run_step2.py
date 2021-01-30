@@ -45,7 +45,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/bin/bash\n'
     ifs.write(sLine)
 
-    sLine = 'echo "Started to write PyPEST scripts"\n'
+    sLine = 'echo "Started to prepare scripts in child node"\n'
     ifs.write(sLine)
     #the first one
     sLine = 'cat << EOF > step3.py' + '\n'
@@ -54,7 +54,17 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from pypest.models.maces.onthefly.run_step3 import run_step3\n'
+    sLine = 'import sys, os, stat\n'
+    ifs.write(sLine)
+
+    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
+    ifs.write(sLine)
+
+    sLine = 'sys.path.extend(sSystem_paths)\n'
+    ifs.write(sLine)    
+
+
+    sLine = 'from pypest.models.maces.onthefly.run_step3 import step3\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
@@ -70,11 +80,18 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
 
     #the second 
-    sLine = 'cat << EOF > step4.py' + '"\n'
+    sLine = 'cat << EOF > step4.py' + '\n'
     ifs.write(sLine)
 
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
+    sLine = 'import sys, os, stat\n'
+    ifs.write(sLine)
+    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
+    ifs.write(sLine)
+
+    sLine = 'sys.path.extend(sSystem_paths)\n'
+    ifs.write(sLine)    
 
     sLine = 'from pypest.models.maces.onthefly.run_step4 import step4\n'
     ifs.write(sLine)
@@ -96,6 +113,13 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
 
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
+    sLine = 'import sys, os, stat\n'
+    ifs.write(sLine)
+    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
+    ifs.write(sLine)
+
+    sLine = 'sys.path.extend(sSystem_paths)\n'
+    ifs.write(sLine)    
 
     sLine = 'from pypest.models.maces.onthefly.run_step5 import step5\n'
     ifs.write(sLine)
@@ -136,7 +160,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
         sPath_current = os.getcwd()
     sMaces_main = '/people/liao313/workspace/python/maces/MACES/src/MACES_main.py'
 
-    sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
+    sFilename_namelist_new =  os.path.basename(oModel_in.sFilename_namelist)
 
 
     #sLine = 'mpiexec -np 1 python ' +  sMaces_main +  ' -f ' + sFilename_namelist_new + ' \n'

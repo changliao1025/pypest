@@ -50,7 +50,6 @@ def ppest_prepare_template_files(sFilename_configuration_in, sCase_in =None, sJo
 
     modflow_prepare_pest_layer_parameter_template_file(sFilename_configuration_in, sCase, sJob, sModel)
 
-    print('Finished!')
 if __name__ == '__main__':
 
     

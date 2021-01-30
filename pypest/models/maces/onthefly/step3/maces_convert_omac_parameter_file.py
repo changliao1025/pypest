@@ -20,7 +20,7 @@ def maces_convert_omac_parameter_file(oPest_in, oModel_in):
 
     iFlag_debug = 0
     if(iFlag_debug == 1 ):
-        sPath_current = sWorkspace_pest_model + slash + 'beopest1'
+        sPath_current = sWorkspace_pest_model + slash + 'child1'
     else:
         sPath_current = os.getcwd()
     sWorkspace_child = sPath_current    
@@ -30,7 +30,7 @@ def maces_convert_omac_parameter_file(oPest_in, oModel_in):
     if os.path.isfile(sFilename_parameter):
         pass
     else:
-        print('The file does not exist!')
+        print('The file does not exist!'+ sFilename_parameter)
         return
         
     aData_all = text_reader_string(sFilename_parameter, cDelimiter_in = ',')

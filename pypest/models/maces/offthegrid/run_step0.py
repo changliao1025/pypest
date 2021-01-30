@@ -184,6 +184,21 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     cc_min = -16
     cc_max = 10
 
+    rhoOM_init = 250
+    rhoOM_min = 220
+    rhoOM_max = 2200
+    phi_init = 1.0
+    phi_min = 0.2
+    phi_max = 8.8
+
+    Kr_init = 0.1
+    Kr_min = 0.02
+    Kr_max = 0.5
+
+    Tr_init = 0.3
+    Tr_min = 0.2
+    Tr_max = 1000
+
     #here we should be parameter for different modules
     if ( oModel_in.sModel_minac =='F06' ):
         #the defaul when not calibrating minac
@@ -237,35 +252,28 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
         sLine = 'rhoOM' + ' ' \
           + partrans + ' ' \
           + parchglim + ' '\
-          + "{:0.3f}".format(cc_init) + ' ' \
-          + "{:0.3f}".format(cc_min) + ' ' \
-          + "{:0.3f}".format(cc_max) + ' ' \
+          + "{:0.3f}".format(rhoOM_init) + ' ' \
+          + "{:0.3f}".format(rhoOM_min) + ' ' \
+          + "{:0.3f}".format(rhoOM_max) + ' ' \
           + ' para_gp1 1.0 0.0 1 ' + '\n'
         ofs.write(sLine)
-        sLine = 'cc' + ' ' \
+        sLine = 'phi' + ' ' \
           + partrans + ' ' \
           + parchglim + ' '\
-          + "{:0.3f}".format(cc_init) + ' ' \
-          + "{:0.3f}".format(cc_min) + ' ' \
-          + "{:0.3f}".format(cc_max) + ' ' \
+          + "{:0.3f}".format(phi_init) + ' ' \
+          + "{:0.3f}".format(phi_min) + ' ' \
+          + "{:0.3f}".format(phi_max) + ' ' \
           + ' para_gp1 1.0 0.0 1 ' + '\n'
         ofs.write(sLine)
-        sLine = 'cc' + ' ' \
+        sLine = 'Kr' + ' ' \
           + partrans + ' ' \
           + parchglim + ' '\
-          + "{:0.3f}".format(cc_init) + ' ' \
-          + "{:0.3f}".format(cc_min) + ' ' \
-          + "{:0.3f}".format(cc_max) + ' ' \
+          + "{:0.3f}".format(Kr_init) + ' ' \
+          + "{:0.3f}".format(Kr_min) + ' ' \
+          + "{:0.3f}".format(Kr_max) + ' ' \
           + ' para_gp1 1.0 0.0 1 ' + '\n'
         ofs.write(sLine)
-        sLine = 'cc' + ' ' \
-          + partrans + ' ' \
-          + parchglim + ' '\
-          + "{:0.3f}".format(cc_init) + ' ' \
-          + "{:0.3f}".format(cc_min) + ' ' \
-          + "{:0.3f}".format(cc_max) + ' ' \
-          + ' para_gp1 1.0 0.0 1 ' + '\n'
-        ofs.write(sLine)
+       
 
 
         pass
@@ -318,8 +326,8 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     omac_obs = maces_prepare_omac_observation()
     #there is only one value in fact 132, need to check the units
     for i in range( len(omac_obs) ):
-        sLine = 'dOMAC_annual' + ' ' \
-               + "{:0.4f}".format(omac_obs[i])  + ' 1.0 ' + ' omac' + '\n'
+        sLine = 'dOMAC_yr' + ' ' \
+               + "{:0.1f}".format(omac_obs[i])  + ' 1.0 ' + ' omac' + '\n'
         ofs.write(sLine)   
     
 

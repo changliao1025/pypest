@@ -37,7 +37,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="npar" value="1">
+    <entry id="npar" value="6">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -55,7 +55,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="nprior" value="1">
+    <entry id="nprior" value="0">
       <type>int</type>
       <desc>
         The scratch workspace

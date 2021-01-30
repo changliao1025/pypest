@@ -63,7 +63,7 @@ if __name__ == '__main__':
     oMaces = maces(aParameter_model)
 
     sOmac_model=aOmac_model[0]
-    oMaces.sModel_minac = 'T03'#sMinac_model
+    #oMaces.sModel_minac = 'T03'#sMinac_model
     oMaces.sModel_omac = sOmac_model
     oMaces.sModel_minac = 'Null' #sOmac_model
     pypest_setup_case(oPest, oMaces)

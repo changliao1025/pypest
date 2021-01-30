@@ -9,6 +9,11 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     """
     prepare the job submission file
     """
+    nodes = 2
+    ppn = 10
+    node_str = "{:0d}".format( nodes )
+    ppn_str = "{:0d}".format( ppn )
+    tot_p = "{:0d}".format( nodes * ppn )
 
     #strings
     sModel = 'pypest'
@@ -27,10 +32,10 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = '#SBATCH -t 3:00:00\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -N 2\n'
+    sLine = '#SBATCH --nodes=' + node_str + '\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -n 10\n'
+    sLine = '#SBATCH --ntasks-per-node='+ppn_str+'\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -J ' + sModel + '\n'
@@ -57,18 +62,28 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = 'module purge\n'
     ifs.write(sLine)
 
+    
+
     sLine = 'module load python/anaconda3.6\n'
     ifs.write(sLine)
 
+    sLine = 'source /share/apps/python/anaconda3.6/etc/profile.d/conda.sh\n'
+    ifs.write(sLine)
+
     sLine = 'module load gcc/5.2.0\n'
+    #sLine = 'module load gcc/6.1.0\n'
     ifs.write(sLine)
 
     sLine = 'module load openmpi/1.8.3\n'
-    ifs.write(sLine)
+    #sLine = 'module load openmpi/4.0.5\n'
+    ifs.write(sLine)    
 
-    sLine = 'mpirun -np 10 ppest ' + sFilename_control + ' /M slave\n'
+    sLine = 'mpirun -np '+tot_p+' ppest ' + sFilename_control + ' /M child\n'
     ifs.write(sLine)
-
+    
+    sLine1= '/share/apps/openmpi/1.8.3/gcc/5.2.0/bin/mpirun --mca btl '+ '^openib'
+    sLine = sLine1 +' -np '+tot_p+' ppest ' + sFilename_control + ' /M child\n'
+    ifs.write(sLine)
     ifs.close()
 
 

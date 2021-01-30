@@ -19,14 +19,14 @@ def maces_prepare_omac_m12_parameter_file(oPest_in, oModel_in ):
     
     sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
     #read obs
-    iFlag_debug = 1
+    iFlag_debug = 0
     if(iFlag_debug == 1 ):
         sPath_current = sWorkspace_pest_case + slash + 'beopest1'
         Path(sPath_current).mkdir(parents=True, exist_ok=True)
     else:
         sPath_current = os.getcwd()
 
-    
+    sPath_current = sWorkspace_pest_case 
     sFilename = sPath_current + slash + oModel_in.sFilename_parameter_omac 
     ofs = open(sFilename, 'w')
     
@@ -43,8 +43,8 @@ def maces_prepare_omac_m12_parameter_file(oPest_in, oModel_in ):
     ofs.write(sLine)
     sLine = 'Kr' + ', ' + '0.1'  +'\n'
     ofs.write(sLine)
-    sLine = 'Tr' + ', ' + '100'  +'\n'
-    ofs.write(sLine)
+    #sLine = 'Tr' + ', ' + '100'  +'\n'
+    #ofs.write(sLine)
     
     ofs.close()
     print('omac m12 parameter file is ready!')
@@ -63,20 +63,20 @@ def maces_prepare_omac_m12_template_file(oPest_in, oModel_in ):
     sLine = 'ptf $\n'
     ofs.write(sLine)    
     #the first parameter group
-    sLine = 'aa' + ', ' + '$aa'  +'$\n'
+    sLine = 'aa' + ', ' + '$     aa   '  +'$\n'
     ofs.write(sLine)
-    sLine = 'bb' + ', ' + '$bb'  +'$\n'
+    sLine = 'bb' + ', ' + '$     bb   '  +'$\n'
     ofs.write(sLine)
-    sLine = 'cc' + ', ' + '$cc'  +'$\n'
+    sLine = 'cc' + ', ' + '$     cc   '  +'$\n'
     ofs.write(sLine)
-    sLine = 'rhoOM' + ', ' + '$rhoOM'  +'$\n'
+    sLine = 'rhoOM' + ', ' + '$    rhoOM    '  +'$\n'
     ofs.write(sLine)
-    sLine = 'phi' + ', ' + '$phi'  +'$\n'
+    sLine = 'phi' + ', ' + '$   phi    '  +'$\n'
     ofs.write(sLine)
-    sLine = 'Kr' + ', ' + '$Kr'  +'$\n'
+    sLine = 'Kr' + ', ' + '$    Kr    '  +'$\n'
     ofs.write(sLine)
-    sLine = 'Tr' + ', ' + '$Tr'  +'$\n'
-    ofs.write(sLine)
+    #sLine = 'Tr' + ', ' + '$Tr'  +'$\n'
+    #ofs.write(sLine)
 
     ofs.close()
     print('omac m12 file is ready!')

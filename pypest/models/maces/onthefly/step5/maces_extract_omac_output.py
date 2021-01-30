@@ -69,15 +69,15 @@ def maces_extract_omac_output(oPest_in, oModel_in):
     nt = np.shape(pft)[0]
     dx = np.tile(dx,(nt,1))
 
-    rhoSed = 2650 # this value from optpar_minac.xml
-    porSed = 0.4 # this value from optpar_minac.xml
+    #rhoSed = 2650 # this value from optpar_minac.xml
+    #porSed = 0.4 # this value from optpar_minac.xml
 
     sFilename = sPath_current + slash + os.path.basename(oModel_in.sFilename_config_minac)
+
+    print(sFilename)
     aParameter = pypest_parse_xml_file(sFilename)
     rhoSed = float( aParameter['rhoSed'] )
     porSed = float( aParameter['porSed'] )
-
-
 
 
     # mineral accretion rate (mm/yr)
@@ -87,5 +87,17 @@ def maces_extract_omac_output(oPest_in, oModel_in):
 
     # OM accretion rate (gC/m2/yr)
     om_accretion = 0.5e3 * 8.64e4 * np.sum(DepOM[pft==2]*dx[pft==2])/wtlnd_x_avg
+    print(om_accretion)
+
+    #save as text file
+
+    sFilename_out = sPath_current + slash + 'output_omac.out'
+    ifs = open(sFilename_out, 'w')
+    sLine =  "{:0.1f}".format( om_accretion )
+    ifs.write(sLine)
+    ifs.close()
+
+
+
     return om_accretion
   

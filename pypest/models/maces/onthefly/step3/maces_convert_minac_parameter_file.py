@@ -23,13 +23,15 @@ def maces_convert_minac_parameter_file(oPest_in, oModel_in):
         sPath_current = sWorkspace_pest_model + slash + 'beopest1'
     else:
         sPath_current = os.getcwd()
+
+    print(sPath_current)
     sWorkspace_child = sPath_current    
     sFilename_parameter = sWorkspace_child + slash + oModel_in.sFilename_parameter_minac
     sFilename_config =  sWorkspace_child + slash + os.path.basename(oModel_in.sFilename_config_minac)
     if os.path.isfile(sFilename_parameter):
         pass
     else:
-        print('The file does not exist!')
+        print('The file does not exist!' + sFilename_parameter)
         return
         
     aData_all = text_reader_string(sFilename_parameter, cDelimiter_in = ',')

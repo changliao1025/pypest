@@ -19,11 +19,13 @@ from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 from pypest.template.shared.xmlchange import xmlchange
 
-from pypest.models.maces.onthefly.run_step3 import maces_copy_input_files
+from pypest.models.maces.auxiliary.maces_copy_input_files import maces_copy_input_files
 
 from pypest.models.maces.auxiliary.maces_prepare_job_file import maces_prepare_job_file
 
 def maces_setup_case(oModel_in):
+    print('Started to setup case in child node\n')
+    
     #first copy all the needed file
     maces_copy_input_files(oModel_in)
     #then modify the parameters
@@ -31,25 +33,23 @@ def maces_setup_case(oModel_in):
     #get based directory 
     iFlag_calibration = oModel_in.iFlag_calibration
     if iFlag_calibration == 1:
+        #current path
+        sPath_current = os.getcwd()
+        
         pass
     else:
-        sWorkspace_simulation = oModel_in.sWorkspace_simulation        
-        sCase = oModel_in.sCase
-        sWorkspace_simulation_case = sWorkspace_simulation + slash + sCase
-        if not os.path.exists(sWorkspace_simulation_case):
-            os.mkdir(sWorkspace_simulation_case)
-        else:
-            pass
-
-    print('The model case is: ' + sWorkspace_simulation_case )
+        sWorkspace_simulation_case = oModel_in.sWorkspace_simulation_case  
+        sPath_current = sWorkspace_simulation_case
         
+    print('The current workspace is: ' + sPath_current)  
+    print('Started to change namelist parameter\n')    
     sFilename_namelist = oModel_in.sFilename_namelist
     sRegion = oModel_in.sRegion
 
-    sFilename_namelist_new = sWorkspace_simulation_case + slash + os.path.basename(oModel_in.sFilename_namelist)
+    sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
 
     #change run control
-    xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='RUNROOT',value = sWorkspace_simulation_case)
+    xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='RUNROOT',value = sPath_current)
 
     #change site file
     if sRegion == 'VeniceLagoon': #first site
@@ -116,27 +116,30 @@ def maces_setup_case(oModel_in):
 
 
 
+    print('Finished changing namelist parameter\n') 
 
 
     
     #generate the job file
-    maces_prepare_job_file(oModel_in)
+    if iFlag_calibration ==1:
+        pass
+    else:
+        maces_prepare_job_file(oModel_in)
 
-    print('Finished setting up the maces model')
+    print('Finished setting up the maces case')
     
 
 
     return
 if __name__ == '__main__':
-    iFlag_calibration =0
+    iFlag_calibration =1
     if iFlag_calibration ==1:
 
         sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_calibration.xml'    
     else:
         sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_simulation.xml'    
 
-    sDate = '20210127'
-    iCase_index=1
-    aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration, sDate_in = sDate, iCase_index_in = iCase_index)   
+   
+    aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration)   
     oMaces = maces(aParameter_model)
     maces_setup_case(oMaces)

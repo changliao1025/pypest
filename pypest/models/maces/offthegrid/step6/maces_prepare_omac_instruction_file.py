@@ -41,7 +41,7 @@ def maces_prepare_omac_instruction_file(oPest_in, oModel_in):
     for i in range(1, nstress+1):
         dDummy = aObservation1[i-1]
         if( dDummy != missing_value  ):
-            sLine = 'l1' + ' !omac' + "{:04d}".format(i) + '!\n'
+            sLine = 'l1' + ' !dOMAC_yr' + '!\n' #+ "{:04d}".format(i) +
         else:
             sLine = 'l1' + ' !dum' + '!\n'
         ofs.write(sLine)
