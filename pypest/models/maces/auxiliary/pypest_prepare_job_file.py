@@ -9,8 +9,8 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     """
     prepare the job submission file
     """
-    nodes = 2
-    ppn = 10
+    nodes = 1
+    ppn = 20
     node_str = "{:0d}".format( nodes )
     ppn_str = "{:0d}".format( ppn )
     tot_p = "{:0d}".format( nodes * ppn )
@@ -29,7 +29,7 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = '#SBATCH -A br21_liao313\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -t 3:00:00\n'
+    sLine = '#SBATCH -t 100:00:00\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH --nodes=' + node_str + '\n'
@@ -41,7 +41,7 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     sLine = '#SBATCH -J ' + sModel + '\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -p ' + 'short' + '\n'
+    sLine = '#SBATCH -p ' + 'slurm' + '\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -o out.out\n'

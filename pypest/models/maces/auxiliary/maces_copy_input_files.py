@@ -17,7 +17,7 @@ def maces_copy_input_files(oModel_in):
         
         sWorkspace_pest_model = oModel_in.sWorkspace_calibration_case
 
-        iFlag_debug = 1
+        iFlag_debug = 0
         if(iFlag_debug == 1 ):
             sPath_current = sWorkspace_pest_model + slash + 'child1'
         else:
@@ -30,10 +30,7 @@ def maces_copy_input_files(oModel_in):
         
         sCase = oModel_in.sCase
         sWorkspace_simulation_case = sWorkspace_simulation + slash + sCase
-        if not os.path.exists(sWorkspace_simulation_case):
-            os.mkdir(sWorkspace_simulation_case)
-        else:
-            pass
+        
         sPath_current = sWorkspace_simulation_case
         pass
 

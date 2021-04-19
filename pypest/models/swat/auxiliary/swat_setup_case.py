@@ -3,27 +3,20 @@ import sys, os
 import numpy as np
 from pathlib import Path
 from shutil import copy2
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
-from pyes.system.define_global_variables import *
 
-from pyes.toolbox.reader.text_reader_string import text_reader_string
+from pyearth.system.define_global_variables import *
 
-#the pypest library
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
-from pypest.models.maces.shared.pest import pypest
-from pypest.models.maces.shared.model import maces
+from pypest.models.swat.shared.pest import pypest
+from pypest.models.swat.shared.model import pyswat
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 from pypest.template.shared.xmlchange import xmlchange
 
-from pypest.models.maces.auxiliary.maces_copy_input_files import maces_copy_input_files
 
-from pypest.models.maces.auxiliary.maces_prepare_job_file import maces_prepare_job_file
 
-def maces_setup_case(oModel_in):
+def swat_setup_case(oModel_in):
     print('Started to setup case in child node\n')
     
     #first copy all the needed file

@@ -15,10 +15,10 @@ from pypest.models.maces.shared.model import maces
 
 from pypest.models.maces.auxiliary.pypest_prepare_job_file import pypest_prepare_job_file
 
-from pypest.models.maces.offthegrid.run_step0 import run_step0
-from pypest.models.maces.offthegrid.run_step1 import run_step1
-from pypest.models.maces.offthegrid.run_step2 import run_step2
-from pypest.models.maces.offthegrid.run_step6 import run_step6
+from pypest.models.maces.once.run_step0 import run_step0
+from pypest.models.maces.once.run_step1 import run_step1
+from pypest.models.maces.once.run_step2 import run_step2
+from pypest.models.maces.once.run_step6 import run_step6
 
 
 
@@ -53,8 +53,8 @@ if __name__ == '__main__':
     aMinac_models = ['F06', 'T03', 'KM12', 'M12', 'F07', 'VDK05', 'DA07']
     aOmac_model = models = ['M12', 'DA07', 'KM12', 'K16']
 
-    sDate = '20210127'
-    iCase_index=1
+    #sDate = '20210213'
+    #iCase_index=1
     aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration)#, \
      #   sDate_in = sDate, \
       #      iCase_index_in = iCase_index)   

@@ -10,42 +10,9 @@
         The filename of the model configuration file
       </desc>
     </entry>
-    <entry id="sFilename_namelist" value="/people/liao313/workspace/python/maces/MACES/src/namelist.maces.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-    <entry id="sFilename_config_hydro" value="/people/liao313/workspace/python/maces/MACES/src/optpar_hydro.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-    <entry id="sFilename_config_minac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_minac.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-    <entry id="sFilename_config_omac" value="/people/liao313/workspace/python/maces/MACES/src/optpar_omac.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-    <entry id="sFilename_config_wavero" value="/people/liao313/workspace/python/maces/MACES/src/optpar_wavero.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
-    <entry id="sFilename_config_lndmgr" value="/people/liao313/workspace/python/maces/MACES/src/optpar_lndmgr.xml">
-      <type>char</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
+    
+   
+   
     <entry id="sFilename_parameter_hydro" value="hydro.para">
       <type>char</type>
       <desc>
@@ -183,7 +150,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sDate" value="20210127">
+    <entry id="sDate" value="20210213">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -201,7 +168,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iCase_index" value="12">
+    <entry id="iCase_index" value="3">
       <type>int</type>
       <desc>
         The scratch workspace

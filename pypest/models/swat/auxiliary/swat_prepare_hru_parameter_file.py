@@ -8,8 +8,7 @@ sys.path.extend(sSystem_paths)
 from eslib.system.define_global_variables import *
 from eslib.toolbox.reader.text_reader_string import text_reader_string
 
-sPath_swat_python = sWorkspace_code +  slash + 'python' + slash + 'swat' + slash + 'swat_python'
-sys.path.append(sPath_swat_python)
+
 from swat.shared import swat_global
 
 def swat_prepare_hru_parameter_file():
