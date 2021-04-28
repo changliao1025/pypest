@@ -7,18 +7,15 @@ import calendar
 
 from numpy  import array
 
-            
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyes_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
+
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 
 
-def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
+def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file
-    """
-    
+    """   
 
     
     #strings

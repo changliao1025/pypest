@@ -13,8 +13,8 @@ from calendar import monthrange #calcuate the number of days in a month
 
 
 
-#import the pyes library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyes_python'
+#import the pyearth library
+sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
 sys.path.append(sPath_library_python)
 from toolbox.reader.text_reader_string import text_reader_string
 

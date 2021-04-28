@@ -3,7 +3,7 @@ import sys, os
 from pathlib import Path
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from pyes.system.define_global_variables import *
+from pyearth.system.define_global_variables import *
 from abc import ABCMeta, abstractmethod
 import datetime
 

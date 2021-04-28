@@ -2,7 +2,8 @@
 import sys
 import os
 import numpy as np
-
+import datetime
+import calendar
 
 import errno
 from os.path import isfile, join
@@ -14,22 +15,21 @@ from shutil import copyfile, copy2
 
 
 #import library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
+sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
 sys.path.append(sPath_library_python)
 
 from toolbox.reader.text_reader_string import text_reader_string
 
     
-def modflow_prepare_calibration_job_file(sFilename_configuration_in, sModel_in = None):
+def swat_prepare_calibration_job_file(sFilename_configuration_in, sModel_in = None):
     """
     prepare the job submission file
     """
-  
-   
    
     
     #strings
-    
+    sWorkspace_home = config['sWorkspace_home']
+    sWorkspace_scratch=config['sWorkspace_scratch']
 
     sWorkspace_data_relative = config['sWorkspace_data']  
     sWorkspace_project_relative = config['sWorkspace_project']
@@ -121,16 +121,16 @@ def modflow_prepare_calibration_job_file(sFilename_configuration_in, sModel_in =
 
 if __name__ == '__main__':
     sRegion = 'tinpan'
-    sModel ='modflow'
+    sModel ='swat'
     sCase = 'test'
     sJob = sCase
     sTask = 'simulation'
     iFlag_simulation = 1
-    iFlag_calibration = 0
-    if iFlag_calibration == 1:
+    iFlag_pest = 0
+    if iFlag_pest == 1:
         sTask = 'calibration'
     sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
               + sModel + slash + sRegion + slash \
               + sTask  + slash + sFilename_config
             
-    modflow_prepare_calibration_job_file(sFilename_configuration_in, sModel)
+    swat_prepare_calibration_job_file(sFilename_configuration_in, sModel)

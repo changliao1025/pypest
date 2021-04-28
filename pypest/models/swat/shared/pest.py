@@ -19,11 +19,7 @@ class pypest(object):
     
     sWorkspace_pest=''
     sFilename_control=''
-    #sFilename_instruction=''
-    #sFilename_hydro_template=''
-    #sFilename_hydro_parameter=''
-    #sFilename_template=''
-    #sFilename_output=''
+   
 
     def __init__(self, aParameter):
         print('PEST model is being initialized')

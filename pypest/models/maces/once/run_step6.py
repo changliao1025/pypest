@@ -3,7 +3,7 @@ import numpy as np
 
 sSystem_paths = os.environ['PATH'].split(os.pathsep)
 sys.path.extend(sSystem_paths)
-from pyes.system.define_global_variables import *
+from pyearth.system.define_global_variables import *
 
 #to be sure we will add the libary here similar to other library
 sPath_pypest_python = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
