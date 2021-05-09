@@ -1,13 +1,10 @@
 import sys, os
 import numpy as np
 
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
-from pyearth.system import define_global_variables
+
 from pyearth.system.define_global_variables import *
 
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
+
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
@@ -22,7 +19,7 @@ from pypest.models.maces.once.step1.maces_prepare_omac_template_file import mace
 #in general, a model may have more than one parameter file for different components
 
 
-def pypest_prepare_pest_template_files(oPest_in, oModel_in):
+def maces_pypest_prepare_pest_template_files(oPest_in, oModel_in):
     #maces_prepare_hydro_template_file(oPest_in, oModel_in)
     #maces_prepare_minac_template_file(oPest_in, oModel_in )
     maces_prepare_omac_template_file(oPest_in, oModel_in)

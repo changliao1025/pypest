@@ -9,7 +9,11 @@ from numpy  import array
 
 
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file
+from pypest.template.shared.pypest_read_configuration_file import  pypest_read_model_configuration_file
 
+from pypest.models.swat.shared.pest import pypest
+from pyswat.shared.swat import pyswat
 
 
 def pypest_prepare_pest_control_file(oPest_in, oModel_in):
@@ -17,26 +21,31 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     #prepare the pest control file
     """   
 
+    sPest_mode = oPest_in.sPest_mode        
+    sRegion = oModel_in.sRegion
+    sModel = oModel_in.sModel    
     
-    #strings
-    sWorkspace_home = config['sWorkspace_home']
-    sWorkspace_scratch = config['sWorkspace_scratch']
-
+    sWorkspace_project_ralative = oModel_in.sWorkspace_project
+    sWorkspace_simulation_relative = oModel_in.sWorkspace_simulation
+    sWorkspace_calibration_relative = oModel_in.sWorkspace_calibration   
     
-    sWorkspace_data_relative = config['sWorkspace_data']
-    sWorkspace_project_ralative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
-    
-    pest_mode =  config['pest_mode'] 
-    sRegion = config['sRegion']
-
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
+    sRegion = oModel_in.sRegion
+    sModel = oModel_in.sModel    
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    sWorkspace_simulation =  sWorkspace_scratch + slash + sWorkspace_simulation_relative
+    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative    
+
+    #the pest workspace should be the same with the calibration workspace
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
+
+    sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
+
+    if not os.path.exists(sWorkspace_pest_case):
+        os.mkdir(sWorkspace_pest_case)
+    else:
+        pass
 
     
     sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
@@ -49,18 +58,15 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
         pass
     
     #number
-    iYear_start = int(config['iYear_start'] )
-    #the end year of spinup
-    iYear_spinup_end = int(config['iYear_spinup_end'] )
-    iYear_end  = int( config['iYear_end'] )
-    nsegment = int( config['nsegment'] )
-    
-    npargp = int(config['npargp'] )
-    nprior = int(config['nprior'] )
-    nobsgp = int(config['nobsgp'] )
+    npargp = oPest_in.npargp
+    npar = oPest_in.npar
+    nprior = oPest_in.nprior
+    nobsgp = oPest_in.nobsgp
+    nobs = oPest_in.nobs
+    ntplfile = oPest_in.ntplfile
+    ninsfile = oPest_in.ninsfile
 
-    ntplfile = int(config['ntplfile'] )
-    ninsfle = int(config['ninsfle'] )
+
     sFilename_watershed_configuration = sWorkspace_data_project + slash \
     + 'auxiliary' + slash  + 'subbasin' + slash + 'watershed_configuration.txt'
     if os.path.isfile(sFilename_watershed_configuration):
@@ -296,18 +302,25 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     print('The PEST control file is prepared successfully at: ' + sFilename_control)
 
 
+def run_step0(oPest_in, oModel_in):
+    pypest_prepare_pest_control_file(oPest_in, oModel_in)
+    return
+
+def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
+    aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
+    oPest = pypest(aParameter_pest)
+    aParameter_model  = pypest_read_model_configuration_file(sFilename_model_configuration)   
+    aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
+    oswat = pyswat(aParameter_model)
+
+    run_step0(oPest, oswat )
+    return
+
 if __name__ == '__main__':
 
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-    swat_prepare_pest_control_file(sFilename_configuration_in, sModel)
+    
+
+    sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/swat/config/pypest.xml'
+    sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/swat/config/swat_calibration.xml'    
+    step0(sFilename_pest_configuration, sFilename_model_configuration)

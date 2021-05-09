@@ -2,15 +2,12 @@
 import sys, os
 import numpy as np
 from shutil import copy2
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
+
 from pyearth.system.define_global_variables import *
 
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
-#the pypest library
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
+
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
@@ -42,7 +39,7 @@ def maces_change_file_path(oPest_in, oModel_in):
 
 
 
-def pypest_convert_parameter_files(oPest_in, oModel_in):
+def maces_pypest_convert_parameter_files(oPest_in, oModel_in):
     
     #in order to avoid issue, we will copy the input file into the current folder
     

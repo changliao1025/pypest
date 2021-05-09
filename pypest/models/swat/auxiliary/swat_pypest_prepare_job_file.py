@@ -4,7 +4,6 @@ import os
 import numpy as np
 import datetime
 import calendar
-
 import errno
 from os.path import isfile, join
 from os import listdir
@@ -14,61 +13,31 @@ from shutil import copyfile, copy2
 
 
 
-#import library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-
-from toolbox.reader.text_reader_string import text_reader_string
-
     
-def swat_prepare_calibration_job_file(sFilename_configuration_in, sModel_in = None):
+def swat_pypest_prepare_job_file(oPest_in, sModel_in = None):
     """
     prepare the job submission file
-    """
-   
+    """   
     
+    nodes = 1
+    ppn = 20
+    node_str = "{:0d}".format( nodes )
+    ppn_str = "{:0d}".format( ppn )
+    tot_p = "{:0d}".format( nodes * ppn )
+
     #strings
-    sWorkspace_home = config['sWorkspace_home']
-    sWorkspace_scratch=config['sWorkspace_scratch']
+    sModel = 'pypest'
+    sWorkspace_pest_case = oMode_in.sWorkspace_calibration_case
+    sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
 
-    sWorkspace_data_relative = config['sWorkspace_data']  
-    sWorkspace_project_relative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
-
-    
-    pest_mode =  config['pest_mode'] 
-    sRegion = config['sRegion']
-    sFilename_swat = config['sFilename_swat']
-    sFilename_pest = config['sFilename_pest']
-
-    
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
-
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
-
-    sFilename_job = sWorkspace_pest_model + slash + 'job.submit'
+    sFilename_job = sWorkspace_pest_model + slash + 'submit.job'
     ifs = open(sFilename_job, 'w')
-    #example
-    #!/bin/bash
-    #SBATCH -A inversion
-    #SBATCH -t 100:00:00
-    #SBATCH -N 1
-    #SBATCH -n 1
-    #SBATCH -J child
-    #SBATCH -o stdout.out
-    #SBATCH -e stderr.err
-    #SBATCH --mail-type=ALL
-    #SBATCH --mail-user=chang.liao@pnnl.gov
-    #cd $SLURM_SUBMIT_DIR
-    #module purge
-    #module load gcc/5.2.0
-    #module load python/anaconda3.6
+  
     #end of example
     sLine = '#!/bin/bash\n'
     ifs.write(sLine)
 
-    sLine = '#SBATCH -A inversion\n'
+    sLine = '#SBATCH -A br21_liao313\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -t 100:00:00\n'
@@ -110,7 +79,11 @@ def swat_prepare_calibration_job_file(sFilename_configuration_in, sModel_in = No
     sLine = 'module load openmpi/1.8.3\n'
     ifs.write(sLine)
 
-    sLine = 'mpirun -np 36 ppest ' + sWorkspace_pest_model+slash+sRegion + '_swat /M slave\n'
+    sLine = 'mpirun -np '+tot_p+' ppest ' + sFilename_control + ' /M child\n'
+    ifs.write(sLine)
+    
+    sLine1= '/share/apps/openmpi/1.8.3/gcc/5.2.0/bin/mpirun --mca btl '+ '^openib'
+    sLine = sLine1 +' -np '+tot_p+' ppest ' + sFilename_control + ' /M child\n'
     ifs.write(sLine)
 
     ifs.close()

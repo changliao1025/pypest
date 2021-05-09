@@ -1,7 +1,6 @@
 #this function is used to copy swat and beopest from linux hpc to calibration folder
 import sys, os, stat
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
+
 from pyearth.system.define_global_variables import *
 
     
@@ -71,11 +70,10 @@ def pypest_prepare_job_file(oPest_in, oMode_in):
     ifs.write(sLine)
 
     sLine = 'module load gcc/5.2.0\n'
-    #sLine = 'module load gcc/6.1.0\n'
     ifs.write(sLine)
 
     sLine = 'module load openmpi/1.8.3\n'
-    #sLine = 'module load openmpi/4.0.5\n'
+    
     ifs.write(sLine)    
 
     sLine = 'mpirun -np '+tot_p+' ppest ' + sFilename_control + ' /M child\n'

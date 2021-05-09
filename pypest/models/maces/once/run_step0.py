@@ -11,17 +11,16 @@ __email__ = "chang.liao@pnnl.gov"
 __status__ = "Production"
 """
 import sys, os
-#third party package
-import numpy as np
 
+import numpy as np
 
 from pyearth.system.define_global_variables import *
 
 
 from pypest.models.maces.shared.pest import pypest
-from pypest.models.maces.shared.model import maces
+from pypest.models.maces.shared.model import pymaces
+from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
-
 from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_minac_observation
 
 from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_omac_observation
@@ -29,7 +28,7 @@ from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepar
 
 
 
-def pypest_prepare_pest_control_file(oPest_in, oModel_in):
+def maces_pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file
     """
@@ -390,16 +389,18 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 def run_step0(oPest_in, oModel_in):
     pypest_prepare_pest_control_file(oPest_in, oModel_in)
     return
+
 def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
-    aParameter_pest  = pypest_read_configuration_file(sFilename_pest_configuration)    
+    aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)    
     aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration
     oPest = pypest(aParameter_pest)
-    aParameter_model  = pypest_read_configuration_file(sFilename_model_configuration)   
+    aParameter_model  = pypest_read_model_configuration_file(sFilename_model_configuration)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration
     oMaces = maces(aParameter_model)
 
     run_step0(oPest, oMaces )
     return
+
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/pypest.xml'
     sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model.xml'    

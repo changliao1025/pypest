@@ -1,8 +1,7 @@
 #this script is used to set up a model easily so we don't have to copy/paste
 import sys, os
 from pathlib import Path
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
+
 from pyearth.system.define_global_variables import *
 from abc import ABCMeta, abstractmethod
 import datetime
@@ -10,7 +9,7 @@ import datetime
 pDate = datetime.datetime.today()
 sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:02d}".format(pDate.day)
 
-class maces(object):
+class pymaces(object):
     __metaclass__ = ABCMeta
     iCase_index=0
     iSiteID=0

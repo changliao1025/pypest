@@ -1,12 +1,8 @@
 import sys, os
 import datetime
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
-from pyearth.system import define_global_variables
+
 from pyearth.system.define_global_variables import *
 
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
 
 from pypest.template.shared.pypest_parse_xml_file import pypest_parse_xml_file
 
@@ -15,10 +11,7 @@ sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:
 
 def pypest_read_pest_configuration_file(sFilename_configuration_in  ):
          
-    config = pypest_parse_xml_file(sFilename_configuration_in)
-
-    
-
+    config = pypest_parse_xml_file(sFilename_configuration_in)    
 
     return config
 
@@ -49,6 +42,7 @@ def pypest_read_model_configuration_file(sFilename_configuration_in,\
 
 
     return config
+    
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
     aParameter  = pypest_read_configuration_file(sFilename_pest_configuration)

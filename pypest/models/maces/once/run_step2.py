@@ -2,18 +2,14 @@
 import sys, os, stat
 
 
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
 from pyearth.system.define_global_variables import *
 
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
     
-def pypest_prepare_pest_command_file(oPest_in, oModel_in):
+def maces_pypest_prepare_pest_command_file(oPest_in, oModel_in):
     """
     prepare the job submission file
     """
@@ -57,11 +53,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     sLine = 'import sys, os, stat\n'
     ifs.write(sLine)
 
-    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
-    ifs.write(sLine)
-
-    sLine = 'sys.path.extend(sSystem_paths)\n'
-    ifs.write(sLine)    
+     
 
 
     sLine = 'from pypest.models.maces.multipletimes.run_step3 import step3\n'
@@ -87,11 +79,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     ifs.write(sLine)
     sLine = 'import sys, os, stat\n'
     ifs.write(sLine)
-    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
-    ifs.write(sLine)
-
-    sLine = 'sys.path.extend(sSystem_paths)\n'
-    ifs.write(sLine)    
+     
 
     sLine = 'from pypest.models.maces.multipletimes.run_step4 import step4\n'
     ifs.write(sLine)
@@ -115,11 +103,7 @@ def pypest_prepare_pest_command_file(oPest_in, oModel_in):
     ifs.write(sLine)
     sLine = 'import sys, os, stat\n'
     ifs.write(sLine)
-    sLine = 'sSystem_paths = os.environ['+"'PATH'"+'].split(os.pathsep)\n'
-    ifs.write(sLine)
-
-    sLine = 'sys.path.extend(sSystem_paths)\n'
-    ifs.write(sLine)    
+     
 
     sLine = 'from pypest.models.maces.multipletimes.run_step5 import step5\n'
     ifs.write(sLine)

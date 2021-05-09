@@ -3,8 +3,20 @@
     This file is used to control the pest calibrationb process.
   </header>  
   <group id="model">
-
+    <entry id="sWorkspace_data" value="/people/liao313/data">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
     <entry id="sWorkspace_project" value="/swat/arw">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+
+    <entry id="sWorkspace_scratch" value="/pic/scratch/liao313/">
       <type>char</type>
       <desc>
         The scratch workspace

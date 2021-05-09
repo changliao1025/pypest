@@ -5,10 +5,6 @@ import datetime
 import calendar
 
 
-import matplotlib.pyplot as plt
-import matplotlib.dates as mdates
-import matplotlib.cbook as cbook
-
 from numpy  import array
 
 

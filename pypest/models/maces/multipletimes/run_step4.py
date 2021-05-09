@@ -1,17 +1,13 @@
 import sys, os
 
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
 from pyearth.system.define_global_variables import *
 
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file, pypest_read_model_configuration_file
 
-def pypest_run_model(oPest_in, oMaces_in):
+def maces_pypest_run_model(oPest_in, oMaces_in):
 
     #is it possible to call the maces python script from here?
     #a glimplse of the job file
@@ -37,7 +33,7 @@ def step4(sFilename_pest_configuration_in, sFilename_model_configuration_in):
     aParameter_model  = pypest_read_model_configuration_file(sFilename_model_configuration_in)   
     aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration_in
     oMaces = maces(aParameter_model)
-    pypest_run_model(oPest, oMaces)
+    maces_pypest_run_model(oPest, oMaces)
 
     return
 def pypest_run_model_simulation():

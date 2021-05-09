@@ -1,8 +1,7 @@
 import sys, os
 import numpy as np
 from shutil import copy2
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
+
 from pyearth.system.define_global_variables import *
 
 def maces_copy_input_files(oModel_in):

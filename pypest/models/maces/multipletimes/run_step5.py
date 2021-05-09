@@ -1,13 +1,9 @@
 import sys, os
 import numpy as np
 
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
 from pyearth.system.define_global_variables import *
 
 
-sPath_pypest = sWorkspace_code +  slash + 'python' + slash + 'pypest' + slash + 'pypest'
-sys.path.append(sPath_pypest)
 
 from pypest.models.maces.shared.pest import pypest
 from pypest.models.maces.shared.model import maces
@@ -18,7 +14,7 @@ from pypest.template.shared.pypest_read_configuration_file import pypest_read_pe
 
 from pypest.models.maces.multipletimes.step5.maces_extract_omac_output import maces_extract_omac_output
 
-def pypest_extract_model_outputs(oPest_in, oModel_in):
+def maces_pypest_extract_model_outputs(oPest_in, oModel_in):
     """
     sFilename_configuration_in
     """
@@ -27,7 +23,7 @@ def pypest_extract_model_outputs(oPest_in, oModel_in):
     maces_extract_omac_output(oPest_in, oModel_in)
     return
 def run_step5(oPest_in, oModel_in):
-    pypest_extract_model_outputs(oPest_in, oModel_in)
+    maces_pypest_extract_model_outputs(oPest_in, oModel_in)
     return
 def step5(sFilename_pest_configuration_in, sFilename_model_configuration_in):    
     aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration_in)    

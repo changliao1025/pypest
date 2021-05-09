@@ -1,7 +1,5 @@
 import sys, os
 
-sSystem_paths = os.environ['PATH'].split(os.pathsep)
-sys.path.extend(sSystem_paths)
 from pyearth.system.define_global_variables import *
 def maces_prepare_job_file(oModel_in):
 
