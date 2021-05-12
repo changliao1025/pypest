@@ -7,42 +7,46 @@ import calendar
 
 from numpy  import array
 
-            
+from pyearth.system.define_global_variables import *
 
-from toolbox.reader.text_reader_string import text_reader_string
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 
-
-def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
+def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     """
     #prepare the pest control file
-    """
-    
+    """   
 
-    
-    #strings
-    sWorkspace_home = config['sWorkspace_home']
-    sWorkspace_scratch = config['sWorkspace_scratch']
+    sPest_mode = oPest_in.sPest_mode        
+    sRegion = oModel_in.sRegion
+    sModel = oModel_in.sModel    
 
+    sWorkspace_data= oModel_in.sWorkspace_data
+    sWorkspace_scratch = oModel_in.sWorkspace_scratch
     
-    sWorkspace_data_relative = config['sWorkspace_data']
-    sWorkspace_project_ralative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
+    sWorkspace_project_ralative = oModel_in.sWorkspace_project
     
-    pest_mode =  config['pest_mode'] 
-    sRegion = config['sRegion']
-
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
+    
+   
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    sWorkspace_simulation =  oModel_in.sWorkspace_simulation
+    sWorkspace_calibration = oModel_in.sWorkspace_calibration   
+
+    #the pest workspace should be the same with the calibration workspace
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
+
+    sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
+
+    if not os.path.exists(sWorkspace_pest_case):
+        os.mkdir(sWorkspace_pest_case)
+    else:
+        pass
 
     
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
-    sWorkspace_simulation_copy = sWorkspace_simulation + slash + 'copy' + slash + 'TxtInOut'
+  
+    sWorkspace_simulation_copy = sWorkspace_data_project + slash + 'copy' + slash + 'TxtInOut'
 
     if not os.path.exists(sWorkspace_simulation_copy):
         print("The simulation folder is missing")
@@ -51,18 +55,15 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
         pass
     
     #number
-    iYear_start = int(config['iYear_start'] )
-    #the end year of spinup
-    iYear_spinup_end = int(config['iYear_spinup_end'] )
-    iYear_end  = int( config['iYear_end'] )
-    nsegment = int( config['nsegment'] )
-    
-    npargp = int(config['npargp'] )
-    nprior = int(config['nprior'] )
-    nobsgp = int(config['nobsgp'] )
+    npargp = oPest_in.npargp
+    npar = oPest_in.npar
+    nprior = oPest_in.nprior
+    nobsgp = oPest_in.nobsgp
+    nobs = oPest_in.nobs
+    ntplfile = oPest_in.ntplfile
+    ninsfile = oPest_in.ninsfile
 
-    ntplfile = int(config['ntplfile'] )
-    ninsfle = int(config['ninsfle'] )
+
     sFilename_watershed_configuration = sWorkspace_data_project + slash \
     + 'auxiliary' + slash  + 'subbasin' + slash + 'watershed_configuration.txt'
     if os.path.isfile(sFilename_watershed_configuration):
@@ -71,7 +72,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
         print(sFilename_watershed_configuration + ' is missing!')
         return
     
-    aData_all = text_reader_string(sFilename_watershed_configuration, delimiter_in=',')
+    aData_all = text_reader_string(sFilename_watershed_configuration, cDelimiter_in=',')
 
     aSubbasin= aData_all[:,0].astype(int)
     aHru = aData_all[:,1].astype(int)
@@ -85,7 +86,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
         print(sFilename_hru_combination + ' is missing!')
         return
     
-    aData_all=text_reader_string(sFilename_hru_combination, delimiter_in=',')
+    aData_all=text_reader_string(sFilename_hru_combination, cDelimiter_in=',')
     nhru = len(aData_all)
     
     npar = nhru
@@ -98,7 +99,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
         print(sFilename + ' is missing!')
         return
     
-    aData_all = text_reader_string(sFilename, delimiter_in=',')
+    aData_all = text_reader_string(sFilename, cDelimiter_in=',')
     obs= array( aData_all).astype(float)
     good_index = np.where(obs != missing_value)
     nobs_with_missing_value = len(obs)
@@ -139,12 +140,13 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     cn2_min = 10
     cn2_max = 100
     #we need define the input within the configuration file
+    sFilename_control= oPest_in.sFilename_control
 
-    sFilename_control = sWorkspace_pest_model + slash + sRegion + '_swat.pst'
+    sFilename_control = sWorkspace_pest_case + slash +  sFilename_control
     ofs = open(sFilename_control, 'w')
     ofs.write('pcf\n')
     ofs.write('* control data\n')
-    ofs.write('restart ' + pest_mode  + '\n' ) 
+    ofs.write('restart ' + sPest_mode  + '\n' ) 
     #third line
     sLine = "{:0d}".format(npar)  + ' ' \
      +  "{:0d}".format(nobs)  + ' ' \
@@ -154,7 +156,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     ofs.write(sLine) 
     #fourth line
     sLine = "{:0d}".format(ntplfile)  + ' ' \
-     +  "{:0d}".format(ninsfle)  +  ' '\
+     +  "{:0d}".format(ninsfile)  +  ' '\
      + ' double point ' \
      + '1 0 0 \n'
     ofs.write(sLine) 
@@ -234,7 +236,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     ofs.write('* model command line\n')
 
     #run the model
-    sLine  = sWorkspace_pest_model + slash + 'run_swat_model\n'
+    sLine  = sWorkspace_pest_case + slash + 'run_swat_model\n'
     ofs.write(sLine)
 
     
@@ -250,17 +252,17 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     #sLine = sLine1 + ' ' + sLine2
     #ofs.write(sLine)
 
-    sLine1 = sWorkspace_pest_model + slash + 'hru.tpl'    
+    sLine1 = sWorkspace_pest_case + slash + 'hru.tpl'    
     sLine2 = 'hru.para\n'
     sLine = sLine1 + ' ' + sLine2
     ofs.write(sLine)
 
     #result
-    sFilename_instruction = config['sFilename_instruction']
+    sFilename_instruction = oPest_in.sFilename_instruction
 
-    sFilename_instruction = sWorkspace_pest_model + slash + sFilename_instruction
-    sFilename_result =  config['sFilename_result']
-    sLine = sFilename_instruction + ' '  + sFilename_result + '\n'
+    sFilename_instruction = sWorkspace_pest_case + slash + sFilename_instruction
+    sFilename_output =  oPest_in.sFilename_output
+    sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
 
     phimlim = 1.0
@@ -273,7 +275,7 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     iregadj = 0
 
 
-    if pest_mode  == 'estimation' :
+    if sPest_mode  == 'estimation' :
         pass
     else:
         ofs.write(' * regularisation\n')
@@ -298,18 +300,3 @@ def swat_prepare_pest_control_file(sFilename_configuration_in, sModel):
     print('The PEST control file is prepared successfully at: ' + sFilename_control)
 
 
-if __name__ == '__main__':
-
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-    swat_prepare_pest_control_file(sFilename_configuration_in, sModel)

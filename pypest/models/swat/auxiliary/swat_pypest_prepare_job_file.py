@@ -13,8 +13,9 @@ from shutil import copyfile, copy2
 
 
 
+from pyearth.system.define_global_variables import *
     
-def swat_pypest_prepare_job_file(oPest_in, sModel_in = None):
+def swat_pypest_prepare_job_file(oPest_in, oModel_in):
     """
     prepare the job submission file
     """   
@@ -27,10 +28,10 @@ def swat_pypest_prepare_job_file(oPest_in, sModel_in = None):
 
     #strings
     sModel = 'pypest'
-    sWorkspace_pest_case = oMode_in.sWorkspace_calibration_case
+    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
     sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
 
-    sFilename_job = sWorkspace_pest_model + slash + 'submit.job'
+    sFilename_job = sWorkspace_pest_case + slash + 'submit.job'
     ifs = open(sFilename_job, 'w')
   
     #end of example

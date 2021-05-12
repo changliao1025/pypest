@@ -12,13 +12,8 @@ from os import listdir
 from numpy  import array
 
 
-
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
-sys.path.append(sPath_library_python)
 from toolbox.reader.text_reader_string import text_reader_string
 
-sPath_swat_python = sWorkspace_code +  slash + 'python' + slash + 'swat' + slash + 'swat_python'
-sys.path.append(sPath_swat_python)
 
 from swat.pest.swat_slave_copy_swat_executable_file import swat_slave_copy_swat_executable_file
 from swat.pest.swat_slave_link_swat_permanent_file import swat_slave_link_swat_permanent_file

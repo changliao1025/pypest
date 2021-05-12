@@ -12,9 +12,6 @@ from os import listdir
 from numpy  import array
 
 
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
 
 
 def create_symlink(source, target_link):

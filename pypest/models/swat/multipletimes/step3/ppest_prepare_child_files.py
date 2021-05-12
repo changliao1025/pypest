@@ -1,16 +1,13 @@
 import sys #append path
 import os #check existence
 import datetime
-import julian  #to covert datetime to julian date 
+
 import platform #platform independent
 import numpy as np
 from pathlib import Path
 from numpy  import array
 
-#import the eslib library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
+
 
 feet2meter = 0.3048
 missing_value = -99.0

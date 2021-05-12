@@ -8,17 +8,7 @@ from numpy  import array
 
 from calendar import monthrange #calcuate the number of days in a month
 
-#make sure the program is platform independent
 
-
-#import the pyearth library
-#this library is used to read data and maybe other operations
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
-
-sPath_swat_python = sWorkspace_code +  slash + 'python' + slash + 'swat' + slash + 'swat_python'
-sys.path.append(sPath_swat_python)
 from swat.postprocess.swat_extract_stream_discharge import swat_extract_stream_discharge
 
 

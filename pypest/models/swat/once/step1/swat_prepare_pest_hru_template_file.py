@@ -3,41 +3,31 @@ import os
 import numpy as np
 import datetime
 import calendar
-
-
-
 from numpy  import array
+from pyearth.system.define_global_variables import *
 
-#import the eslib library
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
-
-def swat_prepare_pest_hru_template_file(sFilename_configuration_in, sModel):
+def swat_prepare_pest_hru_template_file(oPest_in, oModel_in):
     """
     #prepare the pest template file
     """
     
 
     #strings    
+    sWorkspace_data=oModel_in.sWorkspace_data
+    sWorkspace_scratch = oModel_in.sWorkspace_scratch
 
-    sWorkspace_data_relative = config['sWorkspace_data']
+
      
-    sWorkspace_project_relative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
+    sWorkspace_project = oModel_in.sWorkspace_project
+    
 
-    pest_mode =  config['pest_mode'] 
-    sRegion = config['sRegion']
+    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project
 
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_relative
+    sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
 
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative + slash + sCase
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative + slash + sCase
-
-    sWorkspace_pest_model = sWorkspace_calibration 
+    sWorkspace_pest_model = sWorkspace_calibration_case 
     
     
     #read hru type
@@ -62,20 +52,7 @@ def swat_prepare_pest_hru_template_file(sFilename_configuration_in, sModel):
     print('hru template is ready!')
 
     return
-if __name__ == '__main__':
-    
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-       
-    
-    swat_prepare_pest_hru_template_file(sFilename_configuration_in, sModel)
+
+
+  
+

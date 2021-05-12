@@ -4,88 +4,34 @@ import os, stat
 import numpy as np
 import datetime
 import calendar
-
-
-
 import errno
 from os.path import isfile, join
 from os import listdir
 
 from numpy  import array
 from shutil import copyfile, copy2
-
-
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
+from pyearth.system.define_global_variables import *
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
     
-def ppest_prepare_run_script(sFilename_configuration_in, sModel):
+def ppest_prepare_run_script(oPest_in, oModel_in):
     """
     prepare the job submission file
     """
-    
+    sModel = oModel_in.sModel
+    sFilename_model_configuration = oModel_in.sFilename_model_configuration
     
     #strings
-    
+    sWorkspace_scratch = oModel_in.sWorkspace_scratch    
+    sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case   
 
-    sWorkspace_data_relative = config['sWorkspace_data']  
-    sWorkspace_project_relative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
-
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
-
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
+    sWorkspace_pest_model = sWorkspace_calibration_case
+    #replace it with your actual python
+    sPython = '#!/share/apps/python/anaconda3.6/bin/python' + '\n' 
 
     sFilename_script = sWorkspace_pest_model + slash + 'run_swat_model'
     ifs = open(sFilename_script, 'w')
-    #example
-    #!/bin/bash
-    #echo "Started to prepare python scripts"
-    #
-    #cat << EOF > pyscript1.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_prepare_pest_slave_input_file import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_prepare_pest_slave_input_file(sFilename_configuration_in)
-    #EOF
-    #
-    #cat << EOF > pyscript2.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_prepare_input_from_pest import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_prepare_input_from_pest(sFilename_configuration_in)
-    #EOF
-    #
-    #cat << EOF > pyscript3.py
-    ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_extract_output_for_pest import *
-    #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_extract_output_for_pest(sFilename_configuration_in)
-    #EOF
-    #
-    #chmod 755 pyscript1.py
-    #chmod 755 pyscript2.py
-    #chmod 755 pyscript3.py
-    #echo "Finished preparing python scripts"
-    #
-    #echo "Started to prepare SWAT inputs"
-    ##step 1: prepare inputs
-    #./pyscript1.py
-    #./pyscript2.py
-    #echo "Finished preparing SWAT simulation"
-    #
-    ##step 2: run swat model
-    #echo "Started to run SWAT simulation"
-    #./swat
-    #echo "Finished running SWAT simulation"
-    #
-    ##step 3: extract SWAT output
-    #echo "Started to extract SWAT simulation outputs"
-    #./pyscript3.py
-    #echo "Finished extracting SWAT simulation outputs"
-    #end of example
+    
     sLine = '#!/bin/bash\n'
     ifs.write(sLine)
 
@@ -95,13 +41,13 @@ def ppest_prepare_run_script(sFilename_configuration_in, sModel):
     sLine = 'cat << EOF > pyscript1.py\n'
     ifs.write(sLine)
 
-    sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
+    
+    ifs.write(sPython)
+
+    sLine = 'from pypest.models.swat.swat_prepare_pest_child_input_file import *\n'
     ifs.write(sLine)
 
-    sLine = 'from swat_prepare_pest_slave_input_file import *\n'
-    ifs.write(sLine)
-
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
+    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
 
     sLine = 'sModel = ' + '"' + sModel + '"\n'
@@ -115,13 +61,13 @@ def ppest_prepare_run_script(sFilename_configuration_in, sModel):
     sLine = 'cat << EOF > pyscript2.py\n'
     ifs.write(sLine)
 
-    sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
-    ifs.write(sLine)
+    
+    ifs.write(sPython)
 
     sLine = 'from swat_prepare_input_from_pest import *\n'
     ifs.write(sLine)
 
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
+    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
 
     sLine = 'sModel = ' + '"' + sModel + '"\n'
@@ -135,13 +81,13 @@ def ppest_prepare_run_script(sFilename_configuration_in, sModel):
     sLine = 'cat << EOF > pyscript3.py\n'
     ifs.write(sLine)
 
-    sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
-    ifs.write(sLine)
+    
+    ifs.write(sPython)
 
     sLine = 'from swat_extract_output_for_pest import *\n'
     ifs.write(sLine)
 
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
+    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
     ifs.write(sLine)
 
     sLine = 'sModel = ' + '"' + sModel + '"\n'
@@ -200,19 +146,3 @@ def ppest_prepare_run_script(sFilename_configuration_in, sModel):
 
     print('The pest run model file is prepared successfully!')
 
-
-if __name__ == '__main__':
-    
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config       
-    ppest_prepare_run_script(sFilename_configuration, sModel)

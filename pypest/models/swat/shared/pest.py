@@ -37,18 +37,24 @@ class pypest(object):
         self.ninsfile             = int(aParameter[ 'ninsfile'])
         self.sFilename_pest_configuration = aParameter['sFilename_pest_configuration']
 
-        #self.sWokspace_pest_configuration = aParameter['sWokspace_pest_configuration']
-
-        #system wide variable will not be used 
+      
         
-        #self.sWorkspace_pest   = aParameter[ 'sWorkspace_pest']
+        self.sWorkspace_pest   = aParameter[ 'sWorkspace_pest']
         self.sFilename_control = aParameter['sFilename_control']
-        #after recent update, these are moved to the model configuration
-        #however the total count should match in python script
-        #self.sFilename_instruction = aParameter['sFilename_instruction']
-        #self.sFilename_hydro_template = aParameter['sFilename_hydro_template']
-        #self.sFilename_hydro_parameter = aParameter['sFilename_hydro_parameter']
-        #self.sFilename_output = aParameter['sFilename_output']
+        self.sWorkspace_home       = aParameter[ 'sWorkspace_home' ]
+        self.sWorkspace_scratch    = aParameter[ 'sWorkspace_scratch']
+        self.sWorkspace_data       = aParameter[ 'sWorkspace_data']
+        
+        
+        
+        self.sWorkspace_pest       = aParameter[ 'sWorkspace_pest']
+        self.sFilename_control = aParameter['sFilename_control']
+        self.sFilename_instruction = aParameter['sFilename_instruction']
+        self.sFilename_output = aParameter['sFilename_output']
+
+        
+   
+        
 
         
         pass

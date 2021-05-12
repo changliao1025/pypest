@@ -3,13 +3,13 @@
     This file is used to control the pest calibrationb process.
   </header>
   <group id="system">
-    <entry id="sWorkspace_home" value="/qfs/people/liao313/">
+    <entry id="sWorkspace_home" value="/global/homes/l/liao313">
       <type>char</type>
       <desc>
         The home workspace
       </desc>
     </entry>
-    <entry id="sWorkspace_scratch" value="/pic/scratch/liao313/">
+    <entry id="sWorkspace_scratch" value="/global/cscratch1/sd/liao313/">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -87,7 +87,19 @@
       </desc>
     </entry>
 
-    <entry id="sFilename_control" value="pest_maces.pst">
+    <entry id="sFilename_control" value="pest_swat.pst">
+      <type>char</type>
+      <desc>
+        The workspace of pest calibration
+      </desc>
+    </entry>
+    <entry id="sFilename_instruction" value="pest_swat.ins">
+      <type>char</type>
+      <desc>
+        The workspace of pest calibration
+      </desc>
+    </entry>
+    <entry id="sFilename_output" value="pest_swat.out">
       <type>char</type>
       <desc>
         The workspace of pest calibration

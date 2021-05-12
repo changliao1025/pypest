@@ -45,6 +45,6 @@ def pypest_read_model_configuration_file(sFilename_configuration_in,\
     
 if __name__ == '__main__':
     sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    aParameter  = pypest_read_configuration_file(sFilename_pest_configuration)
+    aParameter  = pypest_read_pest_configuration_file(sFilename_pest_configuration)
     print(aParameter)    
     

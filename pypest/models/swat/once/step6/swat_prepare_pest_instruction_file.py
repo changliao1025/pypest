@@ -5,50 +5,43 @@ import datetime
 
 from numpy  import array
 
+from pyearth.system.define_global_variables import *
+
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 
-from toolbox.reader.text_reader_string import text_reader_string
 
 
-
-def swat_prepare_pest_instruction_file(sFilename_configuration_in, sModel):
+def swat_prepare_pest_instruction_file(oPest_in, oModel_in):
     """
     prepare pest instruction file
     """
     
     
-    sWorkspace_home = config['sWorkspace_home']
-    sWorkspace_scratch=config['sWorkspace_scratch']
+    
+    sWorkspace_scratch=oModel_in.sWorkspace_scratch 
 
-    sWorkspace_data_relative = config['sWorkspace_data']
-    sWorkspace_project_relative = config['sWorkspace_project']
-    sWorkspace_simulation_relative = config['sWorkspace_simulation']
-    sWorkspace_calibration_relative = config['sWorkspace_calibration']
+    sWorkspace_data =  oModel_in.sWorkspace_data 
+    sWorkspace_project =  oModel_in.sWorkspace_project 
+   
 
-    pest_mode =  config['pest_mode'] 
-    sRegion = config['sRegion']
+    sRegion =  oModel_in.sRegion 
+    sModel =  oModel_in.sModel 
 
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_relative
+    
+    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project
 
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
 
-    sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
-    sWorkspace_simulation_copy = sWorkspace_simulation + slash + 'copy' + slash + 'TxtInOut'
+    sWorkspace_pest_model = sWorkspace_calibration_case 
+    sWorkspace_simulation_copy = oModel_in.sWorkspace_simulation_copy
 
-    iYear_start = int(config['iYear_start'] )
-    iYear_spinup_end = int(config['iYear_spinup_end'] )
-    iYear_end  = int( config['iYear_end'] )
-    nsegment = int( config['nsegment'] )
-
-    dSimulation_start = datetime.datetime(iYear_start, 1, 1)  #year, month, day
-    dSimulation_transient_start = datetime.datetime(iYear_spinup_end + 1, 1, 1)  #year, month, day
-    dSimulation_end = datetime.datetime(iYear_end, 12, 31)  #year, month, day
-
-    jdStart = julian.to_jd(dSimulation_transient_start, fmt='jd')
-    jdEnd = julian.to_jd(dSimulation_end, fmt='jd')
-    nstress = int(jdEnd - jdStart + 1)
+    iYear_start =  oModel_in.iYear_start  
+  
+    iYear_end  =   oModel_in.iYear_end  
+    #nsegment =  oModel_in.nsegment  
+  
+    nstress = oModel_in.nstress
 
     sFilename_observation = sWorkspace_data_project + slash + 'auxiliary' + slash \
         + 'usgs' + slash + 'discharge' + slash + 'discharge_observation.txt'
@@ -65,7 +58,7 @@ def swat_prepare_pest_instruction_file(sFilename_configuration_in, sModel):
     nan_index = np.where(aDischarge_observation == missing_value)
 
     #write instruction
-    sFilename_instruction = sWorkspace_pest_model + slash + sRegion + '_swat.ins'    
+    sFilename_instruction = sWorkspace_pest_model + slash + oPest_in.sFilename_instruction
     ofs= open(sFilename_instruction,'w')
     ofs.write('pif $\n')
 
@@ -80,18 +73,3 @@ def swat_prepare_pest_instruction_file(sFilename_configuration_in, sModel):
             
     ofs.close()
     print('The instruction file is prepared successfully!')
-
-if __name__ == '__main__':
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-    swat_prepare_pest_instruction_file(sFilename_configuration_in, sModel)
