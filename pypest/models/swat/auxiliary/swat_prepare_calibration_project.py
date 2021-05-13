@@ -13,16 +13,6 @@ from calendar import monthrange #calcuate the number of days in a month
 
 
 
-#import the eslib library
-#this library is used to read data and maybe other operations
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'eslib_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
-
-#import swat library
-
-sPath_swat_python = sWorkspace_code +  slash + 'python' + slash + 'swat' + slash + 'swat_python'
-sys.path.append(sPath_swat_python)
 
 from swat.calibration.swat_prepare_calibration_workspace import swat_prepare_calibration_workspace
 from swat.calibration.swat_prepare_input_copy_file import swat_prepare_input_copy_file

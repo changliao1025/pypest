@@ -1,26 +1,15 @@
 import sys
 import os
-import datetime
-import calendar
+
 import numpy as np
 from numpy  import array
 
 
-
-from pyearth.toolbox.reader.text_reader_string import text_reader_string
-
-
-#from pyswat.scenarios.swat_write_watershed_input_file import swat_write_watershed_input_file
-#from pyswat.scenarios.swat_write_subbasin_input_file import swat_write_subbasin_input_file
-
-from pyswat.scenarios.swat_write_hru_input_file import swat_write_hru_input_file
+from pypest.models.swat.multipletimes.step3.swat_prepare_pest_child_input_file import swat_prepare_pest_child_input_file
 
 def swat_prepare_input_from_pest(oPest_in, sModel_in):
     """
     sFilename_configuration_in
     """
     #hru level
-    swat_write_hru_input_file(oPest_in, sModel_in)
-
-
-   
+    swat_prepare_pest_child_input_file(sModel_in)

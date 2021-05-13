@@ -28,11 +28,7 @@ def modflow_prepare_pest_instruction_file(sFilename_configuration_in, sModel):
     pest_mode =  config['pest_mode'] 
     sRegion = config['sRegion']
 
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_relative
-
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    
 
     sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
     sWorkspace_simulation_copy = sWorkspace_simulation + slash + 'copy' + slash + 'TxtInOut'

@@ -12,33 +12,13 @@ from calendar import monthrange #calcuate the number of days in a month
 from swat.postprocess.swat_extract_stream_discharge import swat_extract_stream_discharge
 
 
-def swat_extract_output_for_pest(sFilename_configuration_in, sModel):
+def swat_extract_output_for_pest(oPest_in, sModel):
     """
     sFilename_configuration_in
     """
     #stream discharge
-    swat_extract_stream_discharge(sFilename_configuration_in, sModel)
-
-
-if __name__ == '__main__':
-    
-    
-    sRegion = 'tinpan'
-    sModel ='swat'
-    sCase = 'test'
-    sJob = sCase
-    sTask = 'simulation'
-    iFlag_simulation = 1
-    iFlag_pest = 0
-    if iFlag_pest == 1:
-        sTask = 'calibration'
-    sFilename_configuration = sWorkspace_scratch + slash + '03model' + slash \
-              + sModel + slash + sRegion + slash \
-              + sTask  + slash + sFilename_config
-
-    
+    swat_extract_stream_discharge(sModel)
 
 
 
-    swat_extract_output_for_pest(sFilename_configuration_in, sCase, sJob, sModel)
    

@@ -3,6 +3,12 @@
     This file is used to control the pest calibrationb process.
   </header>  
   <group id="model">
+     <entry id="iFlag_calibration" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
     <entry id="sWorkspace_data" value="/global/homes/l/liao313/data">
       <type>char</type>
       <desc>

@@ -10,9 +10,8 @@ import platform
 from numpy  import array
 
             
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
-sys.path.append(sPath_library_python)
-from toolbox.reader.text_reader_string import text_reader_string
+
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 missing_value=-9999.0
 
@@ -36,12 +35,7 @@ def modflow_prepare_pest_control_file(sFilename_configuration_in, sModel):
     pest_mode =  config['pest_mode'] 
     sRegion = config['sRegion']
 
-    sWorkspace_data = sWorkspace_scratch + slash + sWorkspace_data_relative
-
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
-
-    sWorkspace_simulation = sWorkspace_scratch +  slash  + sWorkspace_simulation_relative
-    sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
+    
 
     
     sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
