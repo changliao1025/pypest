@@ -7,9 +7,9 @@ from pyearth.system.define_global_variables import *
 #the pypest library
 
 from pypest.models.maces.shared.pest import pypest
-from pypest.models.maces.shared.model import maces
+from pypest.models.maces.shared.maces import maces
 
-from pypest.models.maces.auxiliary.pypest_prepare_job_file import pypest_prepare_job_file
+from pypest.models.maces.auxiliary.maces_prepare_job_file import pypest_prepare_job_file
 
 from pypest.models.maces.once.run_step0 import run_step0
 from pypest.models.maces.once.run_step1 import run_step1
