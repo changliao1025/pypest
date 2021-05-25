@@ -7,9 +7,9 @@ from shutil import copy2
 from pyearth.system.define_global_variables import *
 
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
-
+from pyswat.shared.swat import pyswat
 from pypest.models.swat.shared.pest import pypest
-from pypest.models.swat.shared.model import pyswat
+
 
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 from pypest.template.shared.xmlchange import xmlchange
@@ -20,7 +20,7 @@ def swat_setup_case(oModel_in):
     print('Started to setup case in child node\n')
     
     #first copy all the needed file
-    maces_copy_input_files(oModel_in)
+    swat_copy_input_files(oModel_in)
     #then modify the parameters
     
     #get based directory 

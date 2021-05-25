@@ -11,15 +11,12 @@ from os import listdir
 
 from numpy  import array
 
-
-
-
 from pypest.models.swat.multipletimes.step3.swat_child_copy_swat_executable_file import swat_child_copy_swat_executable_file
 from pypest.models.swat.multipletimes.step3.swat_child_link_swat_permanent_file import swat_child_link_swat_permanent_file
  
 def swat_prepare_pest_child_input_file(oPest_in, oModel_in):
     """
-    prepare the input files for the slave simulation
+    prepare the input files for the child simulation
     """
 
     sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
@@ -34,6 +31,6 @@ def swat_prepare_pest_child_input_file(oPest_in, oModel_in):
     else:
         swat_child_copy_swat_executable_file(oPest_in, oModel_in)
         swat_child_link_swat_permanent_file(oPest_in, oModel_in)
-        print('The swat slave files are prepared successfully!')
+        print('The swat child files are prepared successfully!')
 
 

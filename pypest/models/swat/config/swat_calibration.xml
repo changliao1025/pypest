@@ -3,8 +3,44 @@
     This file is used to control the pest calibrationb process.
   </header>  
   <group id="model">
+  <entry id="iFlag_simulation" value="0">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
      <entry id="iFlag_calibration" value="1">
       <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+      <entry id="iFlag_mode" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="iFlag_replace" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="sPython" value="/global/homes/l/liao313/.conda/envs/pypestenv/bin/python">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sWorkspace_home" value="/global/homes/l/liao313/">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="sWorkspace_bin" value="/global/homes/l/liao313/bin">
+      <type>char</type>
       <desc>
         The scratch workspace
       </desc>
@@ -61,19 +97,14 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iCase_index" value="1">
-      <type>int</type>
-      <desc>
-        The scratch workspace
-      </desc>
-    </entry>
+    
     <entry id="iYear_start" value="1997">
       <type>int</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iYear_end" value="2017">
+    <entry id="iYear_end" value="2009">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -85,7 +116,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iMonth_end" value="9">
+    <entry id="iMonth_end" value="12">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -97,7 +128,25 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iDay_end" value="30">
+    <entry id="iDay_end" value="31">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="iCase_index" value="4">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="nsegment" value="5">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+     <entry id="nbasin" value="5">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -109,7 +158,7 @@
         The scratch workspace
       </desc>
     </entry>
- <entry id="sFilename_swat" value="1">
+    <entry id="sFilename_swat" value="swat670">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -122,7 +171,24 @@
         The scratch workspace
       </desc>
     </entry>
-    
+    <entry id="sJob" value="test">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="aVariable" value="cn2">
+      <type>char</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="aValue" value="10">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
   </group>
 
 

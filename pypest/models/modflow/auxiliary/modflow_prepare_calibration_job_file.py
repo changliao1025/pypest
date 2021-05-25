@@ -110,7 +110,7 @@ def modflow_prepare_calibration_job_file(sFilename_configuration_in, sModel_in =
     sLine = 'module load openmpi/1.8.3\n'
     ifs.write(sLine)
 
-    sLine = 'mpirun -np 36 ppest ' + sWorkspace_pest_model+slash+sRegion + '_swat /M slave\n'
+    sLine = 'mpirun -np 36 ppest ' + sWorkspace_pest_model+slash+sRegion + '_swat /M child\n'
     ifs.write(sLine)
 
     ifs.close()

@@ -9,7 +9,7 @@ from numpy  import array
 from calendar import monthrange #calcuate the number of days in a month
 
 
-from swat.postprocess.swat_extract_stream_discharge import swat_extract_stream_discharge
+from pyswat.postprocess.extract.swat_extract_stream_discharge import swat_extract_stream_discharge
 
 
 def swat_extract_output_for_pest(oPest_in, sModel):

@@ -16,6 +16,7 @@ def swat_prepare_input_from_pest(oPest_in, oModel_in):
     """
     #hru level
     swat_write_hru_input_file(oModel_in)
+    print('Finished translating pest parameter to model input')
 
 
    

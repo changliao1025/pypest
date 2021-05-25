@@ -19,15 +19,19 @@ def ppest_prepare_run_script(oPest_in, oModel_in):
     prepare the job submission file
     """
     sModel = oModel_in.sModel
+    sFilename_pest_configuration = oPest_in.sFilename_pest_configuration
     sFilename_model_configuration = oModel_in.sFilename_model_configuration
     
     #strings
+    sWorkspace_home= oModel_in.sWorkspace_home
     sWorkspace_scratch = oModel_in.sWorkspace_scratch    
     sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case   
 
     sWorkspace_pest_model = sWorkspace_calibration_case
     #replace it with your actual python
-    sPython = '#!/share/apps/python/anaconda3.6/bin/python' + '\n' 
+
+    sPython_Path =  oModel_in.sPython
+    sPython = '#!' + sPython_Path + '\n' 
 
     sFilename_script = sWorkspace_pest_model + slash + 'run_swat_model'
     ifs = open(sFilename_script, 'w')
@@ -39,60 +43,112 @@ def ppest_prepare_run_script(oPest_in, oModel_in):
     ifs.write(sLine)
     #the first one
     sLine = 'cat << EOF > pyscript1.py\n'
-    ifs.write(sLine)
-
-    
+    ifs.write(sLine)    
     ifs.write(sPython)
 
-    sLine = 'from pypest.models.swat.swat_prepare_pest_child_input_file import *\n'
+    sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
     ifs.write(sLine)
-
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
+    sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
     ifs.write(sLine)
-
-    sLine = 'sModel = ' + '"' + sModel + '"\n'
+    sLine = 'from pyswat.shared.swat_read_model_configuration_file import *\n'
     ifs.write(sLine)
-    sLine = 'swat_prepare_pest_slave_input_file(sFilename_configuration_in, sModel)\n'
+    sLine = 'from pypest.models.swat.multipletimes.step3.swat_prepare_pest_child_input_file import *\n'
+    ifs.write(sLine)    
+    sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
+    ifs.write(sLine)  
+    sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
     ifs.write(sLine)
-
+    sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+    ifs.write(sLine)
+    sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+    ifs.write(sLine)
+    sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
+    ifs.write(sLine)
+    sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
+    ifs.write(sLine) 
+    sLine = "oSwat = pyswat(aParameter_model)" + '\n'   
+    ifs.write(sLine)
+    sLine = 'swat_prepare_pest_child_input_file(oPest, oSwat)' + '\n'   
+    ifs.write(sLine)
     sLine = 'EOF\n'
     ifs.write(sLine)
     #the second 
     sLine = 'cat << EOF > pyscript2.py\n'
     ifs.write(sLine)
-
     
     ifs.write(sPython)
-
-    sLine = 'from swat_prepare_input_from_pest import *\n'
+    sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
+    ifs.write(sLine)
+    sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
+    ifs.write(sLine)
+    sLine = 'from pyswat.shared.swat_read_model_configuration_file import *\n'
+    ifs.write(sLine)
+    sLine = 'from pypest.models.swat.multipletimes.step3.swat_prepare_input_from_pest import *\n'
+    ifs.write(sLine)
+    sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
+    ifs.write(sLine)
+    sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
+    ifs.write(sLine)
+    sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+    ifs.write(sLine)
+    sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+    ifs.write(sLine)
+    sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
+    ifs.write(sLine)
+    sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
+    ifs.write(sLine) 
+    sLine = "oSwat = pyswat(aParameter_model)" + '\n'   
     ifs.write(sLine)
 
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
-    ifs.write(sLine)
-
-    sLine = 'sModel = ' + '"' + sModel + '"\n'
-    ifs.write(sLine)
-    sLine = 'swat_prepare_input_from_pest(sFilename_configuration_in, sModel)\n'
+    sLine = 'swat_prepare_input_from_pest(oPest, oSwat)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'
     ifs.write(sLine)
+
+
     #the third one
     sLine = 'cat << EOF > pyscript3.py\n'
     ifs.write(sLine)
 
     
     ifs.write(sPython)
-
-    sLine = 'from swat_extract_output_for_pest import *\n'
+    sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
     ifs.write(sLine)
-
-    sLine = 'sFilename_configuration_in = ' + '"' + sFilename_model_configuration + '"\n'
+    sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
     ifs.write(sLine)
-
-    sLine = 'sModel = ' + '"' + sModel + '"\n'
+    sLine = 'from pyswat.shared.swat_read_model_configuration_file import *\n'
     ifs.write(sLine)
-    sLine = 'swat_extract_output_for_pest(sFilename_configuration_in, sModel)\n'
+    sLine = 'from pypest.models.swat.multipletimes.step5.swat_extract_output_for_pest import *\n'
+    ifs.write(sLine)
+    sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
+    ifs.write(sLine)
+    sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
+    ifs.write(sLine)
+    sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+    ifs.write(sLine)
+    sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+    ifs.write(sLine)
+    sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
+    ifs.write(sLine)
+    sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
+    ifs.write(sLine)
+    sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
+    ifs.write(sLine) 
+    sLine = "oSwat = pyswat(aParameter_model)" + '\n'   
+    ifs.write(sLine)
+    
+    sLine = 'swat_extract_output_for_pest(oPest, oSwat)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'

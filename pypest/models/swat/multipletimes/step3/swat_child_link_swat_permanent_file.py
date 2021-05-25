@@ -38,7 +38,7 @@ def swat_child_link_swat_permanent_file(oPest_in, oModel_in):
     #strings
     sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
    
-    sWorkspace_pest_model = sWorkspace_calibration_case
+    sWorkspace_pest_model = sWorkspace_calibration_case + slash + 'TxtInOut'
 
     
     sPath_current = os.getcwd()

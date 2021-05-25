@@ -47,9 +47,9 @@ def modflow_prepare_pest_run_script(sFilename_configuration_in, sModel):
     #
     #cat << EOF > pyscript1.py
     ##!/share/apps/python/anaconda3.6/bin/python
-    #from modflow_prepare_pest_slave_input_file import *
+    #from modflow_prepare_pest_child_input_file import *
     #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #modflow_prepare_pest_slave_input_file(sFilename_configuration_in)
+    #modflow_prepare_pest_child_input_file(sFilename_configuration_in)
     #EOF
     #
     #cat << EOF > pyscript2.py
@@ -99,7 +99,7 @@ def modflow_prepare_pest_run_script(sFilename_configuration_in, sModel):
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from modflow_prepare_pest_slave_input_file import *\n'
+    sLine = 'from modflow_prepare_pest_child_input_file import *\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
@@ -107,7 +107,7 @@ def modflow_prepare_pest_run_script(sFilename_configuration_in, sModel):
 
     sLine = 'sModel = ' + '"' + sModel + '"\n'
     ifs.write(sLine)
-    sLine = 'modflow_prepare_pest_slave_input_file(sFilename_configuration_in, sModel)\n'
+    sLine = 'modflow_prepare_pest_child_input_file(sFilename_configuration_in, sModel)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'

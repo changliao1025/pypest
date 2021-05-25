@@ -1,4 +1,4 @@
-#this function is used to copy the swat from calibration folder to the current slave folder
+#this function is used to copy the swat from calibration folder to the current child folder
 import sys
 import os
 import datetime
@@ -19,7 +19,7 @@ from pyswat.simulation.swat_copy_executable_file import swat_copy_executable_fil
 
 def swat_child_copy_swat_executable_file(oPest_in, oModel_in):
     """
-    copy swat to local slave directory
+    copy swat to local child directory
     """
     
 
@@ -29,6 +29,6 @@ def swat_child_copy_swat_executable_file(oPest_in, oModel_in):
     
     
     
-    print('Finished copying swat in slave directory')
+    print('Finished copying swat in child directory')
 
 

@@ -16,9 +16,9 @@ def pypest_prepare_pest_command_file():
     #
     #cat << EOF > pyscript1.py
     ##!/share/apps/python/anaconda3.6/bin/python
-    #from swat_prepare_pest_slave_input_file import *
+    #from swat_prepare_pest_child_input_file import *
     #sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-    #swat_prepare_pest_slave_input_file(sFilename_configuration_in)
+    #swat_prepare_pest_child_input_file(sFilename_configuration_in)
     #EOF
     #
     #cat << EOF > pyscript2.py
@@ -68,7 +68,7 @@ def pypest_prepare_pest_command_file():
     sLine = '#!/share/apps/python/anaconda3.6/bin/python\n'
     ifs.write(sLine)
 
-    sLine = 'from swat_prepare_pest_slave_input_file import *\n'
+    sLine = 'from swat_prepare_pest_child_input_file import *\n'
     ifs.write(sLine)
 
     sLine = 'sFilename_configuration_in = ' + '"' + sFilename_configuration_in + '"\n'
@@ -76,7 +76,7 @@ def pypest_prepare_pest_command_file():
 
     sLine = 'sModel = ' + '"' + sModel + '"\n'
     ifs.write(sLine)
-    sLine = 'swat_prepare_pest_slave_input_file(sFilename_configuration_in, sModel)\n'
+    sLine = 'swat_prepare_pest_child_input_file(sFilename_configuration_in, sModel)\n'
     ifs.write(sLine)
 
     sLine = 'EOF\n'

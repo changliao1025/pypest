@@ -3,9 +3,9 @@ echo "Started to prepare python scripts"
 
 cat << EOF > pyscript1.py
 #!/share/apps/python/anaconda3.6/bin/python
-from swat_prepare_pest_slave_input_file import *
+from swat_prepare_pest_child_input_file import *
 sFilename_configuration_in='/pic/scratch/liao313/03model/swat/purgatoire30/calibration/linux_config.txt'
-swat_prepare_pest_slave_input_file(sFilename_configuration_in)
+swat_prepare_pest_child_input_file(sFilename_configuration_in)
 EOF
 
 cat << EOF > pyscript2.py
