@@ -99,7 +99,7 @@
         The workspace of pest calibration
       </desc>
     </entry>
-    <entry id="sFilename_output" value="pest_swat.out">
+    <entry id="sFilename_output" value="stream_discharge.txt">
       <type>char</type>
       <desc>
         The workspace of pest calibration
