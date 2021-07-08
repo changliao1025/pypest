@@ -134,7 +134,7 @@
         The scratch workspace
       </desc>
     </entry>
-     <entry id="iCase_index" value="4">
+     <entry id="iCase_index" value="6">
       <type>int</type>
       <desc>
         The scratch workspace

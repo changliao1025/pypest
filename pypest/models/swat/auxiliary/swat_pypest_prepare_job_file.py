@@ -42,9 +42,11 @@ def swat_pypest_prepare_job_file(oPest_in, oModel_in):
     ifs.write(sLine)
 
     sLine = '#SBATCH -q debug' + '' + '\n'
+    sLine = '#SBATCH -q regular' + '' + '\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -t 00:30:00' + '\n'
+    sLine = '#SBATCH -t 05:00:00' + '\n'
     ifs.write(sLine)
 
     sLine = '#SBATCH -N 1' + '\n'
