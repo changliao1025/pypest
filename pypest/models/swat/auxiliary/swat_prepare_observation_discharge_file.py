@@ -11,7 +11,7 @@ from pyearth.system.define_global_variables import *
 
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
-
+from pyearth.toolbox.data.convert_time_series_daily_to_monthly import convert_time_series_daily_to_monthly
 
 def swat_prepare_observation_discharge_file(oModel_in):
     sModel = oModel_in.sModel
@@ -55,9 +55,12 @@ def swat_prepare_observation_discharge_file(oModel_in):
     sPath =  sWorkspace_data + slash + sModel + slash + sRegion + slash \
     + 'auxiliary' + slash + 'usgs' + slash + 'discharge' + slash
     Path(sPath).mkdir(parents=True, exist_ok=True)
-    sFilename_observation_discharge_out = sPath + slash + 'discharge_observation.txt' 
+    sFilename_observation_discharge_out = sPath + slash + 'discharge_observation_monthly.txt' 
     #ofs= open(sFilename_observation_discharge_out, 'w')
-    aDischarge_observation = np.full( (nstress), missing_value, dtype=float )
+    aDischarge_simulation_daily = np.full( (nstress), missing_value, dtype=float )
+
+    
+
     for i in range(0, nobs):
         iYear = int(aYear[i])
         iMonth = int( aMonth[i])
@@ -67,9 +70,16 @@ def swat_prepare_observation_discharge_file(oModel_in):
         lIndex = jd_dummy[1] - lJulian_start[1]
         if lIndex >=0 and lIndex < nstress:
 
-            aDischarge_observation[ int(lIndex)] = dDischarge
+            aDischarge_simulation_daily[ int(lIndex)] = dDischarge
+
+    aDischarge_simulation_monthly = convert_time_series_daily_to_monthly(aDischarge_simulation_daily,\
+        iYear_start, iMonth_start, iDay_start, \
+      iYear_end, iMonth_end, iDay_end , sType_in = 'sum'  )
     #ofs.write(aDischarge_observation)
     #ofs.close()
-    np.savetxt(sFilename_observation_discharge_out, aDischarge_observation, delimiter=',', fmt='%0.6f') 
+    sFilename_observation_discharge_out = sPath + slash + 'discharge_observation_daily.txt' 
+    np.savetxt(sFilename_observation_discharge_out, aDischarge_simulation_daily, delimiter=',', fmt='%0.6f') 
+    sFilename_observation_discharge_out = sPath + slash + 'discharge_observation_monthly.txt' 
+    np.savetxt(sFilename_observation_discharge_out, aDischarge_simulation_monthly, delimiter=',', fmt='%0.6f') 
     print('finished')
 

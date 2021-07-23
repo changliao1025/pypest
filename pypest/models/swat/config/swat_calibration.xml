@@ -15,6 +15,24 @@
         The scratch workspace
       </desc>
     </entry>
+        <entry id="iFlag_watershed" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="iFlag_subbasin" value="1">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="iFlag_hru" value="0">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
       <entry id="iFlag_mode" value="1">
       <type>int</type>
       <desc>
@@ -91,7 +109,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="sDate" value="20210415">
+    <entry id="sDate" value="20210722">
       <type>char</type>
       <desc>
         The scratch workspace
@@ -134,7 +152,7 @@
         The scratch workspace
       </desc>
     </entry>
-     <entry id="iCase_index" value="6">
+     <entry id="iCase_index" value="1">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -146,7 +164,7 @@
         The scratch workspace
       </desc>
     </entry>
-     <entry id="nbasin" value="5">
+     <entry id="nsubbasin" value="5">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -177,13 +195,13 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="aVariable" value="cn2">
+    <entry id="aParameter" value="CN2">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-    <entry id="aValue" value="10">
+    <entry id="aParameter_value" value="10">
       <type>int</type>
       <desc>
         The scratch workspace

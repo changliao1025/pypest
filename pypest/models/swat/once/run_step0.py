@@ -20,13 +20,18 @@ from pypest.models.swat.once.step0.pypest_prepare_pest_control_file import pypes
 from pypest.models.swat.auxiliary.swat_prepare_observation_discharge_file import swat_prepare_observation_discharge_file
 from pyswat.simulation.swat_copy_TxtInOut_files import swat_copy_TxtInOut_files
 
+from pyswat.scenarios.swat_prepare_watershed_parameter_file import swat_prepare_watershed_parameter_file
+from pyswat.scenarios.swat_prepare_subbasin_parameter_file import swat_prepare_subbasin_parameter_file
 from pyswat.scenarios.swat_prepare_hru_parameter_file import swat_prepare_hru_parameter_file
 def run_step0(oPest_in, oModel_in):
 
     swat_prepare_observation_discharge_file(oModel_in)
     #swat_copy_TxtInOut_files(oModel_in)
     pypest_prepare_pest_control_file(oPest_in, oModel_in)
+    swat_prepare_watershed_parameter_file(oModel_in)
+    #swat_prepare_subbasin_parameter_file(oModel_in)
     swat_prepare_hru_parameter_file(oModel_in)
+
     return
 
 def step0(sFilename_pest_configuration_in, sFilename_model_configuration_in):    

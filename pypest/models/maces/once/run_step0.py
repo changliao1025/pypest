@@ -18,7 +18,7 @@ from pyearth.system.define_global_variables import *
 
 
 from pypest.models.maces.shared.pest import pypest
-from pypest.models.maces.shared.model import pymaces
+from pypest.models.maces.shared.maces import pymaces
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_pest_configuration_file
 from pypest.template.shared.pypest_read_configuration_file import pypest_read_model_configuration_file
 from pypest.models.maces.auxiliary.maces_prepare_observation import maces_prepare_minac_observation

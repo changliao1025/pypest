@@ -132,9 +132,7 @@ def modflow_prepare_pest_control_file(sFilename_configuration_in, sModel):
     dermthd = 'parabolic'
     partrans ='none'
 
-    cn2_init = 60
-    cn2_min = 10
-    cn2_max = 100
+ 
     #we need define the input within the configuration file
 
     sFilename_control = sWorkspace_pest_model + slash + sRegion + '_swat.pst'

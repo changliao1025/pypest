@@ -12,30 +12,35 @@ from pyearth.system.define_global_variables import *
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 
-def pypest_prepare_pest_control_file(oPest_in, oModel_in):
+def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     """
     #prepare the pest control file
     """   
 
     sPest_mode = oPest_in.sPest_mode        
-    sRegion = oModel_in.sRegion
-    sModel = oModel_in.sModel    
+    sRegion = oSwat_in.sRegion
+    sModel = oSwat_in.sModel    
 
-    sWorkspace_data= oModel_in.sWorkspace_data
-    sWorkspace_scratch = oModel_in.sWorkspace_scratch
+    sWorkspace_data= oSwat_in.sWorkspace_data
+    sWorkspace_scratch = oSwat_in.sWorkspace_scratch
     
-    sWorkspace_project_ralative = oModel_in.sWorkspace_project
+    sWorkspace_project_ralative = oSwat_in.sWorkspace_project
+    iFlag_watershed = oSwat_in.iFlag_watershed
+    iFlag_subbasin = oSwat_in.iFlag_subbasin
+    iFlag_hru = oSwat_in.iFlag_hru
+
+    nsubbasin = oSwat_in.nsubbasin
     
     
    
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
 
-    sWorkspace_simulation =  oModel_in.sWorkspace_simulation
-    sWorkspace_calibration = oModel_in.sWorkspace_calibration   
+    sWorkspace_simulation =  oSwat_in.sWorkspace_simulation
+    sWorkspace_calibration = oSwat_in.sWorkspace_calibration   
 
     #the pest workspace should be the same with the calibration workspace
-    sWorkspace_pest_case = oModel_in.sWorkspace_calibration_case
+    sWorkspace_pest_case = oSwat_in.sWorkspace_calibration_case
 
     sFilename_control = sWorkspace_pest_case + slash + oPest_in.sFilename_control    
 
@@ -76,7 +81,7 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
 
     aSubbasin= aData_all[:,0].astype(int)
     aHru = aData_all[:,1].astype(int)
-    nsubbasin = len(aSubbasin)
+    #nsubbasin = len(aSubbasin)
 
     sFilename_hru_combination =  sWorkspace_data_project + slash \
     + 'auxiliary' + slash + 'hru' + slash + 'hru_combination.txt'
@@ -92,7 +97,7 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     npar = nhru
 
     sFilename = sWorkspace_data_project + slash + 'auxiliary' + slash \
-    + 'usgs'+slash+ 'discharge' + slash + 'discharge_observation.txt'
+    + 'usgs'+slash+ 'discharge' + slash + 'discharge_observation_monthly.txt'
     if os.path.isfile(sFilename):
         pass
     else:
@@ -112,6 +117,7 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     else:
         rlambda1 = 0
         numlam = 1
+
     rlamfac = 3.0 #the rlambda1 change factor
     phiratsuf = 0.3  #the iteration criteria
     phiredlam = 0.01
@@ -136,9 +142,9 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     dermthd = 'parabolic'
     partrans ='none'
 
-    cn2_init = 60
-    cn2_min = 10
-    cn2_max = 100
+    #cn2_init = 60
+    #cn2_min = 10
+    #cn2_max = 100
     #we need define the input within the configuration file
     sFilename_control= oPest_in.sFilename_control
 
@@ -197,27 +203,104 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     ofs.write('1\n')
     ofs.write( '* parameter groups\n'  )   
 
-    sLine =  'para_gp1 ' \
-              + inctyp + ' '\
-              + "{:0.3f}".format(derinc)  + ' ' \
-              +  "{:0.3f}".format(derinclb)  + ' ' \
-              +  forcen  + ' ' \
-              +  "{:0.3f}".format(derincmul)  + ' ' \
-              +  dermthd  + '\n'
-    ofs.write(sLine)
+    if iFlag_watershed ==1:
+        sLine =  'para_gp1 ' \
+                  + inctyp + ' '\
+                  + "{:0.3f}".format(derinc)  + ' ' \
+                  +  "{:0.3f}".format(derinclb)  + ' ' \
+                  +  forcen  + ' ' \
+                  +  "{:0.3f}".format(derincmul)  + ' ' \
+                  +  dermthd  + '\n'
+        ofs.write(sLine)
+        pass
+    if iFlag_subbasin ==1:
+        sLine =  'para_gp2 ' \
+                  + inctyp + ' '\
+                  + "{:0.3f}".format(derinc)  + ' ' \
+                  +  "{:0.3f}".format(derinclb)  + ' ' \
+                  +  forcen  + ' ' \
+                  +  "{:0.3f}".format(derincmul)  + ' ' \
+                  +  dermthd  + '\n'
+        ofs.write(sLine)
+        pass
+    if iFlag_hru ==1:
+        sLine =  'para_gp3 ' \
+                  + inctyp + ' '\
+                  + "{:0.3f}".format(derinc)  + ' ' \
+                  +  "{:0.3f}".format(derinclb)  + ' ' \
+                  +  forcen  + ' ' \
+                  +  "{:0.3f}".format(derincmul)  + ' ' \
+                  +  dermthd  + '\n'
+        ofs.write(sLine)
 
     parchglim = 'relative'
     ofs.write('* parameter data\n')
-   
-    for ihru_type in range(0, nhru):
-        sLine = 'cn2' + "{:03d}".format(ihru_type+1) + ' ' \
-          + partrans + ' ' \
-          + parchglim + ' '\
-          + "{:0.3f}".format(cn2_init) + ' ' \
-          + "{:0.3f}".format(cn2_min) + ' ' \
-          +"{:0.3f}".format(cn2_max) + ' ' \
-          + ' para_gp1 1.0 0.0 1\n'
-        ofs.write(sLine)
+
+    if iFlag_watershed ==1:
+        nParameter_watershed = oSwat_in.nParameter_watershed
+        aParameter_watershed = oSwat_in.aParameter_watershed
+        aParameter_value_watershed = oSwat_in.aParameter_value_watershed
+        aParameter_value_lower_watershed = oSwat_in.aParameter_value_lower_watershed
+        aParameter_value_upper_watershed = oSwat_in.aParameter_value_upper_watershed
+        for i in range(nParameter_watershed):
+            sParameter = aParameter_watershed[i]
+
+            dVariable_init = aParameter_value_watershed[i]
+            dVariable_lower = aParameter_value_lower_watershed[i]
+            dVariable_upper = aParameter_value_upper_watershed[i]
+
+            sLine = sParameter  + ' ' \
+                  + partrans + ' ' \
+                  + parchglim + ' '\
+                  + "{:0.3f}".format(dVariable_init) + ' ' \
+                  + "{:0.3f}".format(dVariable_lower) + ' ' \
+                  +"{:0.3f}".format(dVariable_upper) + ' ' \
+                  + ' para_gp1 1.0 0.0 1\n'
+            ofs.write(sLine)
+        pass
+
+    if iFlag_subbasin ==1:
+        nParameter_subbasin = oSwat_in.nParameter_subbasin
+        aParameter_subbasin = oSwat_in.aParameter_subbasin
+        aParameter_value_subbasin = oSwat_in.aParameter_value_subbasin
+        aParameter_value_lower_subbasin = oSwat_in.aParameter_value_lower_subbasin
+        aParameter_value_upper_subbasin = oSwat_in.aParameter_value_upper_subbasin
+        for i in range(nParameter_subbasin):
+            sParameter = aParameter_subbasin[i]
+            dVariable_init = aParameter_value_subbasin[i]
+            dVariable_lower = aParameter_value_lower_subbasin[i]
+            dVariable_upper = aParameter_value_upper_subbasin[i]
+            for iSubbasin in range(0, nsubbasin):
+                sLine = sParameter + "{:03d}".format(iSubbasin+1) + ' ' \
+                  + partrans + ' ' \
+                  + parchglim + ' '\
+                  + "{:0.3f}".format(dVariable_init) + ' ' \
+                  + "{:0.3f}".format(dVariable_lower) + ' ' \
+                  +"{:0.3f}".format(dVariable_upper) + ' ' \
+                  + ' para_gp2 1.0 0.0 1\n'
+                ofs.write(sLine)
+            pass
+
+    if iFlag_hru ==1:
+        nParameter_hru = oSwat_in.nParameter_hru
+        aParameter_hru = oSwat_in.aParameter_hru
+        aParameter_value_hru = oSwat_in.aParameter_value_hru
+        aParameter_value_lower_hru = oSwat_in.aParameter_value_lower_hru
+        aParameter_value_upper_hru = oSwat_in.aParameter_value_upper_hru
+        for i in range(nParameter_hru):
+            sParameter = aParameter_hru[i]
+            dVariable_init = aParameter_value_hru[i]
+            dVariable_lower = aParameter_value_lower_hru[i]
+            dVariable_upper = aParameter_value_upper_hru[i]
+            for ihru_type in range(0, nhru):
+                sLine = sParameter + "{:03d}".format(ihru_type+1) + ' ' \
+                  + partrans + ' ' \
+                  + parchglim + ' '\
+                  + "{:0.3f}".format(dVariable_init) + ' ' \
+                  + "{:0.3f}".format(dVariable_lower) + ' ' \
+                  +"{:0.3f}".format(dVariable_upper) + ' ' \
+                  + ' para_gp3 1.0 0.0 1\n'
+                ofs.write(sLine)
 
     ofs.write('* observation groups\n')
     ofs.write( 'discharge\n')
