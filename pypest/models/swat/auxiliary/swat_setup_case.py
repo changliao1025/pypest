@@ -16,42 +16,42 @@ from pypest.template.shared.xmlchange import xmlchange
 
 
 
-def swat_setup_case(oModel_in):
+def swat_setup_case(oSwat_in):
     print('Started to setup case in child node\n')
     
     #first copy all the needed file
-    swat_copy_input_files(oModel_in)
+    swat_copy_input_files(oSwat_in)
     #then modify the parameters
     
     #get based directory 
-    iFlag_calibration = oModel_in.iFlag_calibration
+    iFlag_calibration = oSwat_in.iFlag_calibration
     if iFlag_calibration == 1:
         iFlag_debug =0
         if iFlag_debug ==1:
-            sPath_current= oModel_in.sWorkspace_calibration_case + slash + 'child1'  
+            sPath_current= oSwat_in.sWorkspace_calibration_case + slash + 'child1'  
         else:
         #current path
             sPath_current = os.getcwd()
         
         pass
     else:
-        sPath_current = oModel_in.sWorkspace_simulation_case  
+        sPath_current = oSwat_in.sWorkspace_simulation_case  
          
         
     print('The current workspace is: ' + sPath_current)  
     print('Started to change namelist parameter\n')    
-    sFilename_namelist = oModel_in.sFilename_namelist
-    sRegion = oModel_in.sRegion
+    sFilename_namelist = oSwat_in.sFilename_namelist
+    sRegion = oSwat_in.sRegion
 
-    sFilename_namelist_new = sPath_current + slash + os.path.basename(oModel_in.sFilename_namelist)
+    sFilename_namelist_new = sPath_current + slash + os.path.basename(oSwat_in.sFilename_namelist)
 
     #change run control
     xmlchange(filename=sFilename_namelist_new,  group='run_control',parameter='RUNROOT',value = sPath_current)
 
     #change site file
     if sRegion == 'VeniceLagoon': #first site
-        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STARTDATE',value = oModel_in.sDate_start)
-        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STOPDATE',value = oModel_in.sDate_end)
+        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STARTDATE',value = oSwat_in.sDate_start)
+        xmlchange(filename=sFilename_namelist_new,  group='run_desc',parameter='RUN_STOPDATE',value = oSwat_in.sDate_end)
 
         #sFilename = '/qfs/projects/taim/TAIMOD/Data/VeniceLagoon/DIVA_maces.xlsx'
         sFilename = '/qfs/people/liao313/data/maces/VeniceLagoon/auxiliary/DIVA_maces.xlsx'
@@ -121,7 +121,7 @@ def swat_setup_case(oModel_in):
     if iFlag_calibration ==1:
         pass
     else:
-        maces_prepare_job_file(oModel_in)
+        maces_prepare_job_file(oSwat_in)
 
     print('Finished setting up the maces case')
     

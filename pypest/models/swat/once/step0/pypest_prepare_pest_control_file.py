@@ -69,32 +69,8 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     ninsfile = oPest_in.ninsfile
 
 
-    sFilename_watershed_configuration = sWorkspace_data_project + slash \
-    + 'auxiliary' + slash  + 'subbasin' + slash + 'watershed_configuration.txt'
-    if os.path.isfile(sFilename_watershed_configuration):
-        pass
-    else:
-        print(sFilename_watershed_configuration + ' is missing!')
-        return
     
-    aData_all = text_reader_string(sFilename_watershed_configuration, cDelimiter_in=',')
-
-    aSubbasin= aData_all[:,0].astype(int)
-    aHru = aData_all[:,1].astype(int)
-    #nsubbasin = len(aSubbasin)
-
-    sFilename_hru_combination =  sWorkspace_data_project + slash \
-    + 'auxiliary' + slash + 'hru' + slash + 'hru_combination.txt'
-    if os.path.isfile(sFilename_hru_combination):
-        pass
-    else:
-        print(sFilename_hru_combination + ' is missing!')
-        return
-    
-    aData_all=text_reader_string(sFilename_hru_combination, cDelimiter_in=',')
-    nhru = len(aData_all)
-    
-    npar = nhru
+    npar = oSwat_in.nParameter
 
     sFilename = sWorkspace_data_project + slash + 'auxiliary' + slash \
     + 'usgs'+slash+ 'discharge' + slash + 'discharge_observation_monthly.txt'
@@ -325,20 +301,23 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     
     ofs.write('* model input/output\n')
 
-    #sLine1 = sWorkspace_pest_model + slash + 'watershed.tpl'    
-    #sLine2 = sWorkspace_pest_model + slash + 'watershed.para\n'
-    #sLine = sLine1 + ' ' + sLine2
-    #ofs.write(sLine)
+    if iFlag_watershed ==1:
+        sLine1 = sWorkspace_pest_case + slash + 'watershed.tpl'    
+        sLine2 = 'watershed.para\n'
+        sLine = sLine1 + ' ' + sLine2
+        ofs.write(sLine)
 
-    #sLine1 = sWorkspace_pest_model + slash + 'subbasin.tpl'    
-    #sLine2 = sWorkspace_pest_model + slash + 'subbasin.para\n'
-    #sLine = sLine1 + ' ' + sLine2
-    #ofs.write(sLine)
+    if iFlag_subbasin ==1:
+        sLine1 = sWorkspace_pest_case + slash + 'subbasin.tpl'    
+        sLine2 =  'subbasin.para\n'
+        sLine = sLine1 + ' ' + sLine2
+        ofs.write(sLine)
 
-    sLine1 = sWorkspace_pest_case + slash + 'hru.tpl'    
-    sLine2 = 'hru.para\n'
-    sLine = sLine1 + ' ' + sLine2
-    ofs.write(sLine)
+    if iFlag_hru ==1:
+        sLine1 = sWorkspace_pest_case + slash + 'hru.tpl'    
+        sLine2 = 'hru.para\n'
+        sLine = sLine1 + ' ' + sLine2
+        ofs.write(sLine)
 
     #result
     sFilename_instruction = oPest_in.sFilename_instruction

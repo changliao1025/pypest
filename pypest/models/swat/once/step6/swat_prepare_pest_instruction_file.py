@@ -12,39 +12,39 @@ from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
 
 
-def swat_prepare_pest_instruction_file(oPest_in, oModel_in):
+def swat_prepare_pest_instruction_file(oPest_in, oSwat_in):
     """
     prepare pest instruction file
     """
     
     
     
-    sWorkspace_scratch=oModel_in.sWorkspace_scratch 
+    sWorkspace_scratch=oSwat_in.sWorkspace_scratch 
 
-    sWorkspace_data =  oModel_in.sWorkspace_data 
-    sWorkspace_project =  oModel_in.sWorkspace_project 
+    sWorkspace_data =  oSwat_in.sWorkspace_data 
+    sWorkspace_project =  oSwat_in.sWorkspace_project 
    
 
-    sRegion =  oModel_in.sRegion 
-    sModel =  oModel_in.sModel 
+    sRegion =  oSwat_in.sRegion 
+    sModel =  oSwat_in.sModel 
 
     
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project
 
-    sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
+    sWorkspace_calibration_case = oSwat_in.sWorkspace_calibration_case
 
     sWorkspace_pest_model = sWorkspace_calibration_case 
-    sWorkspace_simulation_copy = oModel_in.sWorkspace_simulation_copy
+    sWorkspace_simulation_copy = oSwat_in.sWorkspace_simulation_copy
 
-    iYear_start =  oModel_in.iYear_start  
+    iYear_start =  oSwat_in.iYear_start  
+    iYear_end  =   oSwat_in.iYear_end  
+    #nsegment =  oSwat_in.nsegment  
   
-    iYear_end  =   oModel_in.iYear_end  
-    #nsegment =  oModel_in.nsegment  
-  
-    nstress = oModel_in.nstress
+    nstress = oSwat_in.nstress
+    nstress_month = oSwat_in.nstress_month
 
     sFilename_observation = sWorkspace_data_project + slash + 'auxiliary' + slash \
-        + 'usgs' + slash + 'discharge' + slash + 'discharge_observation.txt'
+        + 'usgs' + slash + 'discharge' + slash + 'discharge_observation_monthly.txt'
     if os.path.isfile(sFilename_observation):
         pass
     else:
@@ -63,7 +63,9 @@ def swat_prepare_pest_instruction_file(oPest_in, oModel_in):
     ofs.write('pif $\n')
 
     #we need to consider that there is missing value in the observations
-    for i in range(0, nstress):
+
+    #changed from daily to monthly
+    for i in range(0, nstress_month):
         dDummy = aDischarge_observation[i]
         if( dDummy != missing_value  ):
             sLine = 'l1' + ' !discharge' + "{:04d}".format(i+1) + '!\n'

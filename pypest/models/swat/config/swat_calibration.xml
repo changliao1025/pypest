@@ -21,7 +21,7 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="iFlag_subbasin" value="1">
+    <entry id="iFlag_subbasin" value="0">
       <type>int</type>
       <desc>
         The scratch workspace
@@ -195,13 +195,25 @@
         The scratch workspace
       </desc>
     </entry>
-    <entry id="aParameter" value="CN2">
+    <entry id="aParameter" value="SFTMP,SMTMP">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-    <entry id="aParameter_value" value="10">
+    <entry id="aParameter_value" value="1.0,0.5">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="aParameter_value_lower" value="-5,-5">
+      <type>int</type>
+      <desc>
+        The scratch workspace
+      </desc>
+    </entry>
+    <entry id="aParameter_value_upper" value="5,5">
       <type>int</type>
       <desc>
         The scratch workspace

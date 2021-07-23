@@ -55,7 +55,7 @@ def swat_prepare_pest_hru_template_file(oPest_in, oSwat_in):
             sLine = 'hru'+ sHru_type 
             for iVariable in range(nvariable):
                 sVariable = aParameter_hru[iVariable]
-                sValue = ' , $' +  sVariable +  sHru_type         
+                sValue = '  $' +  sVariable +  sHru_type    + '$'     
                 sLine = sLine + ', ' + sValue 
             sLine = sLine + '\n'
             ofs.write(sLine)

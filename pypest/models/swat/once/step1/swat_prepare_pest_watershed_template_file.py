@@ -47,7 +47,8 @@ def swat_prepare_pest_watershed_template_file(oPest_in, oSwat_in):
         sLine = 'watershed'
         for iVariable in range(nvariable):
             sVariable = aParameter_watershed[iVariable]
-            sLine = sLine + ', $' +  sVariable         
+            sValue = ' $' +  sVariable    + '$'     
+            sLine = sLine + ', ' + sValue  
             
         sLine = sLine + '\n'
         

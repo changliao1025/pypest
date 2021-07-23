@@ -30,14 +30,14 @@ def create_symlink(source, target_link):
             raise e
 
 
-def swat_child_link_swat_permanent_file(oPest_in, oModel_in):
+def swat_child_link_swat_permanent_file(oPest_in, oSwat_in):
     """
     create sym limk of swat files
     """
     
     #strings
-    sWorkspace_calibration = oModel_in.sWorkspace_calibration
-    sWorkspace_calibration_case = oModel_in.sWorkspace_calibration_case
+    sWorkspace_calibration = oSwat_in.sWorkspace_calibration
+    sWorkspace_calibration_case = oSwat_in.sWorkspace_calibration_case
    
     sWorkspace_pest_model = sWorkspace_calibration + slash + 'TxtInOut'
 

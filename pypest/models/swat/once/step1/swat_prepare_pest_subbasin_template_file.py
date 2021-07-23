@@ -51,7 +51,7 @@ def swat_prepare_pest_subbasin_template_file(oPest_in, oSwat_in):
             sLine = 'subbasin'+ sSubbasin 
             for iVariable in range(nvariable):
                 sVariable = aParameter_subbasin[iVariable]
-                sValue = ' , $' +  sVariable +  sSubbasin         
+                sValue = ' $' +  sVariable +  sSubbasin  +'$'       
                 sLine = sLine + ', ' + sValue 
 
             sLine = sLine +'\n'

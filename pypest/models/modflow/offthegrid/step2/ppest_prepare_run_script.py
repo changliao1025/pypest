@@ -15,8 +15,6 @@ from numpy  import array
 from shutil import copyfile, copy2
 
 
-sPath_library_python = sWorkspace_code +  slash + 'python' + slash + 'library' + slash + 'pyearth_python'
-sys.path.append(sPath_library_python)
 from toolbox.reader.text_reader_string import text_reader_string
 
     
