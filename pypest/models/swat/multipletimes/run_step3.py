@@ -7,9 +7,9 @@ from numpy  import array
 
 from pypest.models.swat.multipletimes.step3.swat_prepare_pest_child_input_file import swat_prepare_pest_child_input_file
 
-def swat_prepare_input_from_pest(oPest_in, sModel_in):
+def swat_prepare_input_from_pest(oPest_in, oSwat_in):
     """
     sFilename_configuration_in
     """
     #hru level
-    swat_prepare_pest_child_input_file(sModel_in)
+    swat_prepare_pest_child_input_file(oSwat_in)

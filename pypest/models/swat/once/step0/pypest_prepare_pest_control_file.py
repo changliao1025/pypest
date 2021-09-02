@@ -31,10 +31,20 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
 
     nsubbasin = oSwat_in.nsubbasin
     
-    
    
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
+
+    sFilename_hru_info = sWorkspace_data_project + slash + 'auxiliary' + slash \
+      + 'hru' + slash + 'hru_info.txt'
+    if os.path.isfile(sFilename_hru_info):
+        pass
+    else:
+        print('The file does not exist: ')
+        return
+    aHru_info = text_reader_string(sFilename_hru_info)
+    aHru_info = np.asarray(aHru_info)
+    nhru = len(aHru_info)
 
     sWorkspace_simulation =  oSwat_in.sWorkspace_simulation
     sWorkspace_calibration = oSwat_in.sWorkspace_calibration   
@@ -48,10 +58,9 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
         os.mkdir(sWorkspace_pest_case)
     else:
         pass
-
-    
+   
   
-    sWorkspace_simulation_copy = sWorkspace_data_project + slash + 'copy' + slash + 'TxtInOut'
+    sWorkspace_simulation_copy = oSwat_in.sWorkspace_simulation_copy 
 
     if not os.path.exists(sWorkspace_simulation_copy):
         print("The simulation folder is missing")
@@ -73,7 +82,7 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     npar = oSwat_in.nParameter
 
     sFilename = sWorkspace_data_project + slash + 'auxiliary' + slash \
-    + 'usgs'+slash+ 'discharge' + slash + 'discharge_observation_monthly.txt'
+    + 'usgs'+slash+ 'discharge' + slash + 'stream_discharge_monthly.txt'
     if os.path.isfile(sFilename):
         pass
     else:
@@ -101,7 +110,7 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     facparmax = 3
     facorig = 0.0001
     phiredswh = 0.1
-    noptmax = 20       #temination criteria
+    noptmax = 30       #temination criteria
     phiredstp = 0.005
     nphistp = 5
     nphinored = 4
@@ -111,16 +120,15 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     icor = 1
     ieig = 1
     derinc = 0.01
-    derinclb = 0.1
+    derinclb = 0.01
     derincmul = 1.5
     inctyp = 'relative'
     forcen = 'switch'
     dermthd = 'parabolic'
     partrans ='none'
 
-    #cn2_init = 60
-    #cn2_min = 10
-    #cn2_max = 100
+    
+    
     #we need define the input within the configuration file
     sFilename_control= oPest_in.sFilename_control
 
@@ -211,7 +219,6 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
 
     parchglim = 'relative'
     ofs.write('* parameter data\n')
-
     if iFlag_watershed ==1:
         nParameter_watershed = oSwat_in.nParameter_watershed
         aParameter_watershed = oSwat_in.aParameter_watershed

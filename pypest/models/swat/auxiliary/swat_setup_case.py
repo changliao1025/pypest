@@ -128,15 +128,3 @@ def swat_setup_case(oSwat_in):
 
 
     return
-if __name__ == '__main__':
-    iFlag_calibration =1
-    if iFlag_calibration ==1:
-
-        sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_calibration.xml'    
-    else:
-        sFilename_model_configuration = '/qfs/people/liao313/workspace/python/pypest/pypest/pypest/models/maces/config/model_simulation.xml'    
-
-   
-    aParameter_model = pypest_read_model_configuration_file(sFilename_model_configuration)   
-    oMaces = maces(aParameter_model)
-    maces_setup_case(oMaces)

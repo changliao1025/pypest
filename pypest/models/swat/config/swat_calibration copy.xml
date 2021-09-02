@@ -76,21 +76,21 @@
       </desc>
     </entry>
 
-    <entry id="sWorkspace_scratch" value="/global/homes/l/liao313/">
+    <entry id="sWorkspace_scratch" value="/global/cscratch1/sd/liao313/">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
 
-    <entry id="sWorkspace_simulation" value="/tmp/swat/arw/simulation">
+    <entry id="sWorkspace_simulation" value="/04model/swat/arw/simulation">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
 
-    <entry id="sWorkspace_calibration" value="/tmp/swat/arw/calibration">
+    <entry id="sWorkspace_calibration" value="/04model/swat/arw/calibration">
       <type>char</type>
       <desc>
         The scratch workspace

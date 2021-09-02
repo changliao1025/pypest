@@ -15,9 +15,6 @@ def pypest_prepare_pest_control_file(oPest_in, oModel_in):
     
     sPest_mode = oPest_in.sPest_mode
     
-    
-    
-
     sWorkspace_data = sWorkspace_home + slash + sWorkspace_data_relative
 
     sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative

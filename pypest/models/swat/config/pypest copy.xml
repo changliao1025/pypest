@@ -9,7 +9,7 @@
         The home workspace
       </desc>
     </entry>
-    <entry id="sWorkspace_scratch" value="/global/homes/l/liao313/">
+    <entry id="sWorkspace_scratch" value="/global/cscratch1/sd/liao313/">
       <type>char</type>
       <desc>
         The scratch workspace

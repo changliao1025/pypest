@@ -14,20 +14,18 @@ from pypest.models.swat.once.step1.swat_prepare_pest_subbasin_template_file impo
 from pypest.models.swat.once.step1.swat_prepare_pest_hru_template_file import swat_prepare_pest_hru_template_file
 
 
-def ppest_prepare_template_file(oPest_in, oSwat_in):
+def ppest_prepare_template_files(oPest_in, oSwat_in):
     """
     prepare the pest template file
     """
-
     swat_prepare_pest_watershed_template_file(oPest_in, oSwat_in)
     swat_prepare_pest_subbasin_template_file(oPest_in, oSwat_in)
     swat_prepare_pest_hru_template_file(oPest_in, oSwat_in)
-
     print('The PEST template file is prepared successfully!')
 
 
 def run_step1(oPest_in, oSwat_in):
-    ppest_prepare_template_file(oPest_in, oSwat_in)
+    ppest_prepare_template_files(oPest_in, oSwat_in)
     return
 
 
