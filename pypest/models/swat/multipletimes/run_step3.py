@@ -1,15 +1,14 @@
 import sys
 import os
 
-import numpy as np
-from numpy  import array
-
 
 from pypest.models.swat.multipletimes.step3.swat_prepare_pest_child_input_file import swat_prepare_pest_child_input_file
+from pypest.models.swat.multipletimes.step3.swat_prepare_input_from_pest import swat_prepare_input_from_pest
 
-def swat_prepare_input_from_pest(oPest_in, oSwat_in):
-    """
-    sFilename_configuration_in
-    """
-    #hru level
-    swat_prepare_pest_child_input_file(oSwat_in)
+
+def run_step3(oPest_in, oSwat_in):
+
+    swat_prepare_pest_child_input_file(oPest_in, oSwat_in)
+    swat_prepare_input_from_pest(oSwat_in)
+
+    return

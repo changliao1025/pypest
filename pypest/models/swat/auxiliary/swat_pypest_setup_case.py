@@ -1,12 +1,6 @@
-import sys, os
-import numpy as np
-import xml.etree.ElementTree as ET
 
 from pyearth.system.define_global_variables import *
 
-from pyswat.shared.swat import pyswat
-
-from pypest.models.swat.shared.pest import pypest
 
 
 from pypest.models.swat.once.run_step0 import run_step0

@@ -1,11 +1,6 @@
 import sys
 import os
 import numpy as np
-import datetime
-import calendar
-
-
-from numpy  import array
 
 from pyearth.system.define_global_variables import *
 
@@ -90,7 +85,7 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
         return
     
     aData_all = text_reader_string(sFilename, cDelimiter_in=',')
-    obs= array( aData_all).astype(float)
+    obs= np.array( aData_all).astype(float)
     good_index = np.where(obs != missing_value)
     nobs_with_missing_value = len(obs)
     nobs = len(good_index[0])
@@ -108,7 +103,7 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     phiredlam = 0.01
     relparmax = 3
     facparmax = 3
-    facorig = 0.0001
+    facorig = 0.01
     phiredswh = 0.1
     noptmax = 30       #temination criteria
     phiredstp = 0.005
@@ -122,7 +117,7 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     derinc = 0.01
     derinclb = 0.01
     derincmul = 1.5
-    inctyp = 'relative'
+    inctyp = 'absolute' #'relative'
     forcen = 'switch'
     dermthd = 'parabolic'
     partrans ='none'

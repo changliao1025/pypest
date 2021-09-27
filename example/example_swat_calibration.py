@@ -20,10 +20,10 @@ oPest = pypest(aParameter_pest)
 aParameter_watershed = ['SFTMP','SMTMP']
 aParameter_subbasin = ['CH_K2','CH_N2']
 aParameter_hru = ['CN2']
-aParameter = ['SFTMP','SMTMP']#,'CH_K2','CH_N2','CN2']
-aParameter_value = [1.0,0.5]#,0.5,3, 7]
-aParameter_value_lower = [-5,-5]#,0.5,3, 7]
-aParameter_value_upper = [5.0,5.0]#,0.5,3, 7]
+aParameter = ['SFTMP','SMTMP']
+aParameter_value = [1.0,0.5]
+aParameter_value_lower = [-5,-5]
+aParameter_value_upper = [5.0,5.0]
 
 aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)
 

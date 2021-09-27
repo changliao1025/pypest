@@ -11,7 +11,7 @@ from pyswat.scenarios.swat_write_watershed_input_file import swat_write_watershe
 from pyswat.scenarios.swat_write_subbasin_input_file import swat_write_subbasin_input_file
 from pyswat.scenarios.swat_write_hru_input_file import swat_write_hru_input_file
 
-def swat_prepare_input_from_pest(oPest_in, oSwat_in):
+def swat_prepare_input_from_pest(oSwat_in):
     """
     Prepare a swat simulation after PEST generates new parameter files
     """
