@@ -18,16 +18,11 @@ def swat_prepare_pest_child_input_file(oPest_in, oSwat_in):
     """
     prepare the input files for the child simulation
     """
-
-    sWorkspace_calibration_case = oSwat_in.sWorkspace_calibration_case
-   
-    sWorkspace_pest_model = sWorkspace_calibration_case
-    
-    #get current directory
+    sWorkspace_calibration_case = oSwat_in.sWorkspace_calibration_case   
+    sWorkspace_pest_model = sWorkspace_calibration_case        
     sPath_current = os.getcwd()
-
     if (os.path.normpath(sPath_current)  == os.path.normpath(sWorkspace_pest_model)):
-        print('This is the master directory, no need to copy anything')
+        print('This is the parent directory, no need to copy anything')
     else:
         swat_child_copy_swat_executable_file(oPest_in, oSwat_in)
         swat_child_link_swat_permanent_file(oPest_in, oSwat_in)

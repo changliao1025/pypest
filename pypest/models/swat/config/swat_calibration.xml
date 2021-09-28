@@ -6,131 +6,127 @@
   <entry id="iFlag_simulation" value="0">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Flag for simulation
       </desc>
     </entry>
      <entry id="iFlag_calibration" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Flag for calibration
       </desc>
     </entry>
         <entry id="iFlag_watershed" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Flag for watershed scale parameter
       </desc>
     </entry>
     <entry id="iFlag_subbasin" value="0">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Flag for sub-basin scale parameter
       </desc>
     </entry>
     <entry id="iFlag_hru" value="0">
       <type>int</type>
       <desc>
-        The scratch workspace
+       Flag for hru scale parameter
       </desc>
     </entry>
       <entry id="iFlag_mode" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        The HPC job mode
       </desc>
     </entry>
     <entry id="iFlag_replace" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Flag to replace parameter
       </desc>
     </entry>
     <entry id="sPython" value="/global/homes/l/liao313/.conda/envs/pypestenv/bin/python">
       <type>int</type>
       <desc>
-        The scratch workspace
+        The Conda Python path
       </desc>
     </entry>
      <entry id="sWorkspace_home" value="/global/homes/l/liao313/">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The home workspace
       </desc>
     </entry>
      <entry id="sWorkspace_bin" value="/global/homes/l/liao313/bin">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The workspace where PEST is located
       </desc>
     </entry>
     <entry id="sWorkspace_data" value="/global/homes/l/liao313/data">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The data workspace
       </desc>
     </entry>
     <entry id="sWorkspace_project" value="/swat/arw">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The project workspace
       </desc>
     </entry>
-
     <entry id="sWorkspace_scratch" value="/global/homes/l/liao313/">
       <type>char</type>
       <desc>
         The scratch workspace
       </desc>
     </entry>
-
     <entry id="sWorkspace_simulation" value="/tmp/swat/arw/simulation">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The simulation workspace
       </desc>
     </entry>
-
     <entry id="sWorkspace_calibration" value="/tmp/swat/arw/calibration">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The calibration workspace
       </desc>
     </entry>
-
     <entry id="sRegion" value="arw">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The study region
       </desc>
     </entry>
     <entry id="sModel" value="swat">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The target model
       </desc>
     </entry>
     <entry id="sDate" value="20210927">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The date
       </desc>
     </entry>
-     <entry id="iCase_index" value="9">
+     <entry id="iCase_index" value="11">
       <type>int</type>
       <desc>
-        The scratch workspace
+        The index of this run
       </desc>
     </entry>
     <entry id="iYear_start" value="1997">
       <type>int</type>
       <desc>
-        The scratch workspace
+        The simulation start year
       </desc>
     </entry>
     <entry id="iYear_end" value="2009">
       <type>int</type>
       <desc>
-        The scratch workspace
+        The simulation end year
       </desc>
     </entry>
      <entry id="iMonth_start" value="1">
@@ -156,8 +152,7 @@
       <desc>
         The scratch workspace
       </desc>
-    </entry>
-    
+    </entry>    
      <entry id="nsegment" value="5">
       <type>int</type>
       <desc>
@@ -187,8 +182,7 @@
       <desc>
         The scratch workspace
       </desc>
-    </entry>
-    
+    </entry>    
     <entry id="sWorkspace_simulation_copy" value="/swat/arw/copy/">
       <type>char</type>
       <desc>
@@ -226,6 +220,4 @@
       </desc>
     </entry>
   </group>
-
-
 </file>

@@ -18,95 +18,88 @@
     <entry id="sWorkspace_data" value="/data/">
       <type>char</type>
       <desc>
-        The scratch workspace
+        The data workspace
       </desc>
     </entry>
-  </group>
-  
-
+  </group> 
   <group id="pypest">
     <entry id="sPest_mode" value="estimation">
       <type>char</type>
       <desc>
-        The scratch workspace
+        PEST mode
       </desc>
     </entry>
     <entry id="npargp" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of parameter group
       </desc>
     </entry>
     <entry id="npar" value="2">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of parameter
       </desc>
     </entry>
     <entry id="nobsgp" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of observation group
       </desc>
     </entry>
     <entry id="nobs" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of observation
       </desc>
     </entry>
     <entry id="nprior" value="0">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of prior information
       </desc>
     </entry>
     <entry id="ntplfile" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of template file
       </desc>
     </entry>
     <entry id="ninsfile" value="1">
       <type>int</type>
       <desc>
-        The scratch workspace
+        Number of instruction file
       </desc>
     </entry>
      <entry id="sFilename_pest_configuration" value="">
       <type>char</type>
       <desc>
-        The workspace of pest calibration
+        The PEST configuration file
       </desc>
     </entry>
-
     <entry id="sWorkspace_pest" value="">
       <type>char</type>
       <desc>
-        The workspace of pest calibration
+        The workspace of pest 
       </desc>
     </entry>
-
     <entry id="sFilename_control" value="pest_swat.pst">
       <type>char</type>
       <desc>
-        The workspace of pest calibration
+        The PEST control file
       </desc>
     </entry>
     <entry id="sFilename_instruction" value="pest_swat.ins">
       <type>char</type>
       <desc>
-        The workspace of pest calibration
+        The PEST instruction file
       </desc>
     </entry>
     <entry id="sFilename_output" value="stream_discharge_monthly.txt">
       <type>char</type>
       <desc>
-        The workspace of pest calibration
+        The PEST output file for instruction file
       </desc>
-    </entry>
-   
-   
+    </entry>     
   </group>
-
 </file>

@@ -1,16 +1,7 @@
 #this function is used to copy swat and beopest from linux hpc to calibration folder
 import sys
 import os, stat
-import numpy as np
-
-from os.path import isfile, join
-from os import listdir
-
-from numpy  import array
-from shutil import copyfile, copy2
 from pyearth.system.define_global_variables import *
-
-
     
 def pypest_prepare_run_script(oPest_in, oSwat_in):
     """
@@ -75,15 +66,10 @@ def pypest_prepare_run_script(oPest_in, oSwat_in):
     sLine = 'EOF\n'
     ifs.write(sLine)
     
-    
-  
-
-
     #step 5 
     sLine = 'cat << EOF > runstep5.py\n'
     ifs.write(sLine)
 
-    
     ifs.write(sPython)
     sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
     ifs.write(sLine)
@@ -152,12 +138,7 @@ def pypest_prepare_run_script(oPest_in, oSwat_in):
     ifs.write(sLine)
     sLine = 'echo "Finished extracting SWAT simulation outputs"\n'
     ifs.write(sLine)
-
-
     ifs.close()
-
     os.chmod(sFilename_script, stat.S_IREAD | stat.S_IWRITE | stat.S_IXUSR)
-
-
     print('The pest run model file is prepared successfully!')
 

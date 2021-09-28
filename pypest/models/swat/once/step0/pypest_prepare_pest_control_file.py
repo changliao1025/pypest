@@ -115,9 +115,9 @@ def pypest_prepare_pest_control_file(oPest_in, oSwat_in):
     icor = 1
     ieig = 1
     derinc = 0.01
-    derinclb = 0.01
+    derinclb = 0.1
     derincmul = 1.5
-    inctyp = 'absolute' #'relative'
+    inctyp = 'relative' #'absolute' #
     forcen = 'switch'
     dermthd = 'parabolic'
     partrans ='none'
