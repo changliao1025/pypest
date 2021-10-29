@@ -6,27 +6,19 @@ import shutil
 
 from setuptools import setup, find_packages, Command
 
-NAME = "pyearth"
+NAME = "pypest"
 DESCRIPTION = \
-    "Python for Earth Science."
+    "Python for Parameter Estimation."
 AUTHOR = "Chang Liao"
 AUTHOR_EMAIL = "chang.liao@pnnl.gov"
-URL = "https://github.com/changliao1025/pyearth"
+URL = "https://github.com/changliao1025/pypest"
 VERSION = "0.1.1"
 REQUIRES_PYTHON = ">=3.6.0"
 KEYWORDS = "Earth Science"
 
 REQUIRED = [
-    "numpy",
-    "matplotlib",
-    "scipy",
-    "statsmodels",
-    "pandas",
-    "osgeo",
-    "netCDF4",
-    "adjustText",
-    "jdcal",
-    "pyevtk"
+    "numpy",    
+    "scipy",    
 ]
 
 CLASSIFY = [

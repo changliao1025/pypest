@@ -7,4 +7,4 @@ The models directory contains several models that are already supported by pypes
 3. prms
 4. maces
 
-Although pypest supports these models, it was not our desire to consider all possible parameters in our study. You can custmize the existing model to meet your own cases.
+Although pypest supports these models, it was not our desire to consider all possible parameters in our study. You can custmize the existing models to meet your own cases.
