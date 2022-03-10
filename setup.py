@@ -19,6 +19,8 @@ KEYWORDS = "Earth Science"
 REQUIRED = [
     "numpy",    
     "scipy",    
+    "swaty",
+    "pyearth"
 ]
 
 CLASSIFY = [
