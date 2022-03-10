@@ -10,7 +10,7 @@ from shutil import copy2
 import json
 from json import JSONEncoder
 
-from pyearth.system.define_global_variables import *
+from swaty.classes.pycase import swatcase
 
 class CaseClassEncoder(JSONEncoder):
     def default(self, obj):
@@ -21,7 +21,8 @@ class CaseClassEncoder(JSONEncoder):
         if isinstance(obj, np.ndarray):
             return obj.tolist()
          
-    
+        if isinstance(obj, swatcase):
+            return json.loads(obj.tojson())
        
         if isinstance(obj, list):
             pass  
@@ -29,7 +30,7 @@ class CaseClassEncoder(JSONEncoder):
 
 class pestcase(object):
     __metaclass__ = ABCMeta    
-    aConfig_in={}
+    
     sPest_mode=''
     npar =0
     nobs=0
@@ -46,11 +47,12 @@ class pestcase(object):
 
     sWokspace_pest_configuration=''
     
-    sWorkspace_project=''
-    sWorkspace_simulation=''
-    sWorkspace_calibration=''
+  
     sRegion=''
-    sModel=''
+    sModel='pest'
+    sModel_type='swat'
+    iModel_type=1
+    sPest_method='pest' #can be other
     
     sCase=''
     sDate=''
@@ -60,10 +62,11 @@ class pestcase(object):
     sFilename_instruction=''    
     sFilename_template=''
     sFilename_output=''
+    pSwat=None
 
     def __init__(self, aConfig_in):
         print('PEST model is being initialized')
-        self.aConfig_in = aConfig_in
+        #self.aConfig_in = aConfig_in
         if 'sPest_mode' in aConfig_in:
             self.sPest_mode             = aConfig_in[ 'sPest_mode']
         
@@ -90,18 +93,12 @@ class pestcase(object):
             self.ninsfile             = int(aConfig_in[ 'ninsfile'])
         if 'sWokspace_pest_configuration' in aConfig_in:
             self.sWokspace_pest_configuration = aConfig_in['sWokspace_pest_configuration']
-        if 'sWorkspace_home' in aConfig_in:
-            self.sWorkspace_home       = aConfig_in[ 'sWorkspace_home' ]
-        if 'sWorkspace_scratch' in aConfig_in:
-            self.sWorkspace_scratch    = aConfig_in[ 'sWorkspace_scratch']
-        if 'sWorkspace_data' in aConfig_in:
-            self.sWorkspace_data       = aConfig_in[ 'sWorkspace_data']
-        if 'sWorkspace_project' in aConfig_in:
-            self.sWorkspace_project    = aConfig_in[ 'sWorkspace_project']
-        if 'sWorkspace_simulation' in aConfig_in:
-            self.sWorkspace_simulation = aConfig_in[ 'sWorkspace_simulation']
-        if 'sWorkspace_calibration' in aConfig_in:
-            self.sWorkspace_calibration= aConfig_in[ 'sWorkspace_calibration']
+        
+        
+        if 'sWorkspace_input' in aConfig_in:
+            self.sWorkspace_input = aConfig_in[ 'sWorkspace_input']
+        if 'sWorkspace_output' in aConfig_in:
+            self.sWorkspace_output= aConfig_in[ 'sWorkspace_output']
         if 'sRegion' in aConfig_in:
             self.sRegion               = aConfig_in[ 'sRegion']
         if 'sModel' in aConfig_in:
@@ -118,11 +115,25 @@ class pestcase(object):
         sCase_index = "{:03d}".format( self.iCase_index )
         sCase = self.sModel + self.sDate + sCase_index
         self.sCase = sCase
+        sPath = str(Path(self.sWorkspace_output)  /  sCase)
+        self.sWorkspace_output_case = sPath
+        Path(sPath).mkdir(parents=True, exist_ok=True)
+
         pass
 
     def read_pest_configuration(self, sInput):
 
         pass
+    def setup(self):
+        self.pSwat.setup()
+        
+        return
+    def run(self):
+        return
+    def analyze(self):
+        return
+    def export(self):
+        return    
     def export_config_to_json(self, sFilename_output):
         with open(sFilename_output, 'w', encoding='utf-8') as f:
             json.dump(self.__dict__, f,sort_keys=True, \
@@ -144,80 +155,89 @@ class pestcase(object):
         return sJson
 
         
-    def pypest_prepare_job_file(self, sFilename_configuration_in, sModel_in = None):
+    def pypest_prepare_job_file(self):
         """
         prepare the job submission file
         """    
-        #strings
-      
-        sWorkspace_scratch=self.sWorkspace_scratch
+       
+        sWorkspace_pest_model = self.sWorkspace_output_case
+        sFilename_job = os.path.join(sWorkspace_pest_model , 'job.submit')     
+        iFlag_parallel = self.iFlag_parallel
+        sPest_method = self.sPest_method
 
-        
-        
-        sWorkspace_calibration_relative = self.sWorkspace_calibration
-
-
-
-        sRegion = config['sRegion']
-  
-
-
-        sWorkspace_calibration = sWorkspace_scratch + slash + sWorkspace_calibration_relative
-
-        sWorkspace_pest_model = sWorkspace_calibration + slash + sModel
-
-        sFilename_job = sWorkspace_pest_model + slash + 'job.submit'
-        ifs = open(sFilename_job, 'w')
-    
-        sLine = '#!/bin/bash\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -A inversion\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -t 100:00:00\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -N 3\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -n 36\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -J ' + sModel + '\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -o out.out\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH -e err.err\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH --mail-type=ALL\n'
-        ifs.write(sLine)
-
-        sLine = '#SBATCH --mail-user=chang.liao@pnnl.gov\n'
-        ifs.write(sLine)
-
-        sLine = 'cd $SLURM_SUBMIT_DIR\n'
-        ifs.write(sLine)
-
-        sLine = 'module purge\n'
-        ifs.write(sLine)
-
-        sLine = 'module load python/anaconda3.6\n'
-        ifs.write(sLine)
-
-        sLine = 'module load gcc/5.2.0\n'
-        ifs.write(sLine)
-
-        sLine = 'module load openmpi/1.8.3\n'
-        ifs.write(sLine)
-
-        sLine = 'mpirun -np 36 ppest ' + sWorkspace_pest_model+slash+sRegion + '_swat /M child\n'
-        ifs.write(sLine)
-
-        ifs.close()
+        if iFlag_parallel == 1: #parallel, only beopest is supported right now
+            ifs = open(sFilename_job, 'w')    
+            sLine = '#!/bin/bash\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -A inversion\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -t 100:00:00\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -N 3\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -n 36\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -J ' + self.sModel_type + '\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -o out.out\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -e err.err\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH --mail-type=ALL\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH --mail-user=chang.liao@pnnl.gov\n'
+            ifs.write(sLine)
+            sLine = 'cd $SLURM_SUBMIT_DIR\n'
+            ifs.write(sLine)
+            sLine = 'module purge\n'
+            ifs.write(sLine)
+            sLine = 'module load python/anaconda3.6\n'
+            ifs.write(sLine)
+            sLine = 'module load gcc/5.2.0\n'
+            ifs.write(sLine)
+            sLine = 'module load openmpi/1.8.3\n'
+            ifs.write(sLine)
+            sLine = 'mpirun -np 36 ppest ' + sWorkspace_pest_model + '_swat /M child\n'
+            ifs.write(sLine)
+            ifs.close()
+        else:
+            #serial calibration
+            if sPest_method == 'pest':
+                ifs = open(sFilename_job, 'w')    
+                sLine = '#!/bin/bash\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -A inversion\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -t 100:00:00\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -N 1\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -n 10\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -J ' + self.sModel_type + '\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -o out.out\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -e err.err\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH --mail-type=ALL\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH --mail-user=chang.liao@pnnl.gov\n'
+                ifs.write(sLine)
+                sLine = 'cd $SLURM_SUBMIT_DIR\n'
+                ifs.write(sLine)
+                sLine = 'module purge\n'
+                ifs.write(sLine)
+                sLine = 'module load python/anaconda3.6\n'
+                ifs.write(sLine)
+                sLine = 'module load gcc/5.2.0\n'
+                ifs.write(sLine)                
+                sLine = 'pest ' + sWorkspace_pest_model + '_swat /M child\n'
+                ifs.write(sLine)
+                ifs.close()
+            else:
+                if sPest_method =='sceua':
+                    pass
 
 
         print('The pest job file is copied successfully!')

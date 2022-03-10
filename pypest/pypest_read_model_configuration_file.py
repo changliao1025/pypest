@@ -1,10 +1,10 @@
 import os 
 import sys #used to add system path
-import julian
+
 import datetime
 import json
 import numpy as np
-
+import pyearth.toolbox.date.julian as julian
 
 pDate = datetime.datetime.today()
 sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:02d}".format(pDate.day)
