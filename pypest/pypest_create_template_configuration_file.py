@@ -1,14 +1,14 @@
 import os, sys
-from pathlib import Path
-from os.path import realpath
 
+from os.path import realpath
+from pathlib import Path
 import json
 
 
 from pypest.classes.pycase import pestcase
-from swaty.swaty_generate_template_configuration_file import swaty_generate_template_configuration_file
+from swaty.swaty_create_template_configuration_file import swaty_create_template_configuration_file
 
-def pypest_generate_template_configuration_file(sFilename_json, sWorkspace_input, sWorkspace_output,sPath_bin, sModel_type, iFlag_parallel_in = None, iCase_index_in = None, sPest_method_in=None, sDate_in = None):
+def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspace_input, sWorkspace_output, sModel_type, iFlag_parallel_in = None, iCase_index_in = None, sPest_method_in=None, sDate_in = None):
     if iCase_index_in is not None:        
         iCase_index = iCase_index_in
     else:       
@@ -54,14 +54,10 @@ def pypest_generate_template_configuration_file(sFilename_json, sWorkspace_input
     aConfig['sFilename_control'] = 'pest_swat.ins'
 
     aConfig['sWorkspace_input'] = sWorkspace_input  
+    aConfig['sWorkspace_output'] = sWorkspace_output    
 
-    aConfig['sWorkspace_output'] = sWorkspace_output     
-
-    aConfig['sWorkspace_bin'] = sPath_bin
- 
-    
-    aConfig['sFilename_output'] = 'stream_discharge_monthly.txt'
-    
+    aConfig['sWorkspace_bin'] = sPath_bin     
+    aConfig['sFilename_output'] = 'stream_discharge_monthly.txt'    
 
     aConfig['iCase_index'] = iCase_index
 
@@ -72,15 +68,18 @@ def pypest_generate_template_configuration_file(sFilename_json, sWorkspace_input
 
     oPest.sPest_method = sPest_method
     oPest.sModel_type = sModel_type
+
+    sPath = Path(sFilename_json)
+    sFolder_configuration = sPath.parent.absolute()
     if sModel_type == 'swat':
         
         oPest.iModel_type= 1
-        sFilename_swat_configuration = os.path.join(sWorkspace_input, 'swat.json')
+        sFilename_swat_configuration = os.path.join(sFolder_configuration, 'swat.json')
         if iFlag_parallel ==1:
             pass
         else:
 
-            oSwat = swaty_generate_template_configuration_file(sFilename_swat_configuration, sWorkspace_input,sWorkspace_output, sPath_bin, iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate)
+            oSwat = swaty_generate_template_configuration_file(sFilename_swat_configuration,sPath_bin, sWorkspace_input,sWorkspace_output,  iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate)
    
     else:
         if sModel_type == 'modflow':

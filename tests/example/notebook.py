@@ -10,7 +10,7 @@ logging.basicConfig(format='%(asctime)s %(message)s')
 logging.warning('is the time swaty simulation started.')
 
 from pypest.classes.pycase import pestcase
-from pypest.pypest_generate_template_configuration_file import pypest_generate_template_configuration_file
+from pypest.pypest_create_template_configuration_file import pypest_generate_template_configuration_file
 from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file
 
 iFlag_option=1

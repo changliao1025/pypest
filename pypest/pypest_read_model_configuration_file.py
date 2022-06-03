@@ -5,14 +5,12 @@ import datetime
 import json
 import numpy as np
 import pyearth.toolbox.date.julian as julian
-
+from pypest.classes.pycase import pestcase
+from swaty.classes.pycase import swatcase
 pDate = datetime.datetime.today()
 sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:02d}".format(pDate.day)
 
 def pypest_read_model_configuration_file(sFilename_configuration_in):
-
-
-    
 
     if not os.path.isfile(sFilename_configuration_in):
         print(sFilename_configuration_in + ' does not exist')
@@ -77,12 +75,17 @@ def pypest_read_model_configuration_file(sFilename_configuration_in):
    
     sFilename_swat = aConfig['sFilename_swat']   
 
-    if 'nhru' in aConfig:
-        pass
+    
     
     #data
+    oPest = pestcase(aConfig)
+    if oPest.sModel_type == 'swat':
+        
+        oSwat = swatcase(aConfig ,  iFlag_standalone_in = 0,\
+             sModel_in = 'swat',\
+                     sWorkspace_output_in = oPest.sWorkspace_output_model)
     
-    #simulation 
+        oPest.pSwat = oSwat
       
     
-    return aConfig
+    return oPest

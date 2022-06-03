@@ -125,7 +125,16 @@ class pestcase(object):
 
         pass
     def setup(self):
-        self.pSwat.setup()
+
+        if self.sModel_type == 'swat':
+            self.pSwat.setup_pest_calibration()
+            #set up pest file
+            
+            self.pypest_create_pest_template_file()
+            self.pypest_create_pest_instruction_file()
+            self.pypest_create_pest_control_file()
+        else:
+            pass
         
         return
     def run(self):
@@ -154,7 +163,13 @@ class pestcase(object):
                         cls=CaseClassEncoder)
         return sJson
 
-        
+    
+    def pypest_create_pest_template_file(self):
+        return
+    def pypest_create_pest_instruction_file(self):
+        return
+    def pypest_create_pest_control_file(self):
+        return    
     def pypest_prepare_job_file(self):
         """
         prepare the job submission file
