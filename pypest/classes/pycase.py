@@ -182,7 +182,10 @@ class pestcase(object):
         if self.sModel_type == 'swat':
            pypest_create_swat_pest_control_file(self)
         return
-    
+    def pypest_create_run_script(self):
+        if self.sModel_type == 'swat':
+           pypest_create_swat_run_script(self)
+        return
     def pypest_prepare_job_file(self):
         """
         prepare the job submission file

@@ -1,84 +1,29 @@
-import os
+import os, stat
 import numpy as np
 from pyearth.system.define_global_variables import *
+#this function is used to copy swat and beopest from linux hpc to calibration folder
+
+
 
 from swaty.classes.pycase import swatcase
 
 def pypest_create_swat_pest_template_file(oPest): 
-
-    oPest.pSwat.swaty_prepare_watershed_template_file()
-    oPest.pSwat.swaty_prepare_subbasin_template_file()
-    oPest.pSwat.swaty_prepare_hru_template_file()
-    oPest.pSwat.swaty_prepare_soil_template_file()
+    oSwat= oPest.pSwat
+    oSwat.swaty_prepare_watershed_template_file()
+    oSwat.swaty_prepare_subbasin_template_file()
+    oSwat.swaty_prepare_hru_template_file()
+    oSwat.swaty_prepare_soil_template_file()
 
     return
 def pypest_create_swat_pest_instruction_file(oPest): 
     """
     prepare pest instruction file
     """
-    oSwat = oPest.pSwat
-    
-    
-    sWorkspace_scratch=oSwat.sWorkspace_scratch 
-
-    sWorkspace_data =  oSwat.sWorkspace_data 
-    sWorkspace_project =  oSwat.sWorkspace_project 
-   
-
-    sRegion =  oSwat.sRegion 
-    sModel =  oSwat.sModel 
-
-    
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project
-
-    sWorkspace_calibration_case = oSwat.sWorkspace_calibration_case
-
-    sWorkspace_pest_model = sWorkspace_calibration_case 
-    sWorkspace_simulation_copy = oSwat.sWorkspace_simulation_copy
-
-    iYear_start =  oSwat.iYear_start  
-    iYear_end  =   oSwat.iYear_end  
-    #nsegment =  oSwat.nsegment  
-  
-    nstress = oSwat.nstress
-    nstress_month = oSwat.nstress_month
-
-    sFilename_observation = sWorkspace_data_project + slash + 'auxiliary' + slash \
-        + 'usgs' + slash + 'discharge' + slash + 'discharge_observation_monthly.txt'
-    if os.path.isfile(sFilename_observation):
-        pass
-    else:
-        print(sFilename_observation + ' is missing!')
-        return
-    aData = text_reader_string(sFilename_observation)
-    aDischarge_observation = array( aData ).astype(float) 
-    nobs_with_missing_value = len(aDischarge_observation)
-    
-    aDischarge_observation = np.reshape(aDischarge_observation, nobs_with_missing_value)
-    nan_index = np.where(aDischarge_observation == missing_value)
-
-    #write instruction
-    sFilename_instruction = sWorkspace_pest_model + slash + oPest_in.sFilename_instruction
-    ofs= open(sFilename_instruction,'w')
-    ofs.write('pif $\n')
-
-    #we need to consider that there is missing value in the observations
-
-    #changed from daily to monthly
-    for i in range(0, nstress_month):
-        dDummy = aDischarge_observation[i]
-        if( dDummy != missing_value  ):
-            sLine = 'l1' + ' !discharge' + "{:04d}".format(i+1) + '!\n'
-        else:
-            sLine = 'l1' + ' !dum' + '!\n'
-        ofs.write(sLine)
-            
-    ofs.close()
-    print('The instruction file is prepared successfully!')
-
+    oSwat= oPest.pSwat
+    oSwat.swaty_create_pest_instruction_file()
 
     return
-def pypest_create_swat_pest_control_file(oPest):        
+def pypest_create_swat_pest_control_file(oPest):
     """
     #prepare the pest control file
     """   
@@ -379,3 +324,165 @@ def pypest_create_swat_pest_control_file(oPest):
     ofs.close()
     print('The PEST control file is prepared successfully at: ' + sFilename_control)
     return    
+
+
+def pypest_create_swat_run_script(oPest_in):
+    """
+    prepare the job submission file
+    """
+    oSwat= oPest_in.pSwat
+    sModel = oSwat.sModel
+    sFilename_pest_configuration = oPest_in.sFilename_pest_configuration
+    sFilename_model_configuration = oSwat.sFilename_model_configuration
+    
+    #strings
+    sWorkspace_home= oSwat.sWorkspace_home
+    sWorkspace_scratch = oSwat.sWorkspace_scratch    
+    sWorkspace_calibration_case = oSwat.sWorkspace_calibration_case   
+    sWorkspace_pest_model = sWorkspace_calibration_case
+    if oPest_in.iFlag_parallel ==0: 
+        #serial
+        pass
+    else:
+        #parallel using beopest    
+        #replace it with your actual python
+        sPython_Path =  oSwat.sPython
+        sPython = '#!' + sPython_Path + '\n' 
+        sFilename_script = sWorkspace_pest_model + slash + 'run_swat_model'
+        ifs = open(sFilename_script, 'w')
+        sLine = '#!/bin/bash\n'
+        ifs.write(sLine)
+
+        sLine = 'echo "Started to prepare python scripts"\n'
+        ifs.write(sLine)
+        #the first one
+        sLine = 'cat << EOF > runstep3.py\n'
+        ifs.write(sLine)    
+        ifs.write(sPython)
+
+        sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
+        ifs.write(sLine)
+        sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
+        ifs.write(sLine)
+        sLine = 'from pyswat.shared.swat_read_model_configuration_file import *\n'
+        ifs.write(sLine)
+        sLine = 'from pypest.models.swat.multipletimes.run_step3 import run_step3'  +  '\n' 
+        ifs.write(sLine)    
+        sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
+        ifs.write(sLine)  
+        sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
+        ifs.write(sLine)
+        sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+        ifs.write(sLine)
+        sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+        ifs.write(sLine)
+        sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+        ifs.write(sLine)
+        sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
+        ifs.write(sLine)
+        sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
+        ifs.write(sLine)
+        sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
+        ifs.write(sLine) 
+        sLine = "oSwat = pyswat(aParameter_model)" + '\n'   
+        ifs.write(sLine)
+        sLine = 'run_step3(oPest, oSwat)' + '\n'   
+        ifs.write(sLine)
+        sLine = 'EOF\n'
+        ifs.write(sLine)
+
+        #step 5 
+        sLine = 'cat << EOF > runstep5.py\n'
+        ifs.write(sLine)
+
+        ifs.write(sPython)
+        sLine = 'from pyswat.shared.swat import pyswat' +  '\n' 
+        ifs.write(sLine)
+        sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
+        ifs.write(sLine)
+        sLine = 'from pyswat.shared.swat_read_model_configuration_file import *\n'
+        ifs.write(sLine)
+        sLine = 'from pypest.models.swat.multipletimes.run_step5 import run_step5' + '\n'
+        ifs.write(sLine)
+        sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
+        ifs.write(sLine)
+        sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
+        ifs.write(sLine)
+        sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+        ifs.write(sLine)
+        sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+        ifs.write(sLine)
+        sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+        ifs.write(sLine)
+        sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
+        ifs.write(sLine)
+        sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
+        ifs.write(sLine)
+        sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
+        ifs.write(sLine) 
+        sLine = "oSwat = pyswat(aParameter_model)" + '\n'   
+        ifs.write(sLine)
+
+        sLine = 'run_step5(oPest, oSwat)\n'
+        ifs.write(sLine)
+
+        sLine = 'EOF\n'
+        ifs.write(sLine)
+        #end of python
+
+        sLine = 'chmod 755 runstep3.py\n'
+        ifs.write(sLine)
+
+        sLine = 'chmod 755 runstep5.py\n'
+        ifs.write(sLine)
+
+        sLine = 'echo "Finished preparing python scripts"\n'
+        ifs.write(sLine)
+
+        sLine = 'echo "Started to prepare SWAT inputs"\n'
+        ifs.write(sLine)
+        #step 1: prepare inputs
+        sLine = './runstep3.py\n'
+        ifs.write(sLine)
+
+
+        sLine = 'echo "Finished preparing SWAT simulation"\n'
+        ifs.write(sLine)
+        #step 2: run swat model
+        sLine = 'echo "Started to run SWAT simulation"\n'
+        ifs.write(sLine)
+        sLine = './swat\n'
+        ifs.write(sLine)
+        sLine = 'echo "Finished running SWAT simulation"\n'
+        ifs.write(sLine)
+
+        #step 3: extract SWAT output
+        sLine = 'echo "Started to extract SWAT simulation outputs"\n'
+        ifs.write(sLine)
+        sLine = './runstep5.py\n'
+        ifs.write(sLine)
+        sLine = 'echo "Finished extracting SWAT simulation outputs"\n'
+        ifs.write(sLine)
+        ifs.close()
+        os.chmod(sFilename_script, stat.S_IREAD | stat.S_IWRITE | stat.S_IXUSR)
+        print('The pest run model file is prepared successfully!')
+
+
+def pypest_update_swat_model(oPest_in):
+    if oPest_in.iFlag_parallel ==0:
+        pass
+    else:
+        pass
+    return
+def pypest_run_swat_model(oPest_in):
+    if oPest_in.iFlag_parallel ==0:
+        pass
+    else:
+        pass
+    return
+def pypest_extract_swat_output(oPest_in):
+    if oPest_in.iFlag_parallel ==0:
+        pass
+    else:
+        pass
+    return
