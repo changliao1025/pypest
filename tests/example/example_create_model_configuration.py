@@ -33,7 +33,7 @@ sWorkspace_bin = realpath( sPath +  '/bin' )
 
 sFilename_configuration_in = sPath +  '/tests/configurations/swat/pypest_swat.json' 
 sWorkspace_data = realpath( sPath +  '/data/arw' )
-oPest = pypest_generate_template_configuration_file(sFilename_configuration_in,sWorkspace_bin, sWorkspace_input, sWorkspace_output, sModel_type,\
+oPest = pypest_create_template_configuration_file(sFilename_configuration_in,sWorkspace_bin, sWorkspace_input, sWorkspace_output, sModel_type,\
     iFlag_parallel_in = iFlag_parallel, iCase_index_in = iCase_index, sDate_in = sDate, sPest_method_in= sPest_method)
 print(oPest.tojson())
 

@@ -9,8 +9,12 @@ import datetime
 from shutil import copy2
 import json
 from json import JSONEncoder
+from pyearth.system.define_global_variables import *
+from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
-from swaty.classes.pycase import swatcase
+from pypest.classes.swat import pypest_create_swat_pest_template_file
+from pypest.classes.swat import pypest_create_swat_pest_instruction_file
+from pypest.classes.swat import pypest_create_swat_pest_control_file
 
 class CaseClassEncoder(JSONEncoder):
     def default(self, obj):
@@ -163,13 +167,22 @@ class pestcase(object):
                         cls=CaseClassEncoder)
         return sJson
 
-    
     def pypest_create_pest_template_file(self):
+        if self.sModel_type == 'swat':
+           pypest_create_swat_pest_template_file(self)
+        #call swat function here
+
         return
     def pypest_create_pest_instruction_file(self):
+        if self.sModel_type == 'swat':
+           pypest_create_swat_pest_instruction_file(self)
         return
+    
     def pypest_create_pest_control_file(self):
-        return    
+        if self.sModel_type == 'swat':
+           pypest_create_swat_pest_control_file(self)
+        return
+    
     def pypest_prepare_job_file(self):
         """
         prepare the job submission file
