@@ -12,9 +12,12 @@ from json import JSONEncoder
 from pyearth.system.define_global_variables import *
 from pyearth.toolbox.reader.text_reader_string import text_reader_string
 
+
+from swaty.classes.pycase import swatcase
 from pypest.classes.swat import pypest_create_swat_pest_template_file
 from pypest.classes.swat import pypest_create_swat_pest_instruction_file
 from pypest.classes.swat import pypest_create_swat_pest_control_file
+from pypest.classes.swat import pypest_create_swat_run_script
 
 class CaseClassEncoder(JSONEncoder):
     def default(self, obj):
@@ -26,7 +29,7 @@ class CaseClassEncoder(JSONEncoder):
             return obj.tolist()
          
         if isinstance(obj, swatcase):
-            return json.loads(obj.tojson())
+            return obj.sFilename_model_configuration
        
         if isinstance(obj, list):
             pass  
@@ -49,7 +52,12 @@ class pestcase(object):
 
     #iCase_index=0
 
-    sWokspace_pest_configuration=''
+
+    sFilename_pest_configuration='' #pest
+    sFilename_model_configuration='' #swat/modflow
+
+    sWorkspace_output=''
+    sWorkspace_output_model=''
     
   
     sRegion=''
@@ -95,10 +103,15 @@ class pestcase(object):
             self.ntplfile             = int(aConfig_in[ 'ntplfile'])
         if 'ninsfile' in aConfig_in:
             self.ninsfile             = int(aConfig_in[ 'ninsfile'])
-        if 'sWokspace_pest_configuration' in aConfig_in:
-            self.sWokspace_pest_configuration = aConfig_in['sWokspace_pest_configuration']
+        if 'sWorkspace_output' in aConfig_in:
+            self.sWorkspace_output = aConfig_in['sWorkspace_output']
         
+        if 'sFilename_pest_configuration' in aConfig_in:
+            self.sFilename_pest_configuration = aConfig_in['sFilename_pest_configuration']
         
+        if 'sFilename_model_configuration' in aConfig_in:
+            self.sFilename_model_configuration = aConfig_in['sFilename_model_configuration']
+
         if 'sWorkspace_input' in aConfig_in:
             self.sWorkspace_input = aConfig_in[ 'sWorkspace_input']
         if 'sWorkspace_output' in aConfig_in:
@@ -131,8 +144,9 @@ class pestcase(object):
     def setup(self):
 
         if self.sModel_type == 'swat':
+            #setup swat first
             self.pSwat.setup_pest_calibration()
-            #set up pest file
+            #set up pest files
             
             self.pypest_create_pest_template_file()
             self.pypest_create_pest_instruction_file()
@@ -169,8 +183,9 @@ class pestcase(object):
 
     def pypest_create_pest_template_file(self):
         if self.sModel_type == 'swat':
-           pypest_create_swat_pest_template_file(self)
-        #call swat function here
+            #call swat function here
+            pypest_create_swat_pest_template_file(self)
+           
 
         return
     def pypest_create_pest_instruction_file(self):
@@ -180,18 +195,18 @@ class pestcase(object):
     
     def pypest_create_pest_control_file(self):
         if self.sModel_type == 'swat':
-           pypest_create_swat_pest_control_file(self)
+            pypest_create_swat_pest_control_file(self)
         return
     def pypest_create_run_script(self):
         if self.sModel_type == 'swat':
-           pypest_create_swat_run_script(self)
+            pypest_create_swat_run_script(self)
         return
     def pypest_prepare_job_file(self):
         """
         prepare the job submission file
         """    
        
-        sWorkspace_pest_model = self.sWorkspace_output_case
+        sWorkspace_pest_model = self.sWorkspace_output
         sFilename_job = os.path.join(sWorkspace_pest_model , 'job.submit')     
         iFlag_parallel = self.iFlag_parallel
         sPest_method = self.sPest_method

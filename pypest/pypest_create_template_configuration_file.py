@@ -62,9 +62,10 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
     aConfig['iCase_index'] = iCase_index
 
     
-    aConfig['sFilename_model_configuration'] = ''
+    aConfig['sFilename_pest_configuration'] = sFilename_json
 
     oPest = pestcase(aConfig)
+    oPest.sFilename_pest_configuration = sFilename_json
 
     oPest.sPest_method = sPest_method
     oPest.sModel_type = sModel_type
@@ -78,9 +79,10 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
         if iFlag_parallel ==1:
             pass
         else:
-
-            oSwat = swaty_generate_template_configuration_file(sFilename_swat_configuration,sPath_bin, sWorkspace_input,sWorkspace_output,  iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate)
-   
+            oSwat = swaty_create_template_configuration_file(sFilename_swat_configuration,sPath_bin, sWorkspace_input,sWorkspace_output,  iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate)
+            oSwat.sFilename_model_configuration = sFilename_swat_configuration
+            oPest.pSwat = oSwat
+            oPest.sFilename_model_configuration = sFilename_swat_configuration
     else:
         if sModel_type == 'modflow':
             pass
@@ -90,7 +92,7 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
             else:
                 print('Unsupported model')   
     
-    oPest.pSwat = oSwat
+    
 
     oPest.export_config_to_json(sFilename_json)
     return oPest

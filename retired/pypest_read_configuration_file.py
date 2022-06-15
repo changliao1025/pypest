@@ -9,13 +9,9 @@ from retired.pypest_parse_xml_file import pypest_parse_xml_file
 pDate = datetime.datetime.today()
 sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:02d}".format(pDate.day)
 
-def pypest_read_pest_configuration_file(sFilename_configuration_in  ):
-         
-    config = pypest_parse_xml_file(sFilename_configuration_in)    
 
-    return config
 
-def pypest_read_model_configuration_file(sFilename_configuration_in,\
+def pypest_read_pest_configuration_file(sFilename_configuration_in,\
         sDate_in = None,\
          iCase_index_in=None   ):
          
@@ -43,8 +39,5 @@ def pypest_read_model_configuration_file(sFilename_configuration_in,\
 
     return config
     
-if __name__ == '__main__':
-    sFilename_pest_configuration = '/qfs/people/liao313/03configuration/pypest/maces/pest.xml'
-    aParameter  = pypest_read_pest_configuration_file(sFilename_pest_configuration)
-    print(aParameter)    
+ 
     
