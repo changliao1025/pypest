@@ -19,37 +19,34 @@ def pypest_create_swat_pest_instruction_file(oPest):
     """
     prepare pest instruction file
     """
+    
     oSwat= oPest.pSwat
-    oSwat.swaty_create_pest_instruction_file()
+    oSwat.swaty_create_pest_instruction_file(oPest.sFilename_instruction)
 
     return
 def pypest_create_swat_pest_control_file(oPest):
     """
     #prepare the pest control file
     """   
+    oSwat=oPest.pSwat
     sPest_mode = oPest.sPest_mode        
     sRegion = oPest.pSwat.sRegion
     sModel = oPest.pSwat.sModel    
-    sWorkspace_data= oPest.pSwat.sWorkspace_data
-    sWorkspace_scratch = oPest.pSwat.sWorkspace_scratch
-    sWorkspace_project_ralative = oPest.pSwat.sWorkspace_project
+    
     iFlag_watershed = oPest.pSwat.iFlag_watershed
     iFlag_subbasin = oPest.pSwat.iFlag_subbasin
     iFlag_hru = oPest.pSwat.iFlag_hru
+
     nsubbasin = oPest.pSwat.nsubbasin    
-    sWorkspace_data_project = sWorkspace_data + slash + sWorkspace_project_ralative
-    sFilename_hru_info = sWorkspace_data_project + slash + 'auxiliary' + slash \
-      + 'hru' + slash + 'hru_info.txt'
+    sFilename_hru_info = oSwat.sFilename_hru_info
     if os.path.isfile(sFilename_hru_info):
         pass
     else:
         print('The file does not exist: ')
         return
-    
-    sWorkspace_simulation =  oPest.pSwat.sWorkspace_simulation
-    sWorkspace_calibration = oPest.pSwat.sWorkspace_calibration   
+      
     #the pest workspace should be the same with the calibration workspace
-    sWorkspace_pest_case = oPest.pSwat.sWorkspace_calibration_case
+    sWorkspace_output = oPest.sWorkspace_output
     sFilename_control = sWorkspace_pest_case + slash + self.sFilename_control    
     if not os.path.exists(sWorkspace_pest_case):
         os.mkdir(sWorkspace_pest_case)

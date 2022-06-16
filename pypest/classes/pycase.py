@@ -168,7 +168,7 @@ class pestcase(object):
             self.pypest_copy_executable_file()
             
             self.pypest_create_pest_template_file()
-            self.pypest_create_pest_instruction_file(self.sFilename_instruction)
+            self.pypest_create_pest_instruction_file()
             self.pypest_create_pest_control_file()
         else:
             pass
