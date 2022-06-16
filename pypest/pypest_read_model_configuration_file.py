@@ -16,7 +16,8 @@ sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:
 
 def pypest_read_model_configuration_file(sFilename_configuration_in, \
     iCase_index_in = None , \
-    sDate_in = None,  sModel_type_in=None):
+    iFlag_read_discretization_in =None,\
+    sDate_in = None,  sModel_type_in=None,sWorkspace_input_in=None,sWorkspace_output_in=None):
 
     if not os.path.isfile(sFilename_configuration_in):
         print(sFilename_configuration_in + ' does not exist')
@@ -44,6 +45,17 @@ def pypest_read_model_configuration_file(sFilename_configuration_in, \
         iCase_index = int( aConfig['iCase_index'])
         pass  
     
+    if sWorkspace_input_in is not None:
+        sWorkspace_input = sWorkspace_input_in
+    else:
+        sWorkspace_input = aConfig["sWorkspace_input"]
+        pass
+
+    if sWorkspace_output_in is not None:
+        sWorkspace_output = sWorkspace_output_in
+    else:
+        sWorkspace_output = aConfig["sWorkspace_output"]
+        pass
     
     
     
@@ -76,11 +88,14 @@ def pypest_read_model_configuration_file(sFilename_configuration_in, \
     aConfig["sDate"] = sDate
     aConfig["sMesh_sModel_typetype"] = sModel_type
     aConfig["iCase_index"] = iCase_index
+    aConfig["sWorkspace_input"] = sWorkspace_input
+    aConfig["sWorkspace_output"] = sWorkspace_output
     oPest = pestcase(aConfig)
     if oPest.sModel_type == 'swat':
 
         sFilename_model_configuration = oPest.sFilename_model_configuration
         oSwat = swaty_read_model_configuration_file(sFilename_model_configuration,  \
+            iFlag_read_discretization_in = iFlag_read_discretization_in,\
             iFlag_standalone_in = 0,\
             sWorkspace_output_in = oPest.sWorkspace_output_model)       
     

@@ -70,10 +70,13 @@ class pestcase(object):
     sDate=''
     
     sWorkspace_pest=''
+    sWorkspace_bin=''
     sFilename_control=''
     sFilename_instruction=''    
     sFilename_template=''
     sFilename_output=''
+    
+    sFilename_pest='pest'
     pSwat=None
 
     def __init__(self, aConfig_in):
@@ -103,8 +106,7 @@ class pestcase(object):
             self.ntplfile             = int(aConfig_in[ 'ntplfile'])
         if 'ninsfile' in aConfig_in:
             self.ninsfile             = int(aConfig_in[ 'ninsfile'])
-        if 'sWorkspace_output' in aConfig_in:
-            self.sWorkspace_output = aConfig_in['sWorkspace_output']
+        
         
         if 'sFilename_pest_configuration' in aConfig_in:
             self.sFilename_pest_configuration = aConfig_in['sFilename_pest_configuration']
@@ -122,6 +124,14 @@ class pestcase(object):
             self.sModel                = aConfig_in[ 'sModel']
         if 'sWorkspace_pest' in aConfig_in:
             self.sWorkspace_pest       = aConfig_in[ 'sWorkspace_pest']
+        if 'sWorkspace_bin' in aConfig_in:
+            self.sWorkspace_bin      = aConfig_in[ 'sWorkspace_bin']
+
+        if 'sFilename_pest' in aConfig_in:
+            self.sFilename_pest = aConfig_in['sFilename_pest']
+        else:
+            self.sFilename_pest = 'pest'
+            
         if 'sFilename_control' in aConfig_in:
             self.sFilename_control = aConfig_in['sFilename_control']
         if 'sFilename_instruction' in aConfig_in:
@@ -133,8 +143,16 @@ class pestcase(object):
         sCase = self.sModel + self.sDate + sCase_index
         self.sCase = sCase
         sPath = str(Path(self.sWorkspace_output)  /  sCase)
-        self.sWorkspace_output_case = sPath
+        self.sWorkspace_output = sPath
         Path(sPath).mkdir(parents=True, exist_ok=True)
+
+        if self.sModel_type == 'swat':
+            sPath = str(Path(self.sWorkspace_output)  /  'swat')
+            self.sWorkspace_output_model = sPath
+            Path(sPath).mkdir(parents=True, exist_ok=True)
+        else:
+            pass
+            
 
         pass
 
@@ -145,16 +163,42 @@ class pestcase(object):
 
         if self.sModel_type == 'swat':
             #setup swat first
-            self.pSwat.setup_pest_calibration()
+            self.pSwat.setup()
             #set up pest files
+            self.pypest_copy_executable_file()
             
             self.pypest_create_pest_template_file()
-            self.pypest_create_pest_instruction_file()
+            self.pypest_create_pest_instruction_file(self.sFilename_instruction)
             self.pypest_create_pest_control_file()
         else:
             pass
         
         return
+    
+    def pypest_copy_executable_file(self):
+        """    
+        prepare executable file
+        """    
+        sWorkspace_bin = self.sWorkspace_bin 
+        sFilename_pest = self.sFilename_pest   
+        sWorkspace_output = self.sWorkspace_output
+   
+        sWorkspace_pest_model = sWorkspace_output
+     
+        
+        sFilename_pest_source = os.path.join(str(Path(sWorkspace_bin)) ,  sFilename_pest )
+             
+        sFilename_pest_new = os.path.join(str(Path(sWorkspace_output)) ,  'swat' )
+
+        print(sFilename_pest_source)
+        print(sFilename_pest_new)
+        copy2(sFilename_pest_source, sFilename_pest_new)
+        #self.sFilename_pest_current = sFilename_pest_new
+
+
+        os.chmod(sFilename_pest_new, stat.S_IRWXU )
+
+
     def run(self):
         return
     def analyze(self):
@@ -162,6 +206,7 @@ class pestcase(object):
     def export(self):
         return    
     def export_config_to_json(self, sFilename_output):
+        
         with open(sFilename_output, 'w', encoding='utf-8') as f:
             json.dump(self.__dict__, f,sort_keys=True, \
                 ensure_ascii=False, \
