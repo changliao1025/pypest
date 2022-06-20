@@ -127,17 +127,7 @@ class pestcase(object):
         if 'sWorkspace_bin' in aConfig_in:
             self.sWorkspace_bin      = aConfig_in[ 'sWorkspace_bin']
 
-        if 'sFilename_pest' in aConfig_in:
-            self.sFilename_pest = aConfig_in['sFilename_pest']
-        else:
-            self.sFilename_pest = 'pest'
-            
-        if 'sFilename_control' in aConfig_in:
-            self.sFilename_control = aConfig_in['sFilename_control']
-        if 'sFilename_instruction' in aConfig_in:
-            self.sFilename_instruction = aConfig_in['sFilename_instruction']
-        if 'sFilename_output' in aConfig_in:
-            self.sFilename_output = aConfig_in['sFilename_output']
+        
 
         sCase_index = "{:03d}".format( self.iCase_index )
         sCase = self.sModel + self.sDate + sCase_index
@@ -152,6 +142,18 @@ class pestcase(object):
             Path(sPath).mkdir(parents=True, exist_ok=True)
         else:
             pass
+
+        if 'sFilename_pest' in aConfig_in:
+            self.sFilename_pest = aConfig_in['sFilename_pest']
+        else:
+            self.sFilename_pest = 'pest'
+            
+        if 'sFilename_control' in aConfig_in:
+            self.sFilename_control = os.path.join( self.sWorkspace_output, aConfig_in['sFilename_control'])
+        if 'sFilename_instruction' in aConfig_in:
+            self.sFilename_instruction = os.path.join( self.sWorkspace_output, aConfig_in['sFilename_instruction'] )
+        if 'sFilename_output' in aConfig_in:
+            self.sFilename_output = os.path.join( self.sWorkspace_output_model, aConfig_in['sFilename_output'])
             
 
         pass
@@ -165,10 +167,9 @@ class pestcase(object):
             #setup swat first
             self.pSwat.setup()
             #set up pest files
-            self.pypest_copy_executable_file()
-            
-            self.pypest_create_pest_template_file()
-            self.pypest_create_pest_instruction_file()
+            self.pypest_copy_executable_file()            
+            self.pypest_create_pest_template_file() #swaty            
+            self.pypest_create_pest_instruction_file(self.sFilename_instruction) #swaty
             self.pypest_create_pest_control_file()
         else:
             pass
@@ -184,11 +185,11 @@ class pestcase(object):
         sWorkspace_output = self.sWorkspace_output
    
         sWorkspace_pest_model = sWorkspace_output
-     
-        
         sFilename_pest_source = os.path.join(str(Path(sWorkspace_bin)) ,  sFilename_pest )
-             
-        sFilename_pest_new = os.path.join(str(Path(sWorkspace_output)) ,  'swat' )
+        if self.iFlag_parallel ==0:
+            sFilename_pest_new = os.path.join(str(Path(sWorkspace_output)) ,  'pest' )
+        else:                    
+            sFilename_pest_new = os.path.join(str(Path(sWorkspace_output)) ,  'beopest' )
 
         print(sFilename_pest_source)
         print(sFilename_pest_new)
@@ -233,9 +234,9 @@ class pestcase(object):
            
 
         return
-    def pypest_create_pest_instruction_file(self):
+    def pypest_create_pest_instruction_file(self, sFilename_in):
         if self.sModel_type == 'swat':
-           pypest_create_swat_pest_instruction_file(self)
+           pypest_create_swat_pest_instruction_file(self, sFilename_in)
         return
     
     def pypest_create_pest_control_file(self):

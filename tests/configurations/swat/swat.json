@@ -61,6 +61,7 @@
     "iFlag_replace_parameter": 1,
     "iFlag_run": 1,
     "iFlag_simulation": 0,
+    "iFlag_soil":1,
     "iFlag_standalone": 0,
     "iFlag_subbasin": 1,
     "iFlag_watershed": 1,

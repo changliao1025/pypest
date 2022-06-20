@@ -3,7 +3,7 @@ import numpy as np
 from pyearth.system.define_global_variables import *
 #this function is used to copy swat and beopest from linux hpc to calibration folder
 
-
+from swaty.auxiliary.text_reader_string import text_reader_string
 
 from swaty.classes.pycase import swatcase
 
@@ -15,13 +15,13 @@ def pypest_create_swat_pest_template_file(oPest):
     oSwat.swaty_prepare_soil_template_file()
 
     return
-def pypest_create_swat_pest_instruction_file(oPest): 
+def pypest_create_swat_pest_instruction_file(oPest, sFilename_in): 
     """
     prepare pest instruction file
     """
     
     oSwat= oPest.pSwat
-    oSwat.swaty_create_pest_instruction_file(oPest.sFilename_instruction)
+    oSwat.swaty_create_pest_instruction_file(sFilename_in)
 
     return
 def pypest_create_swat_pest_control_file(oPest):
@@ -30,48 +30,37 @@ def pypest_create_swat_pest_control_file(oPest):
     """   
     oSwat=oPest.pSwat
     sPest_mode = oPest.sPest_mode        
-    sRegion = oPest.pSwat.sRegion
-    sModel = oPest.pSwat.sModel    
+    oSwat = oPest.pSwat
+    sWorkspace_output= oPest.sWorkspace_output    
     
-    iFlag_watershed = oPest.pSwat.iFlag_watershed
-    iFlag_subbasin = oPest.pSwat.iFlag_subbasin
-    iFlag_hru = oPest.pSwat.iFlag_hru
+    iFlag_watershed = oSwat.iFlag_watershed
+    iFlag_subbasin = oSwat.iFlag_subbasin
+    iFlag_hru = oSwat.iFlag_hru
+    iFlag_soil = oSwat.iFlag_soil
+    nsubbasin = oSwat.nsubbasin    
+    nhru_combination = oSwat.nhru_combination
 
-    nsubbasin = oPest.pSwat.nsubbasin    
-    sFilename_hru_info = oSwat.sFilename_hru_info
+    sWorkspace_swat = oSwat.sWorkspace_output
+    sFilename_hru_info = os.path.join( sWorkspace_swat , 'hru_info.txt')
     if os.path.isfile(sFilename_hru_info):
         pass
     else:
         print('The file does not exist: ')
-        return
-      
-    #the pest workspace should be the same with the calibration workspace
-    sWorkspace_output = oPest.sWorkspace_output
-    sFilename_control = sWorkspace_pest_case + slash + self.sFilename_control    
-    if not os.path.exists(sWorkspace_pest_case):
-        os.mkdir(sWorkspace_pest_case)
-    else:
-        pass
+        return   
+   
+    sFilename_control = oPest.sFilename_control    
     
-    
-    sWorkspace_simulation_copy = oPest.pSwat.sWorkspace_simulation_copy 
-    if not os.path.exists(sWorkspace_simulation_copy):
-        print("The simulation folder is missing")
-        return
-    else:
-        pass
-    
+     
     #number
-    npargp = self.npargp
-    npar = self.npar
-    nprior = self.nprior
-    nobsgp = self.nobsgp
-    nobs = self.nobs
-    ntplfile = self.ntplfile
-    ninsfile = self.ninsfile
-    npar = oPest.pSwat.nParameter
-    sFilename = sWorkspace_data_project + slash + 'auxiliary' + slash \
-    + 'usgs'+slash+ 'discharge' + slash + 'stream_discharge_monthly.txt'
+    npargp = oPest.npargp
+    npar = oPest.npar
+    nprior = oPest.nprior
+    nobsgp = oPest.nobsgp
+    nobs = oPest.nobs
+    ntplfile = oPest.ntplfile
+    ninsfile = oPest.ninsfile
+    npar = oSwat.nParameter
+    sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_monthly.txt')
     if os.path.isfile(sFilename):
         pass
     else:
@@ -113,8 +102,8 @@ def pypest_create_swat_pest_control_file(oPest):
     dermthd = 'parabolic'
     partrans ='none'
     #we need define the input within the configuration file
-    sFilename_control= self.sFilename_control
-    sFilename_control = sWorkspace_pest_case + slash +  sFilename_control
+  
+    
     ofs = open(sFilename_control, 'w')
     ofs.write('pcf\n')
     ofs.write('* control data\n')
@@ -194,19 +183,28 @@ def pypest_create_swat_pest_control_file(oPest):
                   +  "{:0.3f}".format(derincmul)  + ' ' \
                   +  dermthd  + '\n'
         ofs.write(sLine)
+
+    if iFlag_soil ==1:
+        sLine =  'para_gp4 ' \
+                  + inctyp + ' '\
+                  + "{:0.3f}".format(derinc)  + ' ' \
+                  +  "{:0.3f}".format(derinclb)  + ' ' \
+                  +  forcen  + ' ' \
+                  +  "{:0.3f}".format(derincmul)  + ' ' \
+                  +  dermthd  + '\n'
+        ofs.write(sLine)
     parchglim = 'relative'
     ofs.write('* parameter data\n')
     if iFlag_watershed ==1:
-        nParameter_watershed = oPest.pSwat.nParameter_watershed
-        aParameter_watershed = oPest.pSwat.aParameter_watershed
-        aParameter_value_watershed = oPest.pSwat.aParameter_value_watershed
-        aParameter_value_lower_watershed = oPest.pSwat.aParameter_value_lower_watershed
-        aParameter_value_upper_watershed = oPest.pSwat.aParameter_value_upper_watershed
+        oWatershed = oSwat.pWatershed
+        nParameter_watershed = oWatershed.nParameter_watershed
+        aParameter_watershed = oWatershed.aParameter_watershed
+        
         for i in range(nParameter_watershed):
-            sParameter = aParameter_watershed[i]
-            dVariable_init = aParameter_value_watershed[i]
-            dVariable_lower = aParameter_value_lower_watershed[i]
-            dVariable_upper = aParameter_value_upper_watershed[i]
+            sParameter = aParameter_watershed[i].sName
+            dVariable_init = aParameter_watershed[i].dValue_init
+            dVariable_lower = aParameter_watershed[i].dValue_lower
+            dVariable_upper = aParameter_watershed[i].dValue_upper
             sLine = sParameter  + ' ' \
                   + partrans + ' ' \
                   + parchglim + ' '\
@@ -216,47 +214,69 @@ def pypest_create_swat_pest_control_file(oPest):
                   + ' para_gp1 1.0 0.0 1\n'
             ofs.write(sLine)
         pass
-    if iFlag_subbasin ==1:
-        nParameter_subbasin = oPest.pSwat.nParameter_subbasin
-        aParameter_subbasin = oPest.pSwat.aParameter_subbasin
-        aParameter_value_subbasin = oPest.pSwat.aParameter_value_subbasin
-        aParameter_value_lower_subbasin = oPest.pSwat.aParameter_value_lower_subbasin
-        aParameter_value_upper_subbasin = oPest.pSwat.aParameter_value_upper_subbasin
-        for i in range(nParameter_subbasin):
-            sParameter = aParameter_subbasin[i]
-            dVariable_init = aParameter_value_subbasin[i]
-            dVariable_lower = aParameter_value_lower_subbasin[i]
-            dVariable_upper = aParameter_value_upper_subbasin[i]
-            for iSubbasin in range(0, nsubbasin):
-                sLine = sParameter + "{:03d}".format(iSubbasin+1) + ' ' \
-                  + partrans + ' ' \
-                  + parchglim + ' '\
-                  + "{:0.3f}".format(dVariable_init) + ' ' \
-                  + "{:0.3f}".format(dVariable_lower) + ' ' \
-                  +"{:0.3f}".format(dVariable_upper) + ' ' \
-                  + ' para_gp2 1.0 0.0 1\n'
+    if iFlag_subbasin ==1:       
+        nParameter_subbasin = oSwat.nParameter_subbasin
+        for iSubbasin in range(1,2):
+            pSubbasin  = oSwat.aSubbasin[iSubbasin-1]
+            aParameter_subbasin = pSubbasin.aParameter_subbasin            
+            for i in range(nParameter_subbasin):
+                sParameter = aParameter_subbasin[i].sName
+                dVariable_init = aParameter_subbasin[i].dValue_init
+                dVariable_lower = aParameter_subbasin[i].dValue_lower
+                dVariable_upper = aParameter_subbasin[i].dValue_upper                
+                sLine = sParameter + "{:03d}".format(iSubbasin) + ' ' \
+                      + partrans + ' ' \
+                      + parchglim + ' '\
+                      + "{:0.3f}".format(dVariable_init) + ' ' \
+                      + "{:0.3f}".format(dVariable_lower) + ' ' \
+                      +"{:0.3f}".format(dVariable_upper) + ' ' \
+                      + ' para_gp2 1.0 0.0 1\n'
                 ofs.write(sLine)
-            pass
+                pass
+    
     if iFlag_hru ==1:
-        nParameter_hru = oPest.pSwat.nParameter_hru
-        aParameter_hru = oPest.pSwat.aParameter_hru
-        aParameter_value_hru = oPest.pSwat.aParameter_value_hru
-        aParameter_value_lower_hru = oPest.pSwat.aParameter_value_lower_hru
-        aParameter_value_upper_hru = oPest.pSwat.aParameter_value_upper_hru
-        for i in range(nParameter_hru):
-            sParameter = aParameter_hru[i]
-            dVariable_init = aParameter_value_hru[i]
-            dVariable_lower = aParameter_value_lower_hru[i]
-            dVariable_upper = aParameter_value_upper_hru[i]
-            for ihru_type in range(0, nhru):
-                sLine = sParameter + "{:03d}".format(ihru_type+1) + ' ' \
-                  + partrans + ' ' \
-                  + parchglim + ' '\
-                  + "{:0.3f}".format(dVariable_init) + ' ' \
-                  + "{:0.3f}".format(dVariable_lower) + ' ' \
-                  +"{:0.3f}".format(dVariable_upper) + ' ' \
-                  + ' para_gp3 1.0 0.0 1\n'
+        nParameter_hru = oSwat.nParameter_hru
+        for iHru_type in range(1,2):
+            pHru = oSwat.aHru_combination[iHru_type -1]
+            aParameter_hru = pHru.aParameter_hru            
+            for i in range(nParameter_hru):
+                sParameter = aParameter_hru[i].sName
+                dVariable_init = aParameter_hru[i].dValue_init
+                dVariable_lower = aParameter_hru[i].dValue_lower
+                dVariable_upper = aParameter_hru[i].dValue_lower                
+                sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
+                      + partrans + ' ' \
+                      + parchglim + ' '\
+                      + "{:0.3f}".format(dVariable_init) + ' ' \
+                      + "{:0.3f}".format(dVariable_lower) + ' ' \
+                      +"{:0.3f}".format(dVariable_upper) + ' ' \
+                      + ' para_gp3 1.0 0.0 1\n'
                 ofs.write(sLine)
+
+        #soil 
+        if iFlag_soil ==1:
+            #nParameter_soil = oSwat.nParameter_soil
+            for iHru_type in range(1,2):
+                for iSoil_type in range(1,2):
+                    pHru = oSwat.aHru_combination[iHru_type -1]
+                    #pSoil = oSwat.aSoil_combinaiton[iSoil_type -1]
+                    pSoil = pHru.aSoil[0]
+                    aParameter_soil = pSoil.aParameter_soil           
+                    nParameter_soil = len(aParameter_soil) 
+                    for i in range(nParameter_soil):
+                        sParameter = aParameter_soil[i].sName
+                        dVariable_init = aParameter_soil[i].dValue_init
+                        dVariable_lower = aParameter_soil[i].dValue_lower
+                        dVariable_upper = aParameter_soil[i].dValue_lower                
+                        sLine = sParameter + "{:03d}".format(iSoil_type) + ' ' \
+                              + partrans + ' ' \
+                              + parchglim + ' '\
+                              + "{:0.3f}".format(dVariable_init) + ' ' \
+                              + "{:0.3f}".format(dVariable_lower) + ' ' \
+                              + "{:0.3f}".format(dVariable_upper) + ' ' \
+                              + ' para_gp4 1.0 0.0 1\n'
+                        ofs.write(sLine)
+
     ofs.write('* observation groups\n')
     ofs.write( 'discharge\n')
     ofs.write( '* observation data\n')
@@ -270,28 +290,27 @@ def pypest_create_swat_pest_control_file(oPest):
             pass
     ofs.write('* model command line\n')
     #run the model
-    sLine  = sWorkspace_pest_case + slash + 'run_swat_model\n'
+    sLine  = sWorkspace_output + slash + 'run_swat_model\n'
     ofs.write(sLine)
     ofs.write('* model input/output\n')
     if iFlag_watershed ==1:
-        sLine1 = sWorkspace_pest_case + slash + 'watershed.tpl'    
+        sLine1 = sWorkspace_output + slash + 'watershed.tpl'    
         sLine2 = 'watershed.para\n'
         sLine = sLine1 + ' ' + sLine2
         ofs.write(sLine)
     if iFlag_subbasin ==1:
-        sLine1 = sWorkspace_pest_case + slash + 'subbasin.tpl'    
+        sLine1 = sWorkspace_output + slash + 'subbasin.tpl'    
         sLine2 =  'subbasin.para\n'
         sLine = sLine1 + ' ' + sLine2
         ofs.write(sLine)
     if iFlag_hru ==1:
-        sLine1 = sWorkspace_pest_case + slash + 'hru.tpl'    
+        sLine1 = sWorkspace_output + slash + 'hru.tpl'    
         sLine2 = 'hru.para\n'
         sLine = sLine1 + ' ' + sLine2
         ofs.write(sLine)
     #result
-    sFilename_instruction = self.sFilename_instruction
-    sFilename_instruction = sWorkspace_pest_case + slash + sFilename_instruction
-    sFilename_output =  self.sFilename_output
+    sFilename_instruction = oPest.sFilename_instruction    
+    sFilename_output =  oPest.sFilename_output
     sLine = sFilename_instruction + ' '  + sFilename_output + '\n'
     ofs.write(sLine)
     phimlim = 1.0

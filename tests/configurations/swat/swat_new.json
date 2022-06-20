@@ -1,4 +1,22 @@
 {
+    "aSoil_combinaiton": [
+        [
+            "THOW",
+            "4"
+        ],
+        [
+            "PIRD",
+            "3"
+        ],
+        [
+            "NIMUE",
+            "4"
+        ],
+        [
+            "STUDEBAKER",
+            "2"
+        ]
+    ],
     "iCase_index": 1,
     "iDay_end": 31,
     "iDay_start": 1,
@@ -9,6 +27,7 @@
     "iFlag_replace_parameter": 1,
     "iFlag_run": 1,
     "iFlag_simulation": 0,
+    "iFlag_soil": 1,
     "iFlag_standalone": 0,
     "iFlag_subbasin": 1,
     "iFlag_watershed": 1,
@@ -44,8 +63,8 @@
         ],
         "nParameter_watershed": 1
     },
-    "sCase": "swat20220604001",
-    "sDate": "20220604",
+    "sCase": "swat20220615001",
+    "sDate": "20220615",
     "sFilename_HRULandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/HRULandUseSoilsReport.txt",
     "sFilename_LandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/LandUseSoilsReport.txt",
     "sFilename_hru_combination": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/hru_combination.txt",
