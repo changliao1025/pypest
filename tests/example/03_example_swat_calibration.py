@@ -20,7 +20,7 @@ sFilename_pest_configuration= '/global/homes/l/liao313/workspace/python/pypest/t
   
 oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
      iCase_index_in=iCase_index,\
-        iFlag_read_discretization_in = 0,\
+        iFlag_read_discretization_in = 1,\
         sDate_in=sDate, \
             sWorkspace_input_in=sWorkspace_input, \
                 sWorkspace_output_in=sWorkspace_output)   

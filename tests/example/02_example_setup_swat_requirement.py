@@ -36,14 +36,7 @@ oSwat = oPest.pSwat
 
 oSwat.swaty_generate_model_structure_files()
 
-oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
-     iCase_index_in=iCase_index,\
-        iFlag_read_discretization_in = 1,\
-        sDate_in=sDate, \
-            sWorkspace_input_in=sWorkspace_input, \
-                sWorkspace_output_in=sWorkspace_output)   
 
-oSwat = oPest.pSwat
 aParameter=list()
 aPara_in=dict()
 
@@ -104,11 +97,17 @@ for j in np.arange(1, nParameter_soil+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
 
+oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
+     iCase_index_in=iCase_index,\
+        iFlag_read_discretization_in = 1,\
+        sDate_in=sDate, \
+            sWorkspace_input_in=sWorkspace_input, \
+                sWorkspace_output_in=sWorkspace_output, aParameter_in= aParameter)   
+oSwat = oPest.pSwat
 oSwat.extract_default_parameter_value(aParameter)
 
 oSwat.generate_parameter_bounds()
 
-sFilename_configuration = os.path.join(oSwat.sWorkspace_output , 'swat.json')
 sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/tests/configurations/swat/swat_new.json'
 
 oSwat.export_config_to_json(sFilename_configuration)

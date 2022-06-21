@@ -8,7 +8,9 @@ import json
 from pypest.classes.pycase import pestcase
 from swaty.swaty_create_template_configuration_file import swaty_create_template_configuration_file
 
-def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspace_input, sWorkspace_output, sModel_type, iFlag_parallel_in = None, iCase_index_in = None, sPest_method_in=None, sDate_in = None):
+def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspace_input, sWorkspace_output, sModel_type, \
+    iFlag_parallel_in = None, iCase_index_in = None, \
+    sPest_method_in=None, sDate_in = None, aParameter_in = None):
     if iCase_index_in is not None:        
         iCase_index = iCase_index_in
     else:       
@@ -79,8 +81,11 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
         if iFlag_parallel ==1:
             pass
         else:
-            oSwat = swaty_create_template_configuration_file(sFilename_swat_configuration,sPath_bin, sWorkspace_input,sWorkspace_output,  iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate)
+            oSwat = swaty_create_template_configuration_file(sFilename_swat_configuration,sPath_bin, sWorkspace_input,sWorkspace_output,  \
+                iFlag_standalone_in=0, iCase_index_in=iCase_index, sDate_in=sDate, aParameter_in=aParameter_in)
             oSwat.sFilename_model_configuration = sFilename_swat_configuration
+
+            oSwat.export_config_to_json(sFilename_swat_configuration)
             oPest.pSwat = oSwat
             oPest.sFilename_model_configuration = sFilename_swat_configuration
     else:

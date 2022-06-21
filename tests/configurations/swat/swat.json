@@ -1,55 +1,33 @@
 {
-    "aParameter_hru": [
-        {
-            "dValue_current": 1.0,
-            "dValue_init": 1.0,
-            "dValue_lower": -5.0,
-            "dValue_upper": 5.0,
-            "iParameter_type": 3,
-            "lIndex_hru": 1,
-            "lIndex_soil_layer": 1,
-            "lIndex_subbasin": 1,
-            "sName": "CN2"
-        }
+    "aParameter_hru_name": [
+        "cn2",
+        "rchrg_dp",
+        "gwqmn",
+        "gw_revap",
+        "revapmn",
+        "gw_delay",
+        "alpha_bf",
+        "ov_n"
     ],
-    "aParameter_soil": [
-        {
-            "dValue_current": 1.0,
-            "dValue_init": 1.0,
-            "dValue_lower": -5.0,
-            "dValue_upper": 5.0,
-            "iParameter_type": 3,
-            "lIndex_hru": 1,
-            "lIndex_soil_layer": 1,
-            "lIndex_subbasin": 1,
-            "sName": "SOL_ALB"
-        }
+    "aParameter_soil_name": [
+        "sol_k",
+        "sol_awc",
+        "sol_alb",
+        "sol_bd"
     ],
-    "aParameter_subbasin": [
-        {
-            "dValue_current": 1.0,
-            "dValue_init": 1.0,
-            "dValue_lower": -5.0,
-            "dValue_upper": 5.0,
-            "iParameter_type": 2,
-            "lIndex_hru": 1,
-            "lIndex_soil_layer": 1,
-            "lIndex_subbasin": 1,
-            "sName": "CH_K2"
-        }
+    "aParameter_subbasin_name": [
+        "ch_n2",
+        "ch_k2",
+        "plaps",
+        "tlaps"
     ],
-    "aParameter_watershed": [
-        {
-            "dValue_current": 1.0,
-            "dValue_init": 1.0,
-            "dValue_lower": -5.0,
-            "dValue_upper": 5.0,
-            "iParameter_type": 1,
-            "lIndex_hru": 1,
-            "lIndex_soil_layer": 1,
-            "lIndex_subbasin": 1,
-            "sName": "SFTMP"
-        }
+    "aParameter_watershed_name": [
+        "esco",
+        "ai0",
+        "sftmp",
+        "smtmp",
+        "timp",
+        "epco"
     ],
     "iCase_index": 1,
     "iDay_end": 31,
@@ -61,7 +39,7 @@
     "iFlag_replace_parameter": 1,
     "iFlag_run": 1,
     "iFlag_simulation": 0,
-    "iFlag_soil":1,
+    "iFlag_soil": 1,
     "iFlag_standalone": 0,
     "iFlag_subbasin": 1,
     "iFlag_watershed": 1,
@@ -69,14 +47,16 @@
     "iMonth_start": 1,
     "iYear_end": 2009,
     "iYear_start": 1997,
-    "nParameter_hru": 1,
-    "nParameter_soil": 1,
-    "nParameter_subbasin": 1,
-    "nParameter_watershed": 1,
+    "nParameter_hru": 8,
+    "nParameter_soil": 4,
+    "nParameter_subbasin": 4,
+    "nParameter_watershed": 6,
     "nsegment": 87,
     "nstress_month": 156,
     "nsubbasin": 87,
-    "pWatershed": {},
+    "pWatershed": {
+        "nParameter_watershed": 6
+    },
     "sCase": "swat20220615001",
     "sDate": "20220615",
     "sFilename_HRULandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/HRULandUseSoilsReport.txt",

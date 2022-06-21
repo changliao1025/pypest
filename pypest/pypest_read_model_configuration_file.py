@@ -17,7 +17,7 @@ sDate_default = "{:04d}".format(pDate.year) + "{:02d}".format(pDate.month) + "{:
 def pypest_read_model_configuration_file(sFilename_configuration_in, \
     iCase_index_in = None , \
     iFlag_read_discretization_in =None,\
-    sDate_in = None,  sModel_type_in=None,sWorkspace_input_in=None,sWorkspace_output_in=None):
+    sDate_in = None,  sModel_type_in=None,sWorkspace_input_in=None,sWorkspace_output_in=None, aParameter_in = None):
 
     if not os.path.isfile(sFilename_configuration_in):
         print(sFilename_configuration_in + ' does not exist')
@@ -97,7 +97,7 @@ def pypest_read_model_configuration_file(sFilename_configuration_in, \
         oSwat = swaty_read_model_configuration_file(sFilename_model_configuration,  \
             iFlag_read_discretization_in = iFlag_read_discretization_in,\
             iFlag_standalone_in = 0,\
-            sWorkspace_output_in = oPest.sWorkspace_output_model)       
+            sWorkspace_output_in = oPest.sWorkspace_output_model, aParameter_in=aParameter_in)       
     
         oPest.pSwat = oSwat      
     
