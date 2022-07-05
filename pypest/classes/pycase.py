@@ -253,7 +253,7 @@ class pestcase(object):
         """    
        
         sWorkspace_pest_model = self.sWorkspace_output
-        sFilename_job = os.path.join(sWorkspace_pest_model , 'job.submit')     
+        sFilename_job = os.path.join(sWorkspace_pest_model , 'submit.job')     
         iFlag_parallel = self.iFlag_parallel
         sPest_method = self.sPest_method
 
@@ -261,15 +261,21 @@ class pestcase(object):
             ifs = open(sFilename_job, 'w')    
             sLine = '#!/bin/bash\n'
             ifs.write(sLine)
-            sLine = '#SBATCH -A inversion\n'
+            sLine = '#SBATCH -A m1800\n'
             ifs.write(sLine)
-            sLine = '#SBATCH -t 100:00:00\n'
+            sLine = '#SBATCH -t 00:10:00\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -q debug' + '\n'
             ifs.write(sLine)
             sLine = '#SBATCH -N 3\n'
             ifs.write(sLine)
             sLine = '#SBATCH -n 36\n'
             ifs.write(sLine)
             sLine = '#SBATCH -J ' + self.sModel_type + '\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -C haswell' + '\n'
+            ifs.write(sLine)
+            sLine = '#SBATCH -L SCRATCH' + '\n'
             ifs.write(sLine)
             sLine = '#SBATCH -o out.out\n'
             ifs.write(sLine)
@@ -298,15 +304,21 @@ class pestcase(object):
                 ifs = open(sFilename_job, 'w')    
                 sLine = '#!/bin/bash\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -A inversion\n'
+                sLine = '#SBATCH -A m1800\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -t 100:00:00\n'
+                sLine = '#SBATCH -t 00:10:00\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -q debug' + '\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -N 1\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -n 10\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -J ' + self.sModel_type + '\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -C haswell' + '\n'
+                ifs.write(sLine)
+                sLine = '#SBATCH -L SCRATCH' + '\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -o out.out\n'
                 ifs.write(sLine)
@@ -320,11 +332,11 @@ class pestcase(object):
                 ifs.write(sLine)
                 sLine = 'module purge\n'
                 ifs.write(sLine)
-                sLine = 'module load python/anaconda3.6\n'
-                ifs.write(sLine)
-                sLine = 'module load gcc/5.2.0\n'
+                #sLine = 'module load python/3.9-anaconda-2021.11\n'
+                #ifs.write(sLine)
+                sLine = 'module load gcc/6.1.0\n'
                 ifs.write(sLine)                
-                sLine = 'pest ' + sWorkspace_pest_model + '_swat /M child\n'
+                sLine = 'pest ' + sWorkspace_pest_model + '_swat' + '\n'
                 ifs.write(sLine)
                 ifs.close()
             else:

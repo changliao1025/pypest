@@ -52,8 +52,8 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
     aConfig['sPest_mode']  = 'estimation'
     aConfig['sFilename_pest_configuration'] = ''
     aConfig['sFilename_control'] = 'pest_swat.pst'
-    aConfig['sFilename_instruction'] = 'pest_swat.pst'
-    aConfig['sFilename_control'] = 'pest_swat.ins'
+    aConfig['sFilename_instruction'] = 'pest_swat.ins'
+  
 
     aConfig['sWorkspace_input'] = sWorkspace_input  
     aConfig['sWorkspace_output'] = sWorkspace_output    

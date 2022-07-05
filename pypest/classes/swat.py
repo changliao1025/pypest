@@ -52,14 +52,24 @@ def pypest_create_swat_pest_control_file(oPest):
     
      
     #number
-    npargp = oPest.npargp
-    npar = oPest.npar
+    npargp = 0 
+    if iFlag_watershed ==1:
+        npargp = npargp + 1
+    if iFlag_subbasin ==1:
+        npargp = npargp + 1
+    if iFlag_hru ==1:
+        npargp = npargp + 1
+    if iFlag_soil ==1:
+        npargp = npargp + 1
+
+    oPest.npargp = npargp
+ 
     nprior = oPest.nprior
     nobsgp = oPest.nobsgp
     nobs = oPest.nobs
     ntplfile = oPest.ntplfile
     ninsfile = oPest.ninsfile
-    npar = oSwat.nParameter
+    npar = oSwat.nParameter_watershed + oSwat.nParameter_subbasin + oSwat.nParameter_hru + oSwat.nParameter_soil
     sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_monthly.txt')
     if os.path.isfile(sFilename):
         pass

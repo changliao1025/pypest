@@ -1,40 +1,40 @@
+#this function will be used to setup some basic swat information
 
-import os, sys
-from pathlib import Path
-from os.path import realpath
-import argparse
-import logging
-for handler in logging.root.handlers[:]:
-    logging.root.removeHandler(handler)
+#this should be done after you edited the configuration files
 
-logging.basicConfig(format='%(asctime)s %(message)s')
-logging.warning('is the time pyhexwatershed simulation started.')
+#please refer to the swaty package 
+import sys, os
 import numpy as np
+import xml.etree.ElementTree as ET
 
+from pyearth.system.define_global_variables import *
+
+from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file
+
+
+from pypest.classes.pycase import pestcase
 from swaty.classes.swatpara import swatpara
-from pypest.pypest_create_template_configuration_file import pypest_create_template_configuration_file
 
-#example
-
-sModel_type = 'swat'
-sPest_method = 'pest'
+iFlag_use_existing_template = 0
 iCase_index = 1
-iFlag_parallel = 0
+sDate = '20220615'
+sWorkspace_input = '/global/homes/l/liao313/workspace/python/pypest/data/arw/input'
+sWorkspace_output = '/global/cscratch1/sd/liao313/04model/pest/arw/calibration'
 
-sDate='20220615'
+
+sFilename_pest_configuration= '/global/homes/l/liao313/workspace/python/pypest/examples/swat/pest_new.json'
+
+oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
+     iCase_index_in=iCase_index,\
+        iFlag_read_discretization_in = 0,\
+        sDate_in=sDate, \
+            sWorkspace_input_in=sWorkspace_input, \
+                sWorkspace_output_in=sWorkspace_output)    
 
 
+oSwat = oPest.pSwat
 
-sPath = str( Path().resolve() )
-iFlag_option = 1
-sWorkspace_data = realpath( sPath +  '/data/arw' )
-sWorkspace_input =  str(Path(sWorkspace_data)  /  'input')
-sWorkspace_output=  str(Path(sWorkspace_data)  /  'output')
-
-sWorkspace_bin = '/global/homes/l/liao313/bin'
-
-sFilename_configuration_in = sPath +  '/tests/configurations/swat/pest_swat.json' 
-sWorkspace_data = realpath( sPath +  '/data/arw' )
+oSwat.swaty_generate_model_structure_files()
 
 
 aParameter=list()
@@ -42,6 +42,7 @@ aPara_in=dict()
 
 aParemeter_watershed = np.array(['esco','ai0', 'sftmp','smtmp','timp','epco'])
 nParameter_watershed = len(aParemeter_watershed)
+
 
 for j in np.arange(1, nParameter_watershed+1):
     aPara_in['iParameter_type'] = 1
@@ -96,18 +97,19 @@ for j in np.arange(1, nParameter_soil+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
 
-oPest = pypest_create_template_configuration_file(sFilename_configuration_in,sWorkspace_bin, sWorkspace_input, sWorkspace_output, sModel_type,\
-    iFlag_parallel_in = iFlag_parallel, iCase_index_in = iCase_index, sDate_in = sDate, sPest_method_in= sPest_method, aParameter_in= aParameter)
-print(oPest.tojson())
+oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
+     iCase_index_in=iCase_index,\
+        iFlag_read_discretization_in = 1,\
+        sDate_in=sDate, \
+            sWorkspace_input_in=sWorkspace_input, \
+                sWorkspace_output_in=sWorkspace_output, aParameter_in= aParameter)   
 
-sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/tests/configurations/swat/swat_new.json'
-oPest.pSwat.export_config_to_json(sFilename_configuration)
+oSwat = oPest.pSwat
+oSwat.extract_default_parameter_value(aParameter)
 
-oPest.sFilename_model_configuration = sFilename_configuration
+oSwat.generate_parameter_bounds()
 
-sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/tests/configurations/swat/pest_new.json'
-oPest.export_config_to_json(sFilename_configuration)
+sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/examples/swat/swat_new.json'
 
+oSwat.export_config_to_json(sFilename_configuration)
 
-logging.basicConfig(format='%(asctime)s %(message)s')
-logging.warning('is the time pyhexwatershed simulation finished.')

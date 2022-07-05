@@ -56,35 +56,7 @@ def pypest_read_model_configuration_file(sFilename_configuration_in, \
     else:
         sWorkspace_output = aConfig["sWorkspace_output"]
         pass
-    
-    
-    
-    #iYear_start  = int( aConfig['iYear_start'])
-    #iMonth_start  = int(  aConfig['iMonth_start'])
-    #iDay_start  = int(  aConfig['iDay_start'] )
-    #iYear_end  = int( aConfig['iYear_end'])
-    #iMonth_end  = int(  aConfig['iMonth_end'])
-    #iDay_end  = int(  aConfig['iDay_end'])   
 
-    #by default, this system is used to prepare inputs for modflow simulation.
-    #however, it can also be used to prepare gsflow simulation inputs.
-
-    #based on global variable, a few variables are calculate once
-    #calculate the modflow simulation period
-    #https://docs.python.org/3/library/datetime.html#datetime-objects
-    
-    
-    #dummy1 = datetime.datetime(iYear_start, iMonth_start, iDay_start)
-    #dummy2 = datetime.datetime(iYear_end, iMonth_end, iDay_end)
-    #julian1 = julian.to_jd(dummy1, fmt='jd')
-    #julian2 = julian.to_jd(dummy2, fmt='jd')
-    #nstress =int( julian2 - julian1 + 1 )  
-    #aConfig['lJulian_start'] =  julian1
-    #aConfig['lJulian_end'] =  julian2
-    #aConfig['nstress'] =   nstress     
-   
-    
-    #data
     aConfig["sDate"] = sDate
     aConfig["sMesh_sModel_typetype"] = sModel_type
     aConfig["iCase_index"] = iCase_index
