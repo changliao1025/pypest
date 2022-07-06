@@ -6,12 +6,8 @@
 import sys, os
 import numpy as np
 import xml.etree.ElementTree as ET
-
 from pyearth.system.define_global_variables import *
-
 from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file
-
-
 from pypest.classes.pycase import pestcase
 from swaty.classes.swatpara import swatpara
 
@@ -20,7 +16,6 @@ iCase_index = 1
 sDate = '20220615'
 sWorkspace_input = '/global/homes/l/liao313/workspace/python/pypest/data/arw/input'
 sWorkspace_output = '/global/cscratch1/sd/liao313/04model/pest/arw/calibration'
-
 
 sFilename_pest_configuration= '/global/homes/l/liao313/workspace/python/pypest/examples/swat/pest_new.json'
 
@@ -31,18 +26,15 @@ oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
             sWorkspace_input_in=sWorkspace_input, \
                 sWorkspace_output_in=sWorkspace_output)    
 
-
 oSwat = oPest.pSwat
 
 oSwat.swaty_generate_model_structure_files()
 
-
 aParameter=list()
 aPara_in=dict()
 
-aParemeter_watershed = np.array(['esco','ai0', 'sftmp','smtmp','timp','epco'])
+aParemeter_watershed = np.array(['esco','sftmp','smtmp','smfmx' ,'timp','epco'])
 nParameter_watershed = len(aParemeter_watershed)
-
 
 for j in np.arange(1, nParameter_watershed+1):
     aPara_in['iParameter_type'] = 1
@@ -54,7 +46,6 @@ for j in np.arange(1, nParameter_watershed+1):
     aPara_in['dValue_upper']=5
     pParameter = swatpara(aPara_in)
     aParameter.append(    pParameter )
-
 
 aParemeter_subbasin = np.array(['ch_n2','ch_k2','plaps','tlaps'])
 nParameter_subbasin = len(aParemeter_subbasin)
@@ -82,8 +73,6 @@ for j in np.arange(1, nParameter_hru+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
 
-
-
 aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
 nParameter_soil = len(aParemeter_soil)
 for j in np.arange(1, nParameter_soil+1):
@@ -106,10 +95,7 @@ oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
 
 oSwat = oPest.pSwat
 oSwat.extract_default_parameter_value(aParameter)
-
 oSwat.generate_parameter_bounds()
-
 sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/examples/swat/swat_new.json'
-
 oSwat.export_config_to_json(sFilename_configuration)
 

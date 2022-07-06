@@ -23,9 +23,9 @@
     ],
     "aParameter_watershed_name": [
         "esco",
-        "ai0",
         "sftmp",
         "smtmp",
+        "smfmx",
         "timp",
         "epco"
     ],

@@ -205,6 +205,9 @@ def pypest_create_swat_pest_control_file(oPest):
         ofs.write(sLine)
     parchglim = 'relative'
     ofs.write('* parameter data\n')
+
+
+    iFlag_spatial = 0
     if iFlag_watershed ==1:
         oWatershed = oSwat.pWatershed
         nParameter_watershed = oWatershed.nParameter_watershed
@@ -212,7 +215,7 @@ def pypest_create_swat_pest_control_file(oPest):
         
         for i in range(nParameter_watershed):
             sParameter = aParameter_watershed[i].sName
-            dVariable_init = aParameter_watershed[i].dValue_init
+            dVariable_init = aParameter_watershed[i].dValue_current
             dVariable_lower = aParameter_watershed[i].dValue_lower
             dVariable_upper = aParameter_watershed[i].dValue_upper
             sLine = sParameter  + ' ' \
@@ -224,14 +227,35 @@ def pypest_create_swat_pest_control_file(oPest):
                   + ' para_gp1 1.0 0.0 1\n'
             ofs.write(sLine)
         pass
+
     if iFlag_subbasin ==1:       
-        nParameter_subbasin = oSwat.nParameter_subbasin
-        for iSubbasin in range(1,2):
-            pSubbasin  = oSwat.aSubbasin[iSubbasin-1]
+        nsubasin = oSwat.nsubbasin
+        if iFlag_spatial == 1:
+            for iSubbasin in range(1,nsubasin):                
+                pSubbasin  = oSwat.aSubbasin[iSubbasin-1]
+                nParameter_subbasin = pSubbasin.nParameter_subbasin
+                aParameter_subbasin = pSubbasin.aParameter_subbasin            
+                for i in range(nParameter_subbasin):
+                    sParameter = aParameter_subbasin[i].sName
+                    dVariable_init = aParameter_subbasin[i].dValue_current
+                    dVariable_lower = aParameter_subbasin[i].dValue_lower
+                    dVariable_upper = aParameter_subbasin[i].dValue_upper                
+                    sLine = sParameter + "{:03d}".format(iSubbasin) + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' '\
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          +"{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp2 1.0 0.0 1\n'
+                    ofs.write(sLine)
+                    pass
+        else:
+            pSubbasin  = oSwat.aSubbasin[0]
+            nParameter_subbasin = pSubbasin.nParameter_subbasin
             aParameter_subbasin = pSubbasin.aParameter_subbasin            
             for i in range(nParameter_subbasin):
                 sParameter = aParameter_subbasin[i].sName
-                dVariable_init = aParameter_subbasin[i].dValue_init
+                dVariable_init = aParameter_subbasin[i].dValue_current
                 dVariable_lower = aParameter_subbasin[i].dValue_lower
                 dVariable_upper = aParameter_subbasin[i].dValue_upper                
                 sLine = sParameter + "{:03d}".format(iSubbasin) + ' ' \
@@ -243,34 +267,34 @@ def pypest_create_swat_pest_control_file(oPest):
                       + ' para_gp2 1.0 0.0 1\n'
                 ofs.write(sLine)
                 pass
+            pass
     
     if iFlag_hru ==1:
-        nParameter_hru = oSwat.nParameter_hru
-        for iHru_type in range(1,2):
-            pHru = oSwat.aHru_combination[iHru_type -1]
-            aParameter_hru = pHru.aParameter_hru            
-            for i in range(nParameter_hru):
-                sParameter = aParameter_hru[i].sName
-                dVariable_init = aParameter_hru[i].dValue_init
-                dVariable_lower = aParameter_hru[i].dValue_lower
-                dVariable_upper = aParameter_hru[i].dValue_lower                
-                sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
-                      + partrans + ' ' \
-                      + parchglim + ' '\
-                      + "{:0.3f}".format(dVariable_init) + ' ' \
-                      + "{:0.3f}".format(dVariable_lower) + ' ' \
-                      +"{:0.3f}".format(dVariable_upper) + ' ' \
-                      + ' para_gp3 1.0 0.0 1\n'
-                ofs.write(sLine)
-
-        #soil 
-        if iFlag_soil ==1:
-            #nParameter_soil = oSwat.nParameter_soil
-            for iHru_type in range(1,2):
-                for iSoil_type in range(1,2):
-                    pHru = oSwat.aHru_combination[iHru_type -1]
-                    #pSoil = oSwat.aSoil_combinaiton[iSoil_type -1]
-                    pSoil = pHru.aSoil[0]
+        nhru_combination = oSwat.nhru_combination
+        if iFlag_spatial == 1:
+            for iHru_type in range(1,nhru_combination):
+                pHru = oSwat.aHru_combination[iHru_type -1]
+                aParameter_hru = pHru.aParameter_hru   
+                nParameter_hru = oSwat.nParameter_hru      
+                for i in range(nParameter_hru):
+                    sParameter = aParameter_hru[i].sName
+                    dVariable_init = aParameter_hru[i].dValue_current
+                    dVariable_lower = aParameter_hru[i].dValue_lower
+                    dVariable_upper = aParameter_hru[i].dValue_lower                
+                    sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' ' \
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          + "{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp3 1.0 0.0 1' + '\n'
+                    ofs.write(sLine)
+            #soil 
+            if iFlag_soil ==1:
+                nsoil_combination = oSwat.nsoil_combination
+                aSoil_combination = oSwat.aSoil_combination            
+                for iSoil_type in range(1,nsoil_combination+1):                                    
+                    pSoil = aSoil_combination[iSoil_type-1]
                     aParameter_soil = pSoil.aParameter_soil           
                     nParameter_soil = len(aParameter_soil) 
                     for i in range(nParameter_soil):
@@ -286,6 +310,40 @@ def pypest_create_swat_pest_control_file(oPest):
                               + "{:0.3f}".format(dVariable_upper) + ' ' \
                               + ' para_gp4 1.0 0.0 1\n'
                         ofs.write(sLine)
+        else:
+            pHru = oSwat.aHru_combination[0]
+            aParameter_hru = pHru.aParameter_hru   
+            nParameter_hru = oSwat.nParameter_hru      
+            for i in range(nParameter_hru):
+                sParameter = aParameter_hru[i].sName
+                dVariable_init = aParameter_hru[i].dValue_current
+                dVariable_lower = aParameter_hru[i].dValue_lower
+                dVariable_upper = aParameter_hru[i].dValue_lower                
+                sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
+                      + partrans + ' ' \
+                      + parchglim + ' ' \
+                      + "{:0.3f}".format(dVariable_init) + ' ' \
+                      + "{:0.3f}".format(dVariable_lower) + ' ' \
+                      + "{:0.3f}".format(dVariable_upper) + ' ' \
+                      + ' para_gp3 1.0 0.0 1' + '\n'
+                ofs.write(sLine)
+            pSoil = oSwat.aHru_combination[0].aSoil[0]      
+            aParameter_soil = pSoil.aParameter_soil           
+            nParameter_soil = len(aParameter_soil) 
+            for i in range(nParameter_soil):
+                sParameter = aParameter_soil[i].sName
+                dVariable_init = aParameter_soil[i].dValue_init
+                dVariable_lower = aParameter_soil[i].dValue_lower
+                dVariable_upper = aParameter_soil[i].dValue_lower                
+                sLine = sParameter + "{:03d}".format(iSoil_type) + ' ' \
+                      + partrans + ' ' \
+                      + parchglim + ' '\
+                      + "{:0.3f}".format(dVariable_init) + ' ' \
+                      + "{:0.3f}".format(dVariable_lower) + ' ' \
+                      + "{:0.3f}".format(dVariable_upper) + ' ' \
+                      + ' para_gp4 1.0 0.0 1\n'
+                ofs.write(sLine)
+            pass
 
     ofs.write('* observation groups\n')
     ofs.write( 'discharge\n')
@@ -298,6 +356,7 @@ def pypest_create_swat_pest_control_file(oPest):
             ofs.write(sLine)
         else:
             pass
+
     ofs.write('* model command line\n')
     #run the model
     sLine  = sWorkspace_output + slash + 'run_swat_model\n'

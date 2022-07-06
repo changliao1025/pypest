@@ -42,7 +42,7 @@ sWorkspace_data = realpath( sPath +  '/data/arw' )
 aParameter=list()
 aPara_in=dict()
 
-aParemeter_watershed = np.array(['esco','ai0', 'sftmp','smtmp','timp','epco'])
+aParemeter_watershed = np.array(['esco','sftmp','smtmp','smfmx' ,'timp','epco'])
 nParameter_watershed = len(aParemeter_watershed)
 
 for j in np.arange(1, nParameter_watershed+1):

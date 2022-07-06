@@ -1,13 +1,8 @@
 from lib2to3.pgen2.token import OP
 import sys, os
 import numpy as np
-
-
 from pyearth.system.define_global_variables import *
-
 from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file
-
-
 from pypest.classes.pycase import pestcase
 from swaty.classes.swatpara import swatpara
 from swaty.auxiliary.text_reader_string import text_reader_string
@@ -20,11 +15,10 @@ sWorkspace_output = '/global/cscratch1/sd/liao313/04model/pest/arw/calibration'
 sFilename_pest_configuration= '/global/homes/l/liao313/workspace/python/pypest/examples/swat/pest_new.json'
 
 #read default parameter and bounds from here
-
 aParameter=list()
 aPara_in=dict()
 
-aParemeter_watershed = np.array(['esco','ai0', 'sftmp','smtmp','timp','epco'])
+aParemeter_watershed = np.array(['esco','sftmp','smtmp','smfmx' ,'timp','epco'])
 nParameter_watershed = len(aParemeter_watershed)
 
 oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
@@ -52,9 +46,7 @@ for j in np.arange(1, nParameter_watershed+1):
     aPara_in['dValue_lower']=float(aData_dummy2[j-1, 1])
     aPara_in['dValue_upper']=float(aData_dummy2[j-1, 2])
     pParameter = swatpara(aPara_in)
-    aParameter.append(    pParameter )
-
-
+    aParameter.append( pParameter )
 
 aParemeter_subbasin = np.array(['ch_n2','ch_k2','plaps','tlaps'])
 nParameter_subbasin = len(aParemeter_subbasin)
@@ -90,8 +82,6 @@ for j in np.arange(1, nParameter_hru+1):
     aPara_in['dValue_upper']=float(aData_dummy2[j-1, 2])
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
-
-
 
 aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
 nParameter_soil = len(aParemeter_soil)
