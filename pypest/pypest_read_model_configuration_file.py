@@ -69,7 +69,9 @@ def pypest_read_model_configuration_file(sFilename_configuration_in, \
         oSwat = swaty_read_model_configuration_file(sFilename_model_configuration,  \
             iFlag_read_discretization_in = iFlag_read_discretization_in,\
             iFlag_standalone_in = 0,\
-            sWorkspace_output_in = oPest.sWorkspace_output_model, aParameter_in=aParameter_in)       
+            sWorkspace_output_in = oPest.sWorkspace_output_model, aParameter_in=aParameter_in)  
+
+        oSwat.sPython =  oPest.sPython 
     
         oPest.pSwat = oSwat      
     

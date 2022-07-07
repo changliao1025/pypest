@@ -59,7 +59,7 @@ class pestcase(object):
     sWorkspace_output=''
     sWorkspace_output_model=''
     
-  
+    sPython=''
     sRegion=''
     sModel='pest'
     sModel_type='swat'
@@ -126,6 +126,9 @@ class pestcase(object):
             self.sWorkspace_pest       = aConfig_in[ 'sWorkspace_pest']
         if 'sWorkspace_bin' in aConfig_in:
             self.sWorkspace_bin      = aConfig_in[ 'sWorkspace_bin']
+        if 'sPython' in aConfig_in:
+            self.sPython      = aConfig_in[ 'sPython']
+
 
         
 
@@ -167,7 +170,8 @@ class pestcase(object):
             #setup swat first
             self.pSwat.setup()
             #set up pest files
-            self.pypest_copy_executable_file()            
+            self.pypest_copy_executable_file()   
+            self.pypest_create_run_script()         
             self.pypest_create_pest_template_file() #swaty            
             self.pypest_create_pest_instruction_file(self.sFilename_instruction) #swaty
             self.pypest_create_pest_control_file()

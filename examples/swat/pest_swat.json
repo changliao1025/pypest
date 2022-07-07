@@ -22,6 +22,7 @@
     "sModel_type": "swat",
     "sPest_method": "pest",
     "sPest_mode": "estimation",
+    "sPython": "/global/homes/l/liao313/.conda/envs/pestenv/bin/python",
     "sWorkspace_bin": "/global/homes/l/liao313/bin",
     "sWorkspace_input": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input",
     "sWorkspace_output": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001",
