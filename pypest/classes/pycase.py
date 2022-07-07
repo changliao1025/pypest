@@ -153,7 +153,7 @@ class pestcase(object):
         if 'sFilename_instruction' in aConfig_in:
             self.sFilename_instruction = os.path.join( self.sWorkspace_output, aConfig_in['sFilename_instruction'] )
         if 'sFilename_output' in aConfig_in:
-            self.sFilename_output = os.path.join( self.sWorkspace_output_model, aConfig_in['sFilename_output'])
+            self.sFilename_output =  aConfig_in['sFilename_output']
             
 
         pass

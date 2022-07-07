@@ -15,7 +15,7 @@
     "sFilename_control": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/pest_swat.pst",
     "sFilename_instruction": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/pest_swat.ins",
     "sFilename_model_configuration": "/global/u1/l/liao313/workspace/python/pypest/examples/swat/swat.json",
-    "sFilename_output": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/stream_discharge_monthly.txt",
+    "sFilename_output": "stream_discharge_monthly.txt",
     "sFilename_pest": "pest",
     "sFilename_pest_configuration": "/global/u1/l/liao313/workspace/python/pypest/examples/swat/pest_swat.json",
     "sModel": "pest",
