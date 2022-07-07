@@ -39,7 +39,7 @@ aData_dummy2 = text_reader_string(sFilename_parameter_bounds_watershed, cDelimit
 
 for j in np.arange(1, nParameter_watershed+1):
     aPara_in['iParameter_type'] = 1
-    aPara_in['iIndex_subbasin'] = j
+    aPara_in['lIndex_subbasin'] = 1
     aPara_in['sName']= aData_dummy2[j-1, 0]
     aPara_in['dValue_init']= float(aData_dummy1[1,j])
     aPara_in['dValue_current']= float(aData_dummy1[1,j])
@@ -57,7 +57,7 @@ sFilename_parameter_bounds_subbasin = os.path.join(sWorkspace_simulation_case,  
 aData_dummy2 = text_reader_string(sFilename_parameter_bounds_subbasin, cDelimiter_in=',')
 for j in np.arange(1, nParameter_subbasin+1):
     aPara_in['iParameter_type'] = 2
-    aPara_in['iIndex_subbasin'] = j
+    aPara_in['lIndex_subbasin'] = 1
     aPara_in['sName']= aData_dummy2[j-1, 0]
     aPara_in['dValue_init']= float(aData_dummy1[1,j])
     aPara_in['dValue_current']= float(aData_dummy1[1,j])
@@ -74,7 +74,7 @@ sFilename_parameter_bounds_hru = os.path.join(sWorkspace_simulation_case,  'para
 aData_dummy2 = text_reader_string(sFilename_parameter_bounds_hru, cDelimiter_in=',')
 for j in np.arange(1, nParameter_hru+1):
     aPara_in['iParameter_type'] = 3
-    aPara_in['iIndex_hru'] = j
+    aPara_in['lIndex_hru'] = 1
     aPara_in['sName']= aData_dummy2[j-1, 0]
     aPara_in['dValue_init']= float(aData_dummy1[1,j])
     aPara_in['dValue_current']= float(aData_dummy1[1,j])
@@ -91,7 +91,8 @@ sFilename_parameter_bounds_soil = os.path.join(sWorkspace_simulation_case,  'par
 aData_dummy2 = text_reader_string(sFilename_parameter_bounds_soil, cDelimiter_in=',')
 for j in np.arange(1, nParameter_soil+1):
     aPara_in['iParameter_type'] = 4
-    aPara_in['lIndex_soil_layer'] = j
+    aPara_in['lIndex_hru'] = 1
+    aPara_in['lIndex_soil_layer'] = 1
     aPara_in['sName']= aData_dummy2[j-1, 0]
     aPara_in['dValue_init']= float(aData_dummy1[1,j])
     aPara_in['dValue_current']= float(aData_dummy1[1,j])

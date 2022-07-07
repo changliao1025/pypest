@@ -5,7 +5,7 @@
     "ninsfile": 1,
     "nobs": 1,
     "nobsgp": 1,
-    "npar": 2,
+    "npar": 22,
     "npargp": 1,
     "nprior": 0,
     "ntplfile": 1,

@@ -9,10 +9,14 @@ from swaty.classes.pycase import swatcase
 
 def pypest_create_swat_pest_template_file(oPest): 
     oSwat= oPest.pSwat
-    oSwat.swaty_prepare_watershed_template_file()
-    oSwat.swaty_prepare_subbasin_template_file()
-    oSwat.swaty_prepare_hru_template_file()
-    oSwat.swaty_prepare_soil_template_file()
+    sFilename_watershed_template = os.path.join( oPest.sWorkspace_output, 'watershed.tpl')
+    oSwat.swaty_prepare_watershed_template_file(sFilename_watershed_template)
+    sFilename_subbasin_template = os.path.join( oPest.sWorkspace_output, 'subbasin.tpl')
+    oSwat.swaty_prepare_subbasin_template_file(sFilename_subbasin_template)
+    sFilename_hru_template = os.path.join( oPest.sWorkspace_output, 'hru.tpl')
+    oSwat.swaty_prepare_hru_template_file(sFilename_hru_template)
+    sFilename_soil_template = os.path.join( oPest.sWorkspace_output, 'soil.tpl')
+    oSwat.swaty_prepare_soil_template_file(sFilename_soil_template)
 
     return
 def pypest_create_swat_pest_instruction_file(oPest, sFilename_in): 
@@ -53,23 +57,30 @@ def pypest_create_swat_pest_control_file(oPest):
      
     #number
     npargp = 0 
+    ntplfile = 0
     if iFlag_watershed ==1:
         npargp = npargp + 1
+        ntplfile = ntplfile + 1
     if iFlag_subbasin ==1:
         npargp = npargp + 1
+        ntplfile = ntplfile + 1
     if iFlag_hru ==1:
         npargp = npargp + 1
+        ntplfile = ntplfile + 1
     if iFlag_soil ==1:
         npargp = npargp + 1
+        ntplfile = ntplfile + 1
 
     oPest.npargp = npargp
- 
+    oPest.ntplfile = ntplfile
+    
     nprior = oPest.nprior
     nobsgp = oPest.nobsgp
     nobs = oPest.nobs
-    ntplfile = oPest.ntplfile
+ 
     ninsfile = oPest.ninsfile
-    npar = oSwat.nParameter_watershed + oSwat.nParameter_subbasin + oSwat.nParameter_hru + oSwat.nParameter_soil
+    npar = oPest.npar
+    #npar = oSwat.nParameter_watershed + oSwat.nParameter_subbasin + oSwat.nParameter_hru + oSwat.nParameter_soil
     sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_monthly.txt')
     if os.path.isfile(sFilename):
         pass
@@ -258,7 +269,7 @@ def pypest_create_swat_pest_control_file(oPest):
                 dVariable_init = aParameter_subbasin[i].dValue_current
                 dVariable_lower = aParameter_subbasin[i].dValue_lower
                 dVariable_upper = aParameter_subbasin[i].dValue_upper                
-                sLine = sParameter + "{:03d}".format(iSubbasin) + ' ' \
+                sLine = sParameter +  ' ' \
                       + partrans + ' ' \
                       + parchglim + ' '\
                       + "{:0.3f}".format(dVariable_init) + ' ' \
@@ -280,7 +291,7 @@ def pypest_create_swat_pest_control_file(oPest):
                     sParameter = aParameter_hru[i].sName
                     dVariable_init = aParameter_hru[i].dValue_current
                     dVariable_lower = aParameter_hru[i].dValue_lower
-                    dVariable_upper = aParameter_hru[i].dValue_lower                
+                    dVariable_upper = aParameter_hru[i].dValue_upper                
                     sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
                           + partrans + ' ' \
                           + parchglim + ' ' \
@@ -293,33 +304,37 @@ def pypest_create_swat_pest_control_file(oPest):
             if iFlag_soil ==1:
                 nsoil_combination = oSwat.nsoil_combination
                 aSoil_combination = oSwat.aSoil_combination            
-                for iSoil_type in range(1,nsoil_combination+1):                                    
-                    pSoil = aSoil_combination[iSoil_type-1]
-                    aParameter_soil = pSoil.aParameter_soil           
-                    nParameter_soil = len(aParameter_soil) 
-                    for i in range(nParameter_soil):
-                        sParameter = aParameter_soil[i].sName
-                        dVariable_init = aParameter_soil[i].dValue_init
-                        dVariable_lower = aParameter_soil[i].dValue_lower
-                        dVariable_upper = aParameter_soil[i].dValue_lower                
-                        sLine = sParameter + "{:03d}".format(iSoil_type) + ' ' \
-                              + partrans + ' ' \
-                              + parchglim + ' '\
-                              + "{:0.3f}".format(dVariable_init) + ' ' \
-                              + "{:0.3f}".format(dVariable_lower) + ' ' \
-                              + "{:0.3f}".format(dVariable_upper) + ' ' \
-                              + ' para_gp4 1.0 0.0 1\n'
-                        ofs.write(sLine)
+                for iSoil_type in range(1,nsoil_combination+1): 
+                    sSoil_type = "{:03d}".format(iSoil_type)                                   
+                    
+                    #find the hru that has this soil type
+                    
+                    nSoillayer = int(aSoil_combination[iSoil_type-1,1])
+                    for iSoil_layer in range(1, nSoillayer+1):
+                        sSoil_layer = "{:02d}".format(iSoil_layer)
+                        for i in range(nParameter_soil):
+                            sParameter = aParameter_soil[i].sName
+                            dVariable_init = aParameter_soil[i].dValue_current
+                            dVariable_lower = aParameter_soil[i].dValue_lower
+                            dVariable_upper = aParameter_soil[i].dValue_upper                
+                            sLine = sParameter + sSoil_type + sSoil_layer + ' ' \
+                                  + partrans + ' ' \
+                                  + parchglim + ' '\
+                                  + "{:0.3f}".format(dVariable_init) + ' ' \
+                                  + "{:0.3f}".format(dVariable_lower) + ' ' \
+                                  + "{:0.3f}".format(dVariable_upper) + ' ' \
+                                  + ' para_gp4 1.0 0.0 1\n'
+                            ofs.write(sLine)
         else:
             pHru = oSwat.aHru_combination[0]
             aParameter_hru = pHru.aParameter_hru   
-            nParameter_hru = oSwat.nParameter_hru      
+            nParameter_hru = pHru.nParameter_hru      
             for i in range(nParameter_hru):
                 sParameter = aParameter_hru[i].sName
                 dVariable_init = aParameter_hru[i].dValue_current
                 dVariable_lower = aParameter_hru[i].dValue_lower
-                dVariable_upper = aParameter_hru[i].dValue_lower                
-                sLine = sParameter + "{:03d}".format(iHru_type) + ' ' \
+                dVariable_upper = aParameter_hru[i].dValue_upper                
+                sLine = sParameter + ' ' \
                       + partrans + ' ' \
                       + parchglim + ' ' \
                       + "{:0.3f}".format(dVariable_init) + ' ' \
@@ -327,15 +342,15 @@ def pypest_create_swat_pest_control_file(oPest):
                       + "{:0.3f}".format(dVariable_upper) + ' ' \
                       + ' para_gp3 1.0 0.0 1' + '\n'
                 ofs.write(sLine)
-            pSoil = oSwat.aHru_combination[0].aSoil[0]      
+            pSoil = oSwat.aHru_combination[0].aSoil[0]     #the first soil layer 
             aParameter_soil = pSoil.aParameter_soil           
             nParameter_soil = len(aParameter_soil) 
             for i in range(nParameter_soil):
                 sParameter = aParameter_soil[i].sName
-                dVariable_init = aParameter_soil[i].dValue_init
+                dVariable_init = aParameter_soil[i].dValue_current
                 dVariable_lower = aParameter_soil[i].dValue_lower
-                dVariable_upper = aParameter_soil[i].dValue_lower                
-                sLine = sParameter + "{:03d}".format(iSoil_type) + ' ' \
+                dVariable_upper = aParameter_soil[i].dValue_upper                
+                sLine = sParameter + ' ' \
                       + partrans + ' ' \
                       + parchglim + ' '\
                       + "{:0.3f}".format(dVariable_init) + ' ' \
@@ -375,6 +390,11 @@ def pypest_create_swat_pest_control_file(oPest):
     if iFlag_hru ==1:
         sLine1 = sWorkspace_output + slash + 'hru.tpl'    
         sLine2 = 'hru.para\n'
+        sLine = sLine1 + ' ' + sLine2
+        ofs.write(sLine)
+    if iFlag_soil ==1:
+        sLine1 = sWorkspace_output + slash + 'soil.tpl'    
+        sLine2 = 'soil.para\n'
         sLine = sLine1 + ' ' + sLine2
         ofs.write(sLine)
     #result
