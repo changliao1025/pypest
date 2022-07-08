@@ -1,4 +1,3 @@
-from lib2to3.pgen2.token import OP
 import sys, os
 import numpy as np
 from pyearth.system.define_global_variables import *

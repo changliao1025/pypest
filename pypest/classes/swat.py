@@ -457,34 +457,22 @@ def pypest_create_swat_run_script(oPest_in):
         ifs.write(sLine)    
         ifs.write(sPython)
 
-        sLine = 'from swaty.shared.swat import swaty' +  '\n' 
+        
+        sLine = 'from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file\n'
         ifs.write(sLine)
-        sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
-        ifs.write(sLine)
-        sLine = 'from swaty.swaty_read_model_configuration_file import swaty_read_model_configuration_file\n'
-        ifs.write(sLine)
-        sLine = 'from pypest.models.swat.multipletimes.run_step3 import run_step3'  +  '\n' 
-        ifs.write(sLine)    
-        sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
-        ifs.write(sLine)  
+        
+           
+        
         sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
         ifs.write(sLine)
-        sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+        sLine = 'oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration)'  + '\n'   
         ifs.write(sLine)
-        sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+        sLine = "oSwat = oPest.pSwat" + '\n'   
         ifs.write(sLine)
-        sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
+        
+        sLine = "oSwat.convert_pest_parameter_to_model_input()" + '\n'   
         ifs.write(sLine)
-        sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
-        ifs.write(sLine)
-        sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
-        ifs.write(sLine)
-        sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
-        ifs.write(sLine) 
-        sLine = "oSwat = swaty(aParameter_model)" + '\n'   
-        ifs.write(sLine)
-        sLine = 'run_step3(oPest, oSwat)' + '\n'   
-        ifs.write(sLine)
+        
         sLine = 'EOF\n'
         ifs.write(sLine)
 
@@ -493,34 +481,17 @@ def pypest_create_swat_run_script(oPest_in):
         ifs.write(sLine)
 
         ifs.write(sPython)
-        sLine = 'from swaty.shared.swat import swaty' +  '\n' 
-        ifs.write(sLine)
-        sLine = 'from pypest.models.swat.shared.pest import pypest' +  '\n' 
-        ifs.write(sLine)
-        sLine = 'from swaty.shared.swat_read_model_configuration_file import *\n'
-        ifs.write(sLine)
-        sLine = 'from pypest.models.swat.multipletimes.run_step5 import run_step5' + '\n'
-        ifs.write(sLine)
-        sLine = 'from pypest.template.shared.pypest_read_configuration_file import *' +  '\n' 
-        ifs.write(sLine)
+        sLine = 'from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file\n'
+        ifs.write(sLine)       
+        
         sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
         ifs.write(sLine)
-        sLine = 'aParameter_pest  = pypest_read_pest_configuration_file(sFilename_pest_configuration)'  + '\n'   
+        sLine = 'oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration)'  + '\n'   
         ifs.write(sLine)
-        sLine = "aParameter_pest['sFilename_pest_configuration'] = sFilename_pest_configuration" + '\n'   
+        sLine = "oSwat = oPest.pSwat" + '\n'   
         ifs.write(sLine)
-        sLine = 'oPest = pypest(aParameter_pest)' + '\n'   
-        ifs.write(sLine)
-        sLine = 'sFilename_model_configuration = ' + '"' + sFilename_model_configuration + '"\n'
-        ifs.write(sLine)
-        sLine = "aParameter_model = swat_read_model_configuration_file(sFilename_model_configuration)" + '\n'   
-        ifs.write(sLine)
-        sLine = "aParameter_model['sFilename_model_configuration'] = sFilename_model_configuration" + '\n'   
-        ifs.write(sLine) 
-        sLine = "oSwat = swaty(aParameter_model)" + '\n'   
-        ifs.write(sLine)
-
-        sLine = 'run_step5(oPest, oSwat)\n'
+        
+        sLine = "oSwat.analyze()" + '\n'   
         ifs.write(sLine)
 
         sLine = 'EOF\n'
