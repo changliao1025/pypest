@@ -28,13 +28,13 @@ oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
                 sWorkspace_output_in=sWorkspace_output)
 
 oSwat = oPest.pSwat
-sWorkspace_simulation_case = oSwat.sWorkspace_output
+
 #read pest default parameter value
-sFilename_pest_watershed = os.path.join( sWorkspace_simulation_case, 'watershed_default_parameter.txt' )
+sFilename_pest_watershed = os.path.join( oPest.sWorkspace_output, 'watershed_parameter_default.txt' )
 aData_dummy1 = text_reader_string(sFilename_pest_watershed, cDelimiter_in=',')
 #read the bound        
-sFilename_parameter_bounds_watershed = os.path.join(sWorkspace_simulation_case,  'parameter_bounds_watershed.txt' )
-aData_dummy2 = text_reader_string(sFilename_parameter_bounds_watershed, cDelimiter_in=',')
+sFilename_watershed_parameter_bounds = os.path.join(oPest.sWorkspace_output,  'watershed_parameter_bounds.txt' )
+aData_dummy2 = text_reader_string(sFilename_watershed_parameter_bounds, cDelimiter_in=',')
 
 for j in np.arange(1, nParameter_watershed+1):
     aPara_in['iParameter_type'] = 1
@@ -50,10 +50,10 @@ for j in np.arange(1, nParameter_watershed+1):
 aParemeter_subbasin = np.array(['ch_n2','ch_k2','plaps','tlaps'])
 nParameter_subbasin = len(aParemeter_subbasin)
 
-sFilename_pest_subbasin = os.path.join( sWorkspace_simulation_case, 'subbasin_default_parameter.txt' )
+sFilename_pest_subbasin = os.path.join( oPest.sWorkspace_output, 'subbasin_parameter_default.txt' )
 aData_dummy1 = text_reader_string(sFilename_pest_subbasin, cDelimiter_in=',')
-sFilename_parameter_bounds_subbasin = os.path.join(sWorkspace_simulation_case,  'parameter_bounds_subbasin.txt' )
-aData_dummy2 = text_reader_string(sFilename_parameter_bounds_subbasin, cDelimiter_in=',')
+sFilename_subbasin_parameter_bounds = os.path.join(oPest.sWorkspace_output,  'subbasin_parameter_bounds.txt' )
+aData_dummy2 = text_reader_string(sFilename_subbasin_parameter_bounds, cDelimiter_in=',')
 for j in np.arange(1, nParameter_subbasin+1):
     aPara_in['iParameter_type'] = 2
     aPara_in['lIndex_subbasin'] = 1
@@ -67,9 +67,9 @@ for j in np.arange(1, nParameter_subbasin+1):
 
 aParemeter_hru = np.array(['cn2','rchrg_dp','gwqmn','gw_revap','revapmn','gw_delay','alpha_bf','ov_n'])
 nParameter_hru = len(aParemeter_hru)
-sFilename_pest_hru = os.path.join( sWorkspace_simulation_case, 'hru_default_parameter.txt' )
+sFilename_pest_hru = os.path.join( oPest.sWorkspace_output, 'hru_parameter_default.txt' )
 aData_dummy1 = text_reader_string(sFilename_pest_hru, cDelimiter_in=',')
-sFilename_parameter_bounds_hru = os.path.join(sWorkspace_simulation_case,  'parameter_bounds_hru.txt' )
+sFilename_parameter_bounds_hru = os.path.join(oPest.sWorkspace_output,  'hru_parameter_bounds.txt' )
 aData_dummy2 = text_reader_string(sFilename_parameter_bounds_hru, cDelimiter_in=',')
 for j in np.arange(1, nParameter_hru+1):
     aPara_in['iParameter_type'] = 3
@@ -84,9 +84,9 @@ for j in np.arange(1, nParameter_hru+1):
 
 aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
 nParameter_soil = len(aParemeter_soil)
-sFilename_pest_soil = os.path.join( sWorkspace_simulation_case, 'soiltype01_default_parameter.txt' )
+sFilename_pest_soil = os.path.join( oPest.sWorkspace_output, 'soiltype01_parameter_default.txt' )
 aData_dummy1 = text_reader_string(sFilename_pest_soil, cDelimiter_in=',')
-sFilename_parameter_bounds_soil = os.path.join(sWorkspace_simulation_case,  'parameter_bounds_soil.txt' )
+sFilename_parameter_bounds_soil = os.path.join(oPest.sWorkspace_output,  'soil_parameter_bounds.txt' )
 aData_dummy2 = text_reader_string(sFilename_parameter_bounds_soil, cDelimiter_in=',')
 for j in np.arange(1, nParameter_soil+1):
     aPara_in['iParameter_type'] = 4

@@ -29,13 +29,31 @@
         "timp",
         "epco"
     ],
+    "aSoil_combinaiton": [
+        [
+            "THOW",
+            "4"
+        ],
+        [
+            "PIRD",
+            "3"
+        ],
+        [
+            "NIMUE",
+            "4"
+        ],
+        [
+            "STUDEBAKER",
+            "2"
+        ]
+    ],
     "iCase_index": 1,
     "iDay_end": 31,
     "iDay_start": 1,
     "iFlag_calibration": 1,
     "iFlag_hru": 1,
     "iFlag_mode": 1,
-    "iFlag_read_discretization": 0,
+    "iFlag_read_discretization": 1,
     "iFlag_replace_parameter": 1,
     "iFlag_run": 1,
     "iFlag_simulation": 0,
@@ -47,35 +65,111 @@
     "iMonth_start": 1,
     "iYear_end": 2009,
     "iYear_start": 1997,
-    "nParameter_hru": 8,
-    "nParameter_soil": 4,
-    "nParameter_subbasin": 4,
-    "nParameter_watershed": 6,
+    "nhru": 2231,
+    "nhru_combination": 190,
     "nsegment": 87,
+    "nsoil_combination": 4,
+    "nstress": 4748,
     "nstress_month": 156,
     "nsubbasin": 87,
     "pWatershed": {
+        "aParameter_watershed": [
+            {
+                "dValue_current": 0.02,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "esco"
+            },
+            {
+                "dValue_current": 0.03,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "sftmp"
+            },
+            {
+                "dValue_current": 0.04,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "smtmp"
+            },
+            {
+                "dValue_current": 0.05,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "smfmx"
+            },
+            {
+                "dValue_current": 0.060000000000000005,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "timp"
+            },
+            {
+                "dValue_current": 0.06999999999999999,
+                "dValue_init": 0.0,
+                "dValue_lower": -1.0,
+                "dValue_upper": 5.0,
+                "iParameter_type": 1,
+                "lIndex_hru": -1,
+                "lIndex_soil_layer": -1,
+                "lIndex_subbasin": 1,
+                "sName": "epco"
+            }
+        ],
+        "aParameter_watershed_name": [
+            "esco",
+            "sftmp",
+            "smtmp",
+            "smfmx",
+            "timp",
+            "epco"
+        ],
         "nParameter_watershed": 6
     },
     "sCase": "swat20220615001",
     "sDate": "20220615",
     "sFilename_HRULandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/HRULandUseSoilsReport.txt",
     "sFilename_LandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/LandUseSoilsReport.txt",
-    "sFilename_hru_combination": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/hru_combination.txt",
-    "sFilename_hru_info": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/hru_info.txt",
-    "sFilename_model_configuration": "/global/u1/l/liao313/workspace/python/pypest/examples/swat/swat.json",
+    "sFilename_hru_combination": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/hru_combination.txt",
+    "sFilename_hru_info": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/hru_info.txt",
+    "sFilename_model_configuration": "/global/homes/l/liao313/workspace/python/pypest/examples/swat/swat_new.json",
     "sFilename_observation_discharge": "obs.flow_am.csv",
     "sFilename_parameter_bounds": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/parameter_bounds.txt",
-    "sFilename_soil_combination": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/soil_combination.txt",
-    "sFilename_soil_info": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/soil_info.txt",
+    "sFilename_soil_combination": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/soil_combination.txt",
+    "sFilename_soil_info": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/soil_info.txt",
     "sFilename_swat": "swat670",
-    "sFilename_watershed_configuration": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/watershed_configuration.txt",
+    "sFilename_watershed_configuration": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat/watershed_configuration.txt",
     "sJob": "swat",
     "sModel": "swat",
-    "sPython": "/global/homes/l/liao313/.conda/envs/swatenv/bin/python",
+    "sPython": "/global/homes/l/liao313/.conda/envs/pestenv/bin/python",
     "sRegion": "arw",
     "sWorkspace_bin": "/global/homes/l/liao313/bin",
     "sWorkspace_input": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input",
-    "sWorkspace_output": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration",
+    "sWorkspace_output": "/global/cscratch1/sd/liao313/04model/pest/arw/calibration/pest20220615001/swat",
     "sWorkspace_simulation_copy": "/global/cscratch1/sd/liao313/04model/swat/arw/simulation/TxtInOut/"
 }

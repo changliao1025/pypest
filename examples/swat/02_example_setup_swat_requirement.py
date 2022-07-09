@@ -94,8 +94,23 @@ oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
                 sWorkspace_output_in=sWorkspace_output, aParameter_in= aParameter)   
 
 oSwat = oPest.pSwat
-oSwat.extract_default_parameter_value(aParameter)
-oSwat.generate_parameter_bounds()
+sFilename_watershed_in= os.path.join( oPest.sWorkspace_output , 'watershed_parameter_default.txt')
+sFilename_subbasin_in = os.path.join( oPest.sWorkspace_output , 'subbasin_parameter_default.txt')
+sFilename_hru_in= os.path.join( oPest.sWorkspace_output , 'hru_parameter_default.txt')
+sWorkspace_soil_in=  oPest.sWorkspace_output
+oSwat.extract_default_parameter_value(aParameter, sFilename_watershed_in= sFilename_watershed_in,\
+        sFilename_subbasin_in = sFilename_subbasin_in,\
+        sFilename_hru_in = sFilename_hru_in,\
+        sWorkspace_soil_in = sWorkspace_soil_in)
+
+sFilename_watershed_parameter_bounds_in= os.path.join( oPest.sWorkspace_output , 'watershed_parameter_bounds.txt')
+sFilename_subbasin_parameter_bounds_in= os.path.join( oPest.sWorkspace_output , 'subbasin_parameter_bounds.txt')
+sFilename_hru_parameter_bounds_in= os.path.join( oPest.sWorkspace_output , 'hru_parameter_bounds.txt')
+sFilename_soil_parameter_bounds_in= os.path.join( oPest.sWorkspace_output , 'soil_parameter_bounds.txt')
+oSwat.generate_parameter_bounds(sFilename_watershed_parameter_bounds_in = sFilename_watershed_parameter_bounds_in,\
+        sFilename_subbasin_parameter_bounds_in = sFilename_subbasin_parameter_bounds_in,\
+        sFilename_hru_parameter_bounds_in = sFilename_hru_parameter_bounds_in,\
+            sFilename_soil_parameter_bounds_in = sFilename_soil_parameter_bounds_in  )
 sFilename_configuration = '/global/homes/l/liao313/workspace/python/pypest/examples/swat/swat_new.json'
 oSwat.export_config_to_json(sFilename_configuration)
 

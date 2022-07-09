@@ -281,6 +281,7 @@ def pypest_create_swat_pest_control_file(oPest):
             pass
     
     if iFlag_hru ==1:
+        aName_ratio= ['cn2','ov_n']
         nhru_combination = oSwat.nhru_combination
         if iFlag_spatial == 1:
             for iHru_type in range(1,nhru_combination):
@@ -331,17 +332,30 @@ def pypest_create_swat_pest_control_file(oPest):
             nParameter_hru = pHru.nParameter_hru      
             for i in range(nParameter_hru):
                 sParameter = aParameter_hru[i].sName
-                dVariable_init = aParameter_hru[i].dValue_current
-                dVariable_lower = aParameter_hru[i].dValue_lower
-                dVariable_upper = aParameter_hru[i].dValue_upper                
-                sLine = sParameter + ' ' \
-                      + partrans + ' ' \
-                      + parchglim + ' ' \
-                      + "{:0.3f}".format(dVariable_init) + ' ' \
-                      + "{:0.3f}".format(dVariable_lower) + ' ' \
-                      + "{:0.3f}".format(dVariable_upper) + ' ' \
-                      + ' para_gp3 1.0 0.0 1' + '\n'
-                ofs.write(sLine)
+                if sParameter not in aName_ratio:
+                    dVariable_init = aParameter_hru[i].dValue_current
+                    dVariable_lower = aParameter_hru[i].dValue_lower
+                    dVariable_upper = aParameter_hru[i].dValue_upper                
+                    sLine = sParameter + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' ' \
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          + "{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp3 1.0 0.0 1' + '\n'
+                    ofs.write(sLine)
+                else:
+                    dVariable_init = 1.0
+                    dVariable_lower = 0.0
+                    dVariable_upper = 10.0              
+                    sLine = sParameter + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' ' \
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          + "{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp3 1.0 0.0 1' + '\n'
+                    ofs.write(sLine)
             pSoil = oSwat.aHru_combination[0].aSoil[0]     #the first soil layer 
             aParameter_soil = pSoil.aParameter_soil           
             nParameter_soil = len(aParameter_soil) 
@@ -440,6 +454,8 @@ def pypest_create_swat_run_script(oPest_in):
     sFilename_pest_configuration = oPest_in.sFilename_pest_configuration
     sFilename_model_configuration = oSwat.sFilename_model_configuration    
     sWorkspace_output = oPest_in.sWorkspace_output
+
+    sWorkspace_output_raw = os.path.dirname(sWorkspace_output)
     sPython_Path =  oPest_in.sPython 
     if oPest_in.iFlag_parallel ==0: 
         #serial       
@@ -455,22 +471,56 @@ def pypest_create_swat_run_script(oPest_in):
         #the first one
         sLine = 'cat << EOF > runstep3.py\n'
         ifs.write(sLine)    
-        ifs.write(sPython)
-
+        ifs.write(sPython)        
         
         sLine = 'from pypest.pypest_read_model_configuration_file import pypest_read_model_configuration_file\n'
-        ifs.write(sLine)
-        
-           
+        ifs.write(sLine)                   
         
         sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
         ifs.write(sLine)
-        sLine = 'oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration)'  + '\n'   
+        
+
+        sLine = 'oPest = pypest_read_model_configuration_file(sFilename_pest_configuration,'  \
+            + 'iCase_index_in='+ str(oPest_in.iCase_index) + ',' \
+            + 'iFlag_read_discretization_in='+ str(1) + ',' \
+            + 'sDate_in="'+ oPest_in.sDate + '",' \
+            + 'sWorkspace_input_in="' + oPest_in.sWorkspace_input+ '",' \
+            + 'sWorkspace_output_in="' + sWorkspace_output_raw+ '"' \
+            + ')'  +   '\n'   
         ifs.write(sLine)
+
         sLine = "oSwat = oPest.pSwat" + '\n'   
         ifs.write(sLine)
+
+        sFilename_pest_parameter_watershed_in = os.path.join( sWorkspace_output, 'watershed.para' )
+        sFilename_watershed_parameter_default_in = os.path.join( sWorkspace_output, 'watershed_parameter_default.txt' )
+        sFilename_watershed_parameter_bounds_in = os.path.join( sWorkspace_output, 'watershed_parameter_bounds.txt' )
+
+        sFilename_pest_parameter_subbasin_in= os.path.join( sWorkspace_output, 'subbasin.para' )
+        sFilename_subbasin_parameter_default_in = os.path.join( sWorkspace_output, 'subbasin_parameter_default.txt' )
+        sFilename_subbasin_parameter_bounds_in = os.path.join( sWorkspace_output, 'subbasin_parameter_bounds.txt' )
         
-        sLine = "oSwat.convert_pest_parameter_to_model_input()" + '\n'   
+        sFilename_pest_parameter_hru_in = os.path.join( sWorkspace_output, 'hru.para' )
+        sFilename_hru_parameter_default_in = os.path.join( sWorkspace_output, 'hru_parameter_default.txt' )
+        sFilename_hru_parameter_bounds_in = os.path.join( sWorkspace_output, 'hru_parameter_bounds.txt' )
+
+        sFilename_pest_parameter_soil_in = os.path.join( sWorkspace_output, 'soil.para' )
+        sFilename_soil_parameter_bounds_in = os.path.join( sWorkspace_output, 'soil_parameter_bounds.txt' )
+        sWorkspace_soil_parameter_default_in =  sWorkspace_output
+        sLine = 'oSwat.convert_pest_parameter_to_model_input(' \
+          +  'sFilename_pest_parameter_watershed_in ="' + sFilename_pest_parameter_watershed_in + '",'\
+         + 'sFilename_watershed_parameter_default_in ="' +  sFilename_watershed_parameter_default_in + '",' \
+         +'sFilename_watershed_parameter_bounds_in ="'+ sFilename_watershed_parameter_bounds_in + '",'\
+        +  'sFilename_pest_parameter_subbasin_in ="' + sFilename_pest_parameter_subbasin_in+ '",'\
+         +  'sFilename_subbasin_parameter_default_in ="' + sFilename_subbasin_parameter_default_in+ '",'\
+         +'sFilename_subbasin_parameter_bounds_in ="' + sFilename_subbasin_parameter_bounds_in + '",' \
+        +'sFilename_pest_parameter_hru_in ="' + sFilename_pest_parameter_hru_in+ '",'\
+        +'sFilename_hru_parameter_default_in ="' + sFilename_hru_parameter_default_in+ '",' \
+        +'sFilename_hru_parameter_bounds_in ="' + sFilename_hru_parameter_bounds_in+ '",' \
+        +'sFilename_pest_parameter_soil_in ="' + sFilename_pest_parameter_soil_in+ '",'\
+        +'sFilename_soil_parameter_bounds_in ="' + sFilename_soil_parameter_bounds_in+ '",'\
+        +'sWorkspace_soil_parameter_default_in ="' + sWorkspace_soil_parameter_default_in \
+        + '")' + '\n'   
         ifs.write(sLine)
         
         sLine = 'EOF\n'
