@@ -281,7 +281,8 @@ def pypest_create_swat_pest_control_file(oPest):
             pass
     
     if iFlag_hru ==1:
-        aName_ratio= ['cn2','ov_n']
+        aName_ratio_hru= ['cn2','ov_n']
+        aName_ratio_soil= ['sol_k','sol_awc','sol_alb','sol_bd']
         nhru_combination = oSwat.nhru_combination
         if iFlag_spatial == 1:
             for iHru_type in range(1,nhru_combination):
@@ -332,7 +333,7 @@ def pypest_create_swat_pest_control_file(oPest):
             nParameter_hru = pHru.nParameter_hru      
             for i in range(nParameter_hru):
                 sParameter = aParameter_hru[i].sName
-                if sParameter not in aName_ratio:
+                if sParameter not in aName_ratio_hru:
                     dVariable_init = aParameter_hru[i].dValue_current
                     dVariable_lower = aParameter_hru[i].dValue_lower
                     dVariable_upper = aParameter_hru[i].dValue_upper                
@@ -361,17 +362,32 @@ def pypest_create_swat_pest_control_file(oPest):
             nParameter_soil = len(aParameter_soil) 
             for i in range(nParameter_soil):
                 sParameter = aParameter_soil[i].sName
-                dVariable_init = aParameter_soil[i].dValue_current
-                dVariable_lower = aParameter_soil[i].dValue_lower
-                dVariable_upper = aParameter_soil[i].dValue_upper                
-                sLine = sParameter + ' ' \
-                      + partrans + ' ' \
-                      + parchglim + ' '\
-                      + "{:0.3f}".format(dVariable_init) + ' ' \
-                      + "{:0.3f}".format(dVariable_lower) + ' ' \
-                      + "{:0.3f}".format(dVariable_upper) + ' ' \
-                      + ' para_gp4 1.0 0.0 1\n'
-                ofs.write(sLine)
+                    
+
+                if sParameter not in aName_ratio_soil:      
+                    dVariable_init = aParameter_soil[i].dValue_current
+                    dVariable_lower = aParameter_soil[i].dValue_lower
+                    dVariable_upper = aParameter_soil[i].dValue_upper      
+                    sLine = sParameter + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' '\
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          + "{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp4 1.0 0.0 1\n'
+                    ofs.write(sLine)
+                else:
+                    dVariable_init = 1.0
+                    dVariable_lower = 0.0
+                    dVariable_upper = 10.0 
+                    sLine = sParameter + ' ' \
+                          + partrans + ' ' \
+                          + parchglim + ' '\
+                          + "{:0.3f}".format(dVariable_init) + ' ' \
+                          + "{:0.3f}".format(dVariable_lower) + ' ' \
+                          + "{:0.3f}".format(dVariable_upper) + ' ' \
+                          + ' para_gp4 1.0 0.0 1\n'
+                    ofs.write(sLine)
             pass
 
     ofs.write('* observation groups\n')
@@ -522,7 +538,12 @@ def pypest_create_swat_run_script(oPest_in):
         +'sWorkspace_soil_parameter_default_in ="' + sWorkspace_soil_parameter_default_in \
         + '")' + '\n'   
         ifs.write(sLine)
-        
+
+        sLine = 'oSwat.iFlag_initialziation=0' + '\n'
+        ifs.write(sLine)
+        sLine = 'oSwat.setup()' + '\n'
+        ifs.write(sLine)
+
         sLine = 'EOF\n'
         ifs.write(sLine)
 
@@ -536,12 +557,21 @@ def pypest_create_swat_run_script(oPest_in):
         
         sLine = 'sFilename_pest_configuration = ' + '"' + sFilename_pest_configuration + '"\n'
         ifs.write(sLine)
-        sLine = 'oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration)'  + '\n'   
-        ifs.write(sLine)
+        sLine = 'oPest = pypest_read_model_configuration_file(sFilename_pest_configuration,'  \
+            + 'iCase_index_in='+ str(oPest_in.iCase_index) + ',' \
+            + 'iFlag_read_discretization_in='+ str(1) + ',' \
+            + 'sDate_in="'+ oPest_in.sDate + '",' \
+            + 'sWorkspace_input_in="' + oPest_in.sWorkspace_input+ '",' \
+            + 'sWorkspace_output_in="' + sWorkspace_output_raw+ '"' \
+            + ')'  +   '\n' 
+        ifs.write(sLine) 
         sLine = "oSwat = oPest.pSwat" + '\n'   
         ifs.write(sLine)
         
-        sLine = "oSwat.analyze()" + '\n'   
+        sFilename_output = oPest_in.sFilename_output
+        sLine ='oSwat.analyze( '\
+            + 'sFilename_output_in ="'  + sFilename_output  + '"'\
+            + ')' + '\n'   
         ifs.write(sLine)
 
         sLine = 'EOF\n'
@@ -568,6 +598,11 @@ def pypest_create_swat_run_script(oPest_in):
         #step 2: run swat model
         sLine = 'echo "Started to run SWAT simulation"\n'
         ifs.write(sLine)
+
+        sPath = oPest_in.sWorkspace_output_model
+        sLine = 'cd ' + sPath  + '\n'
+        ifs.write(sLine)
+
         sLine = './swat\n'
         ifs.write(sLine)
         sLine = 'echo "Finished running SWAT simulation"\n'
@@ -575,6 +610,10 @@ def pypest_create_swat_run_script(oPest_in):
 
         #step 3: extract SWAT output
         sLine = 'echo "Started to extract SWAT simulation outputs"\n'
+        ifs.write(sLine)
+
+        sPath = oPest_in.sWorkspace_output
+        sLine = 'cd ' + sPath  + '\n'
         ifs.write(sLine)
         sLine = './runstep5.py\n'
         ifs.write(sLine)
