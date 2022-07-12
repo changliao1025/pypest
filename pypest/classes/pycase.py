@@ -338,9 +338,9 @@ class pestcase(object):
                 ifs.write(sLine)
                 #sLine = 'module load python/3.9-anaconda-2021.11\n'
                 #ifs.write(sLine)
-                sLine = 'module load gcc/6.1.0\n'
+                sLine = 'module load gcc/7.3.0\n'
                 ifs.write(sLine)                
-                sLine = 'pest ' + sWorkspace_pest_model + '_swat' + '\n'
+                sLine = './pest ' + self.sFilename_control  + '\n'
                 ifs.write(sLine)
                 ifs.close()
             else:
