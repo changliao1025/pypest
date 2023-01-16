@@ -310,13 +310,13 @@ class pestcase(object):
                 ifs.write(sLine)
                 sLine = '#SBATCH -A m1800\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -t 00:10:00\n'
+                sLine = '#SBATCH -t 24:00:00\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -q debug' + '\n'
+                sLine = '#SBATCH -q regular' + '\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -N 1\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -n 10\n'
+                sLine = '#SBATCH -n 1\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH -J ' + self.sModel_type + '\n'
                 ifs.write(sLine)
@@ -324,9 +324,9 @@ class pestcase(object):
                 ifs.write(sLine)
                 sLine = '#SBATCH -L SCRATCH' + '\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -o out.out\n'
+                sLine = '#SBATCH -o stdout.out\n'
                 ifs.write(sLine)
-                sLine = '#SBATCH -e err.err\n'
+                sLine = '#SBATCH -e stderr.err\n'
                 ifs.write(sLine)
                 sLine = '#SBATCH --mail-type=ALL\n'
                 ifs.write(sLine)

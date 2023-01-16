@@ -11,9 +11,7 @@
     ],
     "aParameter_soil_name": [
         "sol_k",
-        "sol_awc",
-        "sol_alb",
-        "sol_bd"
+        "sol_awc"
     ],
     "aParameter_subbasin_name": [
         "ch_n2",
@@ -29,7 +27,7 @@
         "timp",
         "epco"
     ],
-    "iCase_index": 1,
+    "iCase_index": 3,
     "iDay_end": 31,
     "iDay_start": 1,
     "iFlag_calibration": 1,
@@ -48,7 +46,7 @@
     "iYear_end": 2009,
     "iYear_start": 1997,
     "nParameter_hru": 8,
-    "nParameter_soil": 4,
+    "nParameter_soil": 2,
     "nParameter_subbasin": 4,
     "nParameter_watershed": 6,
     "nsegment": 87,
@@ -57,7 +55,7 @@
     "pWatershed": {
         "nParameter_watershed": 6
     },
-    "sCase": "swat20220615001",
+    "sCase": "swat20220615003",
     "sDate": "20220615",
     "sFilename_HRULandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/HRULandUseSoilsReport.txt",
     "sFilename_LandUseSoilsReport": "/global/u1/l/liao313/workspace/python/pypest/data/arw/input/LandUseSoilsReport.txt",

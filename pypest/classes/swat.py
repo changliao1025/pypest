@@ -79,9 +79,20 @@ def pypest_create_swat_pest_control_file(oPest):
     nobs = oPest.nobs
  
     ninsfile = oPest.ninsfile
-    npar = oPest.npar
-    #npar = oSwat.nParameter_watershed + oSwat.nParameter_subbasin + oSwat.nParameter_hru + oSwat.nParameter_soil
-    sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_monthly.txt')
+    #npar = oPest.npar
+    npar = oSwat.pWatershed.nParameter_watershed \
+        + oSwat.aSubbasin[0].nParameter_subbasin \
+            + oSwat.aHru_combination[0].nParameter_hru \
+                + oSwat.aHru_combination[0].aSoil[0].nParameter_soil
+    #it maybe either daily, monthly, or annual
+    sTime_step_calibration = oSwat.sTime_step_calibration
+    if sTime_step_calibration == 'daily':
+        sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_daily.txt')
+    else:
+        if sTime_step_calibration == 'monthly':
+            sFilename = os.path.join( oSwat.sWorkspace_input , 'discharge_observation_monthly.txt')
+        else:
+            pass
     if os.path.isfile(sFilename):
         pass
     else:
@@ -400,6 +411,7 @@ def pypest_create_swat_pest_control_file(oPest):
                + "{:0.4f}".format(obs[i])  + ' 1.0 ' + ' discharge\n'
             ofs.write(sLine)
         else:
+            #
             pass
 
     ofs.write('* model command line\n')
@@ -626,7 +638,6 @@ def pypest_create_swat_run_script(oPest_in):
     else:
         #parallel using beopest    
         #replace it with your actual python
-        sPython_Path =  oPest_in.sPython
         sPython = '#!' + sPython_Path + '\n' 
         sFilename_script = sWorkspace_output + slash + 'run_swat_model'
         ifs = open(sFilename_script, 'w')

@@ -12,7 +12,7 @@ from pypest.classes.pycase import pestcase
 from swaty.classes.swatpara import swatpara
 
 iFlag_use_existing_template = 0
-iCase_index = 1
+iCase_index = 3
 sDate = '20220615'
 sWorkspace_input = '/global/homes/l/liao313/workspace/python/pypest/data/arw/input'
 sWorkspace_output = '/global/cscratch1/sd/liao313/04model/pest/arw/calibration'
@@ -73,7 +73,8 @@ for j in np.arange(1, nParameter_hru+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
 
-aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+#aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+aParemeter_soil = np.array(['sol_k','sol_awc'])
 nParameter_soil = len(aParemeter_soil)
 for j in np.arange(1, nParameter_soil+1):
     aPara_in['iParameter_type'] = 4

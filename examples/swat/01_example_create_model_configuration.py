@@ -18,7 +18,7 @@ from pypest.pypest_create_template_configuration_file import pypest_create_templ
 
 sModel_type = 'swat'
 sPest_method = 'pest'
-iCase_index = 1
+iCase_index = 3
 iFlag_parallel = 0
 
 sDate='20220615'
@@ -84,8 +84,8 @@ for j in np.arange(1, nParameter_hru+1):
     aParameter.append(pParameter)
 
 
-
-aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+#aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+aParemeter_soil = np.array(['sol_k','sol_awc'])
 nParameter_soil = len(aParemeter_soil)
 for j in np.arange(1, nParameter_soil+1):
     aPara_in['iParameter_type'] = 4

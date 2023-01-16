@@ -7,7 +7,7 @@ from swaty.classes.swatpara import swatpara
 from swaty.auxiliary.text_reader_string import text_reader_string
 
 iFlag_use_existing_template = 0
-iCase_index = 1
+iCase_index = 3
 sDate = '20220615'
 sWorkspace_input = '/global/homes/l/liao313/workspace/python/pypest/data/arw/input'
 sWorkspace_output = '/global/cscratch1/sd/liao313/04model/pest/arw/calibration'
@@ -82,7 +82,8 @@ for j in np.arange(1, nParameter_hru+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
 
-aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+#aParemeter_soil = np.array(['sol_k','sol_awc','sol_alb','sol_bd'])
+aParemeter_soil = np.array(['sol_k','sol_awc'])
 nParameter_soil = len(aParemeter_soil)
 sFilename_pest_soil = os.path.join( oPest.sWorkspace_output, 'soiltype01_parameter_default.txt' )
 aData_dummy1 = text_reader_string(sFilename_pest_soil, cDelimiter_in=',')
@@ -100,7 +101,7 @@ for j in np.arange(1, nParameter_soil+1):
     pParameter = swatpara(aPara_in)
     aParameter.append(pParameter)
   
-oPest  = pypest_read_model_configuration_file(sFilename_pest_configuration,\
+oPest = pypest_read_model_configuration_file(sFilename_pest_configuration,\
      iCase_index_in=iCase_index,\
         iFlag_read_discretization_in = 1,\
         sDate_in=sDate, \

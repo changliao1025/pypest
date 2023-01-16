@@ -53,6 +53,8 @@ def pypest_create_template_configuration_file(sFilename_json, sPath_bin,sWorkspa
     aConfig['sFilename_pest_configuration'] = ''
     aConfig['sFilename_control'] = 'pest_swat.pst'
     aConfig['sFilename_instruction'] = 'pest_swat.ins'
+    aConfig['sPython'] = '/global/homes/l/liao313/.conda/envs/pestenv/bin/python'
+    
   
 
     aConfig['sWorkspace_input'] = sWorkspace_input  
