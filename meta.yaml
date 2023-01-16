@@ -1,10 +1,10 @@
 package:
-  name: "pyearth"
+  name: "pypest"
   version: "0.1"
 
 source:
   git_rev: v0.1
-  git_url: https://github.com/changliao1025/pyearth
+  git_url: https://github.com/changliao1025/pypest
 
 requirements:
   host:
@@ -23,7 +23,7 @@ requirements:
     - adjustText
 
 about:
-  home: https://github.com/changliao1025/pyearth
+  home: https://github.com/changliao1025/pypest
   license: MIT
   license_familY: MIT
   license_file: LICENSE
